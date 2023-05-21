@@ -4,12 +4,14 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { RegistroComponent } from './registro/registro.component';
 import { LoginComponent } from './login/login.component';
+import { MainComponent } from './main/main.component';
 
 
 @NgModule({
   declarations: [
     RegistroComponent,
-    LoginComponent
+    LoginComponent,
+    MainComponent
   ],
   imports: [
     CommonModule,

@@ -11,6 +11,7 @@ import { MainComponent } from './main/main.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PagoComponent } from './pago/pago.component';
+import { InicioComponent } from './inicio/inicio.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { PagoComponent } from './pago/pago.component';
     MainComponent,
     CabeceraComponent,
     CarritoComponent,
-    PagoComponent
+    PagoComponent,
+    InicioComponent
   ],
   imports: [
     CommonModule,
