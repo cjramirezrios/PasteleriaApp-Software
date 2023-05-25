@@ -1,1 +1,48 @@
-<p>registro works!</p>
+<div class="container">
+  <div>
+    <h1>Registro</h1>
+  </div>
+  <form >
+    <div class="mb-3 img-content">
+      <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="user">
+    </div>
+    <div class="block1">
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Nombres</label>
+        <input type="text" class="form-control" id="Name" formControlName="name">
+        
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Apellidos</label>
+        <input type="text" class="form-control" id="LastName" formControlName="lastName">
+        
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
+      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" formControlName="email">
+      
+    </div>
+    <div class="mb-2">
+      <label for="exampleInputEmail1" class="form-label">Direccion</label>
+      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" formControlName="email">
+      
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputEmail1" class="form-label">Telefono</label>
+      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" formControlName="email">
+      
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Contraseña</label>
+      <input type="password" class="form-control" id="Password" formControlName="password">
+      
+    </div>
+    <div class="register-btn">
+      <button type="submit" class="btn btn-warning " routerLink="login" >Guardar</button>
+    </div>
+    <div class="botones">
+      <a routerLink="login">Ya tienes una cuenta, Ingresa aquí</a>
+    </div>
+  </form>
+</div>

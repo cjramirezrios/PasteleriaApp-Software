@@ -1,0 +1,41 @@
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  h1{
+      padding:2rem 0;
+    color: #fd7e14;
+    }
+  
+  form{
+    padding: 1rem 2.5rem;
+    border: 1px solid #6c757d;
+    border-radius: 1rem;
+    width: 40%;
+    .img-content{
+      display: flex;
+      justify-content: center;
+    }
+    button{
+      font-weight: 400;
+    }
+  }
+  .login-btn{
+    display: flex;
+    justify-content: center;
+  }
+  .botones{
+    display: flex;
+    margin-top: 1rem;
+    justify-content: center;
+    a{
+      color: #fd7e14;
+      cursor: pointer;
+      text-decoration: underline;
+      text-align: center;
+      font-size: 1rem;
+    }
+  }
+}
