@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&family=Rubik:wght@300&display=swap');
+.logo{
+  width: 3rem;
+  height: auto;
+  margin-right: 1rem;
+}
+.nombreEmpr{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+ h1{
+  font-family: 'Roboto', sans-serif;
+font-family: 'Rubik', sans-serif;
+ }
+}
+.hop-right{
+  transition: all 400ms ease-in-out;
+}
+.hop{
+  transition: all 300ms ease-in-out;
+}
+.hop-right:hover{
+  color:#0d6efd;
+}
+
+.hop:hover{ 
+  padding-bottom:0.3rem; 
+ border-bottom: 1px solid black;
+}
+.options-center{
+  justify-content: space-evenly;
+  a{
+    margin: 0 1rem;
+    text-decoration: none;
+  }
+}
+.options{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  span,a{
+    cursor: pointer;
+    color: black;
+  }
+}
+.options-right{
+  display: flex;
+  gap: 1.8rem;
+}
+
+.car{
+  z-index: 1;
+  
+}
+
+.carrito svg{
+ transition: all 300ms ease-in-out;
+ cursor: pointer;
+}
+
+.carrito svg:hover{
+  transform: scale(1.1,1.1);
+}
