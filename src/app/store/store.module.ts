@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { StoreRoutingModule } from './store-routing.module';
 import { ProductoComponent } from './producto/producto.component';
+import { DetalleComponent } from './producto/detalle.component';
 import { LocalesComponent } from './locales/locales.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { PerfilComponent } from './perfil/perfil.component';
@@ -17,6 +18,7 @@ import { InicioComponent } from './inicio/inicio.component';
 @NgModule({
   declarations: [
     ProductoComponent,
+    DetalleComponent,
     LocalesComponent,
     PedidosComponent,
     PerfilComponent,
