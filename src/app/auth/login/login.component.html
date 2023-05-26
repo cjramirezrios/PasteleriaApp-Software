@@ -2,7 +2,7 @@
   <div>
     <h1>Login</h1>
   </div>
-  <form >
+  <form [formGroup]="miFormulario">
     <div class="mb-3 img-content">
       <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="user">
     </div>
@@ -20,7 +20,7 @@
       <button type="submit" class="btn btn-warning " >Ingresar</button>
     </div>
     <div class="botones link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
-      <a> Registrate aquí</a>
+      <a (click)="redirectRegistro()"> Registrate aquí</a>
     </div>
   </form>
 </div>

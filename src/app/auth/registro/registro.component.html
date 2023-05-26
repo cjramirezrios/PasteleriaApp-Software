@@ -2,7 +2,7 @@
   <div>
     <h1>Registro</h1>
   </div>
-  <form >
+  <form [formGroup]="miFormulario">
     <div class="mb-3 img-content">
       <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="user">
     </div>
@@ -10,36 +10,48 @@
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Nombres</label>
         <input type="text" class="form-control" id="Name" formControlName="name">
-        
+        <div class="alert alert-danger" *ngIf="validarCampo('name')" role="alert">
+          Este campo es requirido
+        </div>
       </div>
       <div class="mb-3">
         <label for="exampleInputPassword1" class="form-label">Apellidos</label>
         <input type="text" class="form-control" id="LastName" formControlName="lastName">
-        
+        <div class="alert alert-danger" *ngIf="validarCampo('lastName')" role="alert">
+          Este campo es requirido
+        </div>
       </div>
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
       <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" formControlName="email">
-      
+      <div class="alert alert-danger" *ngIf="validarCampo('email')" role="alert">
+        Este campo es requirido
+      </div>
     </div>
     <div class="mb-2">
-      <label for="exampleInputEmail1" class="form-label">Direccion</label>
-      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" formControlName="email">
-      
+      <label for="exampleInputAddress1" class="form-label">Direccion</label>
+      <input type="text" class="form-control" id="Address" aria-describedby="addressHelp" formControlName="address">
+      <div class="alert alert-danger" *ngIf="validarCampo('address')" role="alert">
+        Este campo es requirido
+      </div>
     </div>
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">Telefono</label>
-      <input type="email" class="form-control" id="Email" aria-describedby="emailHelp" formControlName="email">
-      
+      <label for="exampleInputNumberPhone1" class="form-label">Telefono</label>
+      <input type="text" class="form-control" id="numberPhone" aria-describedby="numberPhoneHelp" formControlName="phone" pattern="\d{9}">
+      <div class="alert alert-danger" *ngIf="validarCampo('phone')"  role="alert">
+        Debe tener 9 caracteres
+      </div>
     </div>
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Contraseña</label>
       <input type="password" class="form-control" id="Password" formControlName="password">
-      
+      <div class="alert alert-danger" *ngIf="validarCampo('password')" role="alert">
+        Debe tener como minimo 6 caracteres
+      </div>
     </div>
     <div class="register-btn">
-      <button type="submit" class="btn btn-warning " routerLink="login" >Guardar</button>
+      <button type="submit" class="btn btn-warning " (click)="registrar()" >Guardar</button>
     </div>
     <div class="botones">
       <a routerLink="login">Ya tienes una cuenta, Ingresa aquí</a>
