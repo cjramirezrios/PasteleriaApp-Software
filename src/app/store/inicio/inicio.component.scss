@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+
+.carrusel{
+  width: 100%;
+  .carousel-item{
+    height: 40rem;
+    width: 100%;
+    
+  }
+}
+.carousel-control-next-icon,.carousel-control-prev-icon{
+  color: #fd7e14;
+}
+.contenedor-img{
+  width: 70rem;
+  h5,p{
+    position: relative;
+    bottom: 12rem;
+    left: 10rem;
+    font-weight: bold;
+    font-family: 'Kanit', sans-serif;
+  }
+  h5{
+    font-size: 5rem;
+  }
+  p{
+    font-size: 1.8rem;
+  }
+}
+.servicios{
+  display: flex;
+  padding-top: 2rem;
+  justify-content: space-around;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  gap: 2rem;
+  .op{
+    display: flex;
+    width: 30rem;
+    svg{
+      width: 8rem;
+    }
+    div{
+      margin-left: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      h2{
+        font-size: 1.5rem;
+      }
+      p{
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
