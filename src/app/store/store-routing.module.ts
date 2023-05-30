@@ -10,6 +10,7 @@ import { PedidosComponent } from './pedidos/pedidos.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PagoComponent } from './pago/pago.component';
 import { LocalesComponent } from './locales/locales.component';
+import { DetallePedidoComponent } from './detalle-pedido/detalle-pedido.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path:'locales',
         component:LocalesComponent
+      },
+      {
+        path:'detalle-pedido',
+        component:DetallePedidoComponent
       },
       {
         path:'**',

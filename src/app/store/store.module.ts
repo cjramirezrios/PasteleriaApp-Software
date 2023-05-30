@@ -13,6 +13,7 @@ import { CabeceraComponent } from './cabecera/cabecera.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { PagoComponent } from './pago/pago.component';
 import { InicioComponent } from './inicio/inicio.component';
+import { DetallePedidoComponent } from './detalle-pedido/detalle-pedido.component';
 
 
 @NgModule({
@@ -27,7 +28,8 @@ import { InicioComponent } from './inicio/inicio.component';
     CabeceraComponent,
     CarritoComponent,
     PagoComponent,
-    InicioComponent
+    InicioComponent,
+    DetallePedidoComponent
   ],
   imports: [
     CommonModule,
