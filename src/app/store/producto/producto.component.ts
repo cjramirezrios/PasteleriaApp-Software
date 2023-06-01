@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./producto.component.scss']
 })
 export class ProductoComponent {
-
+  bandera:boolean=true;
 }

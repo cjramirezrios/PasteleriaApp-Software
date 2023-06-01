@@ -419,6 +419,14 @@ h3, .h3 {
   font-size: 1.75rem;
 }
 
+.addC{
+  display: flex;
+  justify-content: space-between;
+  button{
+    color:white
+  }
+}
+
 @media (max-width: 1200px) {
   h3, .h3 {
     font-size: calc(1.3rem + 0.6vw) ;

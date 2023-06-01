@@ -21,4 +21,7 @@ export class LoginComponent {
   redirectRegistro(){
     this.router.navigateByUrl('/auth/registro')
   }
+  redirectStore(){
+    this.router.navigateByUrl('/store/main')
+  }
 }
