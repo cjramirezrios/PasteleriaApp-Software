@@ -22,7 +22,7 @@ const routes: Routes = [
         component:ProductoComponent
       },
       {
-        path:'detalle',
+        path:'productos/detalle',
         component:DetalleComponent
       },
       {
