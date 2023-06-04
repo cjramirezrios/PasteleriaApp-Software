@@ -1,0 +1,12 @@
+<div class="container-fluid" *ngIf="!showComponent">
+    <div class="row px-xl-5">
+        <div class="col-12">
+            <nav id="breadcrumb_nav_comp" class="breadcrumb bg-light mb-30">
+                <a class="breadcrumb-item text-dark" href="/store/inicio">Inicio</a>
+                <a *ngFor="let ruta of breadcrumbArray" class="breadcrumb-item text-dark"
+                    href="/store/{{rutaArray[2]}}">{{ruta}}</a>
+                <span class="breadcrumb-item active">{{breadcrumbLast}}</span>
+            </nav>
+        </div>
+    </div>
+</div>

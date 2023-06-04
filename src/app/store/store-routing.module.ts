@@ -1,16 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { MainComponent } from './main/main.component';
-import { ProductoComponent } from './producto/producto.component';
-import { DetalleComponent } from './producto/detalle.component';
-import { CategoriaComponent } from './categoria/categoria.component';
-import { PerfilComponent } from './perfil/perfil.component';
+
 import { InicioComponent } from './inicio/inicio.component';
-import { PedidosComponent } from './pedidos/pedidos.component';
-import { CarritoComponent } from './carrito/carrito.component';
-import { PagoComponent } from './pago/pago.component';
+import { PerfilComponent } from './perfil/perfil.component';
 import { LocalesComponent } from './locales/locales.component';
-import { DetallePedidoComponent } from './detalle-pedido/detalle-pedido.component';
+import { CategoriaComponent } from './categoria/categoria.component';
+import { ProductoComponent } from './producto/producto.component';
+import { DetalleProductoComponent } from './producto/detalle/detalle-producto.component';
+import { PedidosComponent } from './pedidos/pedidos.component';
+import { DetallePedidoComponent } from './pedidos/detalle/detalle-pedido.component';
+import { CarritoComponent } from './carrito/carrito.component';
+// import { PagoComponent } from './pago/pago.component';
 
 const routes: Routes = [
   {
@@ -18,45 +20,45 @@ const routes: Routes = [
     component:MainComponent,
     children:[
       {
-        path:'productos',
-        component:ProductoComponent
-      },
-      {
-        path:'productos/detalle',
-        component:DetalleComponent
-      },
-      {
-        path:'categorias',
-        component:CategoriaComponent
+        path:'inicio',
+        component:InicioComponent
       },
       {
         path:'perfil',
         component:PerfilComponent
       },
       {
-        path:'inicio',
-        component:InicioComponent
+        path:'locales',
+        component:LocalesComponent
+      },
+      {
+        path:'categorias',
+        component:CategoriaComponent
+      },
+      {
+        path:'productos',
+        component:ProductoComponent
+      },
+      {
+        path:'productos/detalle',
+        component:DetalleProductoComponent
       },
       {
         path:'pedido',
         component:PedidosComponent
       },
       {
+        path:'pedido/detalle',
+        component:DetallePedidoComponent
+      },
+      {
         path:'carrito',
         component:CarritoComponent
       },
-      {
-        path:'pago',
-        component:PagoComponent
-      },
-      {
-        path:'locales',
-        component:LocalesComponent
-      },
-      {
-        path:'detalle-pedido',
-        component:DetallePedidoComponent
-      },
+      // {
+      //   path:'pago',
+      //   component:PagoComponent
+      // },
       {
         path:'**',
         redirectTo:'inicio'
