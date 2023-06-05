@@ -40,6 +40,10 @@ const routes: Routes = [
         component:ProductoComponent
       },
       {
+        path:'productos/:id',
+        component:ProductoComponent
+      },
+      {
         path:'productos/detalle',
         component:DetalleProductoComponent
       },

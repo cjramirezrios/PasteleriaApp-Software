@@ -17,31 +17,16 @@
                             <span>Mis Datos Personales</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a href="store/perfil#direcciones"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
-                            <span>Mis Direcciones</span>
-                            <span class="fa-solid fa-arrow-right fa-xl"></span>
-                        </a>
-                        <a href="store/perfil#medio-pago"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
-                            <span>Mis Medios de Pago</span>
-                            <span class="fa-solid fa-arrow-right fa-xl"></span>
-                        </a>
-                        <a href="store/pedido"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
-                            <span>Mis Pedidos</span>
-                            <span class="fa-solid fa-arrow-right fa-xl"></span>
-                        </a>
                         <a href="store/perfil#eliminar-cuenta"
                             class="b-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Eliminar Cuenta</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a href="store/inicio"
+                        <!-- <a href="store/inicio"
                             class="bb-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Cerrar Sesion</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
-                        </a>
+                        </a> -->
                     </nav>
                 </nav>
             </div>
@@ -79,91 +64,10 @@
                         <div class="list-group-item list-group-item-action">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-label">DNI</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{dni}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
                                     <label class="form-label">Contraseña</label>
                                 </div>
                                 <div class="col-8">
                                     <span class="form-text">{{password}}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="direcciones" class="headers">
-                        <span class="bd-content-title">Mis Direcciones</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Dirección:</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{direccion}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label class="form-label">Mz:</label>
-                                        </div>
-                                        <div class="col-8">
-                                            <span class="form-text">{{mz}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label class="form-label">Lote:</label>
-                                        </div>
-                                        <div class="col-8">
-                                            <span class="form-text">{{lote}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <label class="form-label">Piso:</label>
-                                        </div>
-                                        <div class="col-8">
-                                            <span class="form-text">{{piso}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Referencia:</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{referencia}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Distrito:</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{distrito}}</span>
                                 </div>
                             </div>
                         </div>
@@ -177,30 +81,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="medio-pago" class="headers">
-                        <span class="bd-content-title">Mis Medios de Pago</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
                         <div class="list-group-item list-group-item-action">
                             <div class="row">
                                 <div class="col-4">
-                                    <label class="form-label">Nombre:</label>
+                                    <label class="form-label">Dirección:</label>
                                 </div>
                                 <div class="col-8">
-                                    <span class="form-text">{{nameOwnerCard}}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Número Tarjeta:</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{numCard}}</span>
+                                    <span class="form-text">{{direccion}}</span>
                                 </div>
                             </div>
                         </div>

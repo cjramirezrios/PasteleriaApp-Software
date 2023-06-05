@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
@@ -11,10 +11,17 @@ export class BreadcrumbComponent {
 
     rutaActual: string = "";
     showComponent: boolean = false;
-    rutaArray: Array<string> = [];
-    breadcrumbArray: Array<string> = [];
+    rutaActualSplit: string[] = [];
+    breadcrumbArray: string[] = [];
     breadcrumbLast: string = "";
-
+    rutas: string[][] = [
+        ['perfil','Mi Cuenta'],
+        ['locales','Locales'],
+        ['categorias','Categorias'],
+        ['productos','Productos'],
+        ['pedido','Mis Pedidos'],
+        ['carrito','Carrito']
+    ];
     constructor(private router: Router, private route: ActivatedRoute) {this.updateBreadcrumb()}
     
     ngOnInit() {
@@ -22,6 +29,8 @@ export class BreadcrumbComponent {
             .pipe(filter(e => e instanceof NavigationEnd))
             .subscribe(() => {
                 console.log("estoy suscrito");
+                this.breadcrumbArray = [];
+                this.breadcrumbLast = "";
                 this.updateBreadcrumb();
             })
     }
@@ -29,12 +38,13 @@ export class BreadcrumbComponent {
     updateBreadcrumb(){
         this.rutaActual = this.router.url;
         this.showComponent = this.rutaActual === "/store/inicio";
-        this.rutaArray = this.rutaActual.split("/");
+        this.rutaActualSplit = this.rutaActual.split("/");
         if (!this.showComponent) {
-            for (let i: number = 2; i < this.rutaArray.length; i++) {
-                if (i < this.rutaArray.length - 1) {
+            for (let i: number = 2; i < this.rutaActualSplit.length; i++) {
+                if (i < this.rutaActualSplit.length - 1) {
                     if (i === 2) {
-                        switch (this.rutaArray[i]) {
+                        // for(let item of this.rutas){}
+                        switch (this.rutaActualSplit[i]) {
                             case "perfil":
                                 this.breadcrumbArray.push("Mi Cuenta");
                                 break;
@@ -58,7 +68,7 @@ export class BreadcrumbComponent {
                         }
                     } else {
                         if (i === 3) {
-                            switch (this.rutaArray[i]) {
+                            switch (this.rutaActualSplit[i]) {
                                 case "perfil":
                                     this.breadcrumbArray.push("Mi Cuenta");
                                     break;
@@ -78,7 +88,7 @@ export class BreadcrumbComponent {
                                     this.breadcrumbArray.push("Carrito");
                                     break;
                                 case "detalle":
-                                    switch (this.rutaArray[i - 1]) {
+                                    switch (this.rutaActualSplit[i - 1]) {
                                         case "productos":
                                             this.breadcrumbArray.push("Detalle de Producto");
                                             break;
@@ -88,12 +98,13 @@ export class BreadcrumbComponent {
                                     }
                                     break;
                                 default:
+                                    this.breadcrumbArray.push(this.rutaActualSplit[i])
                                     break;
                             }
                         }
                     }
                 } else {
-                    switch (this.rutaArray[i]) {
+                    switch (this.rutaActualSplit[i]) {
                         case "perfil":
                             this.breadcrumbLast = "Mi Cuenta";
                             break;
@@ -113,7 +124,7 @@ export class BreadcrumbComponent {
                             this.breadcrumbLast = "Carrito";
                             break;
                         case "detalle":
-                            switch (this.rutaArray[i - 1]) {
+                            switch (this.rutaActualSplit[i - 1]) {
                                 case "productos":
                                     this.breadcrumbLast = "Detalle de Producto";
                                     break;
@@ -123,12 +134,13 @@ export class BreadcrumbComponent {
                             }
                             break;
                         default:
+                            this.breadcrumbLast = this.rutaActualSplit[i];
                             break;
                     }
                 }
             }
         }
-        console.log(this.rutaActual, !this.showComponent, this.rutaArray)
+        console.log(this.rutaActual, !this.showComponent, this.rutaActualSplit)
 
     }
 }

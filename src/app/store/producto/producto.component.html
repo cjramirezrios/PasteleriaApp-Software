@@ -3,35 +3,15 @@
         <!-- BarraLat Categorías -->
         <div class="col-lg-3 col-md-4">
             <!-- Categorías -->
-            <a class="section-title position-relative text-uppercase mb-3 headers-side"><span
-                    class="pr-3">CATEGORÍAS</span></a>
-            <div class="bg-light p-4 mb-30 rounded">
-                <form>
-                    <a href="store/categorias" class="a d-flex align-items-center justify-content-between mb-3">
-                        <a for="cat-1">Pasteles</a>
-                        <span class="fa-solid fa-arrow-right fa-xl"></span>
-                    </a>
-                    <a href="store/categorias" class="a d-flex align-items-center justify-content-between mb-3">
-                        <a for="cat-2">Postres</a>
-                        <span class="fa-solid fa-arrow-right fa-xl"></span>
-                    </a>
-                    <a href="store/categorias" class="a d-flex align-items-center justify-content-between mb-3">
-                        <a for="cat-3">Galletas</a>
-                        <span class="fa-solid fa-arrow-right fa-xl"></span>
-                    </a>
-                    <a href="store/categorias" class="a d-flex align-items-center justify-content-between mb-3">
-                        <a for="cat-4">Helados</a>
-                        <span class="fa-solid fa-arrow-right fa-xl"></span>
-                    </a>
-                    <a href="store/categorias" class="a d-flex align-items-center justify-content-between mb-3">
-                        <a for="cat-5">Panes</a>
-                        <span class="fa-solid fa-arrow-right fa-xl"></span>
-                    </a>
-                    <a href="store/categorias" class="a d-flex align-items-center justify-content-between">
-                        <a for="cat-6">Bebidas</a>
-                        <span class="fa-solid fa-arrow-right fa-xl"></span>
-                    </a>
-                </form>
+            <span class="section-title position-relative text-uppercase mb-3 headers-side">
+                <span class="pr-3">CATEGORÍAS</span>
+            </span>
+            <div class="bg-light p-4 rounded" [ngClass]="{'mt-3':true}">
+                <a *ngFor="let item of catArray" (click)="searchByCateg(item)"
+                    class="a d-flex align-items-center justify-content-between" [ngClass]="{'mb-3':!isLast(item)}">
+                    <span>{{item}}</span>
+                    <span class="fa-solid fa-arrow-right fa-xl"></span>
+                </a>
             </div>
             <!-- Categorías -->
         </div>
@@ -40,90 +20,93 @@
         <!-- Items -->
         <div class="col-lg-9 col-md-8">
             <div class="row pb-3">
-                <div class="col-12 pb-1">
-                    <div class="addP">
-                        <span class="headers">Productos</span>
-                        <button type="button" *ngIf="!bandera" class="btn btn-warning">Agregar Producto</button>
-                    </div>
+                <div class="addP col-12 pb-1">
+                    <span class="headers">Productos</span>
+                    <button type="button" *ngIf="!cliente" class="btn btn-warning">Agregar Producto</button>
+                </div>
+                <div class="col-lg-6 col-md-8">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <div>
-                            <button class="btn btn-sm btn-light ml-2"><i
-                                    class="fa-solid fa-magnifying-glass fa-xl"></i></button>
-                        </div>
+                        <input class="form-control me-2" type="search" [(ngModel)]="inputSearchValue">
+                        <button id="btnSearchProd" class="btn" (click)="searchByNameProd()">Buscar</button>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://dc.com.pe/wp-content/uploads/2021/12/x2.jpg"
-                                alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
-                                        class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
-                                        class="fa fa-search"></i></a>
+                <div class="col-lg-6 col-md-4" ></div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                            <div class="product-item bg-light mb-4">
+                                <div class="product-img position-relative overflow-hidden">
+                                    <img class="img-fluid w-100" src="https://dc.com.pe/wp-content/uploads/2021/12/x2.jpg"
+                                        alt="">
+                                    <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
+                                                class="fa fa-shopping-cart"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
+                                                class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <a class="h6 text-decoration-none text-truncate">Soufflé de fresas</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h5>S/123.00</h5>
+                                        <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
+                                    </div>
+                                    <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
+                                        <button type="button" class="btn btn-primary">Editar</button>
+                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate">Soufflé de fresas</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>S/123.00</h5>
-                                <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
-                            </div>
-                            <div *ngIf="!bandera" class="d-flex justify-content-evenly admin">
-                                <button type="button" class="btn btn-primary">Editar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="https://dc.com.pe/wp-content/uploads/2021/12/x3.jpg"
-                                alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
-                                        class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
-                                        class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate">Soufflé de chirimoyas</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>S/123.00</h5>
-                                <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
-                            </div>
-                            <div *ngIf="!bandera" class="d-flex justify-content-evenly admin">
-                                <button type="button" class="btn btn-primary">Editar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                            <div class="product-item bg-light mb-4">
+                                <div class="product-img position-relative overflow-hidden">
+                                    <img class="img-fluid w-100" src="https://dc.com.pe/wp-content/uploads/2021/12/x3.jpg"
+                                        alt="">
+                                    <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
+                                                class="fa fa-shopping-cart"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
+                                                class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <a class="h6 text-decoration-none text-truncate">Soufflé de chirimoyas</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h5>S/123.00</h5>
+                                        <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
+                                    </div>
+                                    <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
+                                        <button type="button" class="btn btn-primary">Editar</button>
+                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100"
-                                src="https://dc.com.pe/wp-content/uploads/2021/10/Brownie-caramel-NY-cheesecake-DC-nuevo-300x300.jpg"
-                                alt="">
-                            <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
-                                        class="fa fa-shopping-cart"></i></a>
-                                <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
-                                        class="fa fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate">Cheesecake de brownie</a>
-                            <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h5>S/123.00</h5>
-                                <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
-                            </div>
-                            <div *ngIf="!bandera" class="d-flex justify-content-evenly admin">
-                                <button type="button" class="btn btn-primary">Editar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                            <div class="product-item bg-light mb-4">
+                                <div class="product-img position-relative overflow-hidden">
+                                    <img class="img-fluid w-100"
+                                        src="https://dc.com.pe/wp-content/uploads/2021/10/Brownie-caramel-NY-cheesecake-DC-nuevo-300x300.jpg"
+                                        alt="">
+                                    <div class="product-action">
+                                        <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
+                                                class="fa fa-shopping-cart"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
+                                                class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="text-center py-4">
+                                    <a class="h6 text-decoration-none text-truncate">Cheesecake de brownie</a>
+                                    <div class="d-flex align-items-center justify-content-center mt-2">
+                                        <h5>S/123.00</h5>
+                                        <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
+                                    </div>
+                                    <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
+                                        <button type="button" class="btn btn-primary">Editar</button>
+                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
