@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-breadcrumb',
@@ -14,7 +15,18 @@ export class BreadcrumbComponent {
     breadcrumbArray: Array<string> = [];
     breadcrumbLast: string = "";
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private route: ActivatedRoute) {this.updateBreadcrumb()}
+    
+    ngOnInit() {
+        this.router.events
+            .pipe(filter(e => e instanceof NavigationEnd))
+            .subscribe(() => {
+                console.log("estoy suscrito");
+                this.updateBreadcrumb();
+            })
+    }
+
+    updateBreadcrumb(){
         this.rutaActual = this.router.url;
         this.showComponent = this.rutaActual === "/store/inicio";
         this.rutaArray = this.rutaActual.split("/");
@@ -117,5 +129,6 @@ export class BreadcrumbComponent {
             }
         }
         console.log(this.rutaActual, !this.showComponent, this.rutaArray)
+
     }
 }
