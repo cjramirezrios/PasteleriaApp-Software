@@ -17,7 +17,7 @@ export class ProductoComponent implements OnInit {
   // Propiedades
   cliente: boolean = true;
   
-  inputSearchValue: string = "";
+  inputSearchProducto: string = "";
   
   categoriaSelecionada:string = '';
   detailsProducto: Producto = new Producto(1,1,'','',0,'',0,'');
@@ -67,14 +67,45 @@ export class ProductoComponent implements OnInit {
     this.productos = productosByCategoria
   }
 
-  searchByNameProd() {
-    for (let item of this.productos){
-      if (item.nombre === this.inputSearchValue) {
-        this.detailsProducto = item;
-        this.showDetalle = true
-        console.log(this.inputSearchValue)
+  searchByIdProd(id:number):Producto{
+    let prod: Producto = new Producto(1,1,'','',0,'',0,'')
+    for (let p of this.storeService.productos){
+      if(p.id === id){
+        prod = p
       }
     }
+    return prod
+  }
+
+  searchByNameProd() {
+    class ProductoSimplificado {
+      id:number;
+      nombreSplit:string[];
+      constructor(id:number, nombreSplit:string[]){
+        this.id = id;
+        this.nombreSplit = nombreSplit
+      }
+    }
+
+    this.productos = []
+    console.log(this.productos)
+
+    let productoSimplificadoArray:ProductoSimplificado[] = []
+
+    for (let p of this.storeService.productos){
+      productoSimplificadoArray.push(new ProductoSimplificado(p.id,p.nombre.split(' ')))
+    }
+    console.log(productoSimplificadoArray)
+    for(let p of productoSimplificadoArray){
+      for(let nSplit of p.nombreSplit){
+        let s:string = nSplit.toLowerCase()
+        if(s.includes(this.inputSearchProducto.toLowerCase())){
+          this.productos.push(this.searchByIdProd(p.id))
+          break
+        }
+      }
+    }
+    console.log(this.productos)
   }
 
   verifyRoute() {
