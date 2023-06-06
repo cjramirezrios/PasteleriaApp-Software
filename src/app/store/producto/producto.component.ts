@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { StoreService } from '../services/store.service';
 
 import { Producto } from '../../models/producto.model'
+import { Categoria } from '../../models/categoria.model'
 
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -60,9 +61,10 @@ export class ProductoComponent implements OnInit {
 
   searchByCategoria(tipo: string) {
     // this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles
-    //metodo para mostrar productos segun categoria
     this.categoriaSelecionada = tipo;
-    console.log('Aqui iria el algoritmo para buscar por categoria: ' + tipo)
+    let idCategoria = this.storeService.categorias.find(e => e.nombre === tipo)?.id
+    let productosByCategoria:Producto[] = this.storeService.productos.filter(e => e.idCategoria === idCategoria)
+    this.productos = productosByCategoria
   }
 
   searchByNameProd() {
