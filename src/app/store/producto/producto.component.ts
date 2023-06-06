@@ -61,6 +61,7 @@ export class ProductoComponent implements OnInit {
   searchByCategoria(tipo: string) {
     // this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles
     //metodo para mostrar productos segun categoria
+    this.categoriaSelecionada = tipo;
     console.log('Aqui iria el algoritmo para buscar por categoria: ' + tipo)
   }
 

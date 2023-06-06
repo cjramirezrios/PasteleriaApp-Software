@@ -42,4 +42,5 @@ testem.log
 Thumbs.db
 
 # Test Files
-/src/app/store/perfil/testStyles.scss
+/src/app/store/perfil/bs_v5.3.scss
+/src/app/store/producto/bs_v4.5.3.scss

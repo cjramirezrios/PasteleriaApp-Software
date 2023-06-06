@@ -1,19 +1,25 @@
 <div class="container-fluid" *ngIf="!showDetalle">
     <div class="row px-xl-5">
+        <div class="col-12">
+            <a class="section-title position-relative text-uppercase mb-3 headers-side">
+                <span class="pe-3">CATEGORÍAS</span>
+            </a>
+        </div>
+    </div>
+    <div class="row px-xl-5">
         <!-- BarraLat Categorías -->
         <div class="col-lg-3 col-md-4">
-            <!-- Categorías -->
-            <span class="section-title position-relative text-uppercase mb-3 headers-side">
-                <span class="pr-3">CATEGORÍAS</span>
-            </span>
-            <div class="bg-light p-4 rounded" [ngClass]="{'mt-3':true}">
-                <a *ngFor="let item of categoriasName" (click)="searchByCategoria(item)"
-                    class="a d-flex align-items-center justify-content-between" [ngClass]="{'mb-3':!isLastCategoria(item)}">
-                    <span>{{item}}</span>
-                    <span class="fa-solid fa-arrow-right fa-xl"></span>
-                </a>
+            <div class="p-0 pt-3 mb-30 rounded-5">
+                <nav class="h-100 align-items-stretch flex-column">
+                    <nav class="nav nav-pills flex-column">
+                        <a *ngFor="let item of categoriasName" (click)="searchByCategoria(item)"
+                            class="b-perfil nav-link d-flex align-items-center justify-content-between" [ngClass]="{'active':categoriaSelecionada === item}">
+                            <span>{{item}}</span>
+                            <span class="fa-solid fa-arrow-right fa-xl"></span>
+                        </a>
+                    </nav>
+                </nav>
             </div>
-            <!-- Categorías -->
         </div>
         <!-- BarraLat Categorías-->
 
@@ -21,7 +27,8 @@
         <div class="col-lg-9 col-md-8">
             <div class="row pb-3">
                 <div class="addP col-12 pb-1">
-                    <span class="headers">Productos {{categoriaSelecionada}}</span>
+                    <span class="headers">Productos</span>
+                    <span class="headers" *ngIf="categoriaSelecionada !== ''">{{' (Categoria: ' + categoriaSelecionada + ' )'}}</span>
                     <button type="button" *ngIf="!cliente" class="btn btn-warning">Agregar Producto</button>
                 </div>
 
