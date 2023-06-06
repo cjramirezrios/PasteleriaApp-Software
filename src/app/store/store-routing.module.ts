@@ -43,10 +43,10 @@ const routes: Routes = [
         path:'productos/:id',
         component:ProductoComponent
       },
-      {
-        path:'productos/detalle',
-        component:DetalleProductoComponent
-      },
+      // {
+      //   path:'productos/detalle',
+      //   component:DetalleProductoComponent
+      // },
       {
         path:'pedido',
         component:PedidosComponent

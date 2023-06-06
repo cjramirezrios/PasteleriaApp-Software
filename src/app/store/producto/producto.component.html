@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="!showDetalle">
     <div class="row px-xl-5">
         <!-- BarraLat Categorías -->
         <div class="col-lg-3 col-md-4">
@@ -7,8 +7,8 @@
                 <span class="pr-3">CATEGORÍAS</span>
             </span>
             <div class="bg-light p-4 rounded" [ngClass]="{'mt-3':true}">
-                <a *ngFor="let item of catArray" (click)="searchByCateg(item)"
-                    class="a d-flex align-items-center justify-content-between" [ngClass]="{'mb-3':!isLast(item)}">
+                <a *ngFor="let item of categoriasName" (click)="searchByCategoria(item)"
+                    class="a d-flex align-items-center justify-content-between" [ngClass]="{'mb-3':!isLastCategoria(item)}">
                     <span>{{item}}</span>
                     <span class="fa-solid fa-arrow-right fa-xl"></span>
                 </a>
@@ -21,86 +21,38 @@
         <div class="col-lg-9 col-md-8">
             <div class="row pb-3">
                 <div class="addP col-12 pb-1">
-                    <span class="headers">Productos</span>
+                    <span class="headers">Productos {{categoriaSelecionada}}</span>
                     <button type="button" *ngIf="!cliente" class="btn btn-warning">Agregar Producto</button>
                 </div>
+
                 <div class="col-lg-6 col-md-8">
                     <div class="d-flex align-items-center justify-content-between mb-4">
-                        <input class="form-control me-2" type="search" [(ngModel)]="inputSearchValue">
+                        <input class="form-control me-2" type="search" [(ngModel)]="inputSearchValue" placeholder="Escribe el nombre exacto">
                         <button id="btnSearchProd" class="btn" (click)="searchByNameProd()">Buscar</button>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-4" ></div>
+
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
+                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let item of productos">
                             <div class="product-item bg-light mb-4">
                                 <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" src="https://dc.com.pe/wp-content/uploads/2021/12/x2.jpg"
-                                        alt="">
+                                    <img class="img-fluid w-100" src="{{item.imagen}}" alt="">
                                     <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
-                                                class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
-                                                class="fa fa-search"></i></a>
+                                        <a class="btn btn-outline-dark btn-square" href="store/carrito">
+                                            <i class="fa fa-shopping-cart"></i>
+                                        </a>
+                                        <a class="btn btn-outline-dark btn-square"
+                                            (click)="detailsOfProduct(item)">
+                                            <i class="fa fa-search"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate">Soufflé de fresas</a>
+                                    <a class="h6 text-decoration-none text-truncate">{{item.nombre}}</a>
                                     <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>S/123.00</h5>
-                                        <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
-                                    </div>
-                                    <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
-                                        <button type="button" class="btn btn-primary">Editar</button>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                            <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100" src="https://dc.com.pe/wp-content/uploads/2021/12/x3.jpg"
-                                        alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
-                                                class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
-                                                class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate">Soufflé de chirimoyas</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>S/123.00</h5>
-                                        <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
-                                    </div>
-                                    <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
-                                        <button type="button" class="btn btn-primary">Editar</button>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
-                            <div class="product-item bg-light mb-4">
-                                <div class="product-img position-relative overflow-hidden">
-                                    <img class="img-fluid w-100"
-                                        src="https://dc.com.pe/wp-content/uploads/2021/10/Brownie-caramel-NY-cheesecake-DC-nuevo-300x300.jpg"
-                                        alt="">
-                                    <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" href="store/carrito"><i
-                                                class="fa fa-shopping-cart"></i></a>
-                                        <a class="btn btn-outline-dark btn-square" href="store/productos/detalle"><i
-                                                class="fa fa-search"></i></a>
-                                    </div>
-                                </div>
-                                <div class="text-center py-4">
-                                    <a class="h6 text-decoration-none text-truncate">Cheesecake de brownie</a>
-                                    <div class="d-flex align-items-center justify-content-center mt-2">
-                                        <h5>S/123.00</h5>
-                                        <h6 class="text-muted ml-2"><del>S/130.00</del></h6>
+                                        <h5>S/{{item.precio}}.00</h5>
                                     </div>
                                     <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
                                         <button type="button" class="btn btn-primary">Editar</button>
@@ -117,9 +69,9 @@
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled"><a class="page-link" href="/store/productos">Anterior</a>
                             </li>
-                            <li class="page-item active"><a class="page-link" href="/store/productos#1">1</a></li>
-                            <li class="page-item"><a class="page-link" href="/store/productos#2">2</a></li>
-                            <li class="page-item"><a class="page-link" href="/store/productos#3">3</a></li>
+                            <li class="page-item active"><a class="page-link" href="/store/productos">1</a></li>
+                            <li class="page-item"><a class="page-link" href="/store/productos">2</a></li>
+                            <li class="page-item"><a class="page-link" href="/store/productos">3</a></li>
                             <li class="page-item"><a class="page-link" href="/store/productos">Siguiente</a></li>
                         </ul>
                     </nav>
@@ -130,3 +82,4 @@
         <!-- Items -->
     </div>
 </div>
+<app-detalle-producto *ngIf="showDetalle" [detalle]='detailsProducto'></app-detalle-producto>

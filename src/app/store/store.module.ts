@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'
 
+import { StoreService } from './services/store.service'
+
 import { StoreRoutingModule } from './store-routing.module';
 import { MainComponent } from './main/main.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
@@ -39,6 +41,7 @@ import { CarritoComponent } from './carrito/carrito.component';
     CommonModule,
     StoreRoutingModule,
     FormsModule
-  ]
+  ],
+  providers: [StoreService]
 })
 export class StoreModule { }

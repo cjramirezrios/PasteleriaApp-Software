@@ -12,17 +12,17 @@
             <div class="p-0 pt-3 mb-30 rounded-5">
                 <nav id="navbar-mi_cuenta" class="h-100 align-items-stretch flex-column">
                     <nav class="nav nav-pills flex-column">
-                        <a href="store/perfil#datos-personales"
+                        <a (click)="scrollTo('datos_personales')" [ngClass]="{'active':rastreador === 1}"
                             class="bt-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Mis Datos Personales</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a href="store/perfil#eliminar-cuenta"
+                        <a (click)="scrollTo('eliminar_cuenta')" [ngClass]="{'active':rastreador === 2}"
                             class="b-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Eliminar Cuenta</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <!-- <a href="store/inicio"
+                        <!-- <a (click)="scrollTo('cerrar_sesion')" [ngClass]="{'active':rastreador === 3}"
                             class="bb-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Cerrar Sesion</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
@@ -33,73 +33,70 @@
         </div>
         <!-- Side NavBar End -->
         <!-- Main Start -->
-        <div class="col-lg-9 col-md-8 mb-30 pb-3">
-            <div id="div-spy" data-bs-spy="scroll" data-bs-target="#navbar-mi_cuenta" data-bs-smooth-scroll="true"
-                class="scrollspy-example-2" tabindex="0">
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="datos-personales" class="headers">
-                        <span class="bd-content-title">Mis Datos Personales</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Nombre</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{nombre}} {{apellido}}</span>
-                                </div>
+        <div id="div-spy" class="col-lg-9 col-md-8 mb-30 pb-3 scrollspy-example-2">
+            <div #datos_personales class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+                <h4 class="headers">
+                    <span class="bd-content-title">Mis Datos Personales</span>
+                </h4>
+                <div class="list-group mt-3 mb-2">
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Nombre</label>
+                            </div>
+                            <div class="col-8">
+                                <span class="form-text">{{nombre}} {{apellido}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Correo</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{correo}}</span>
-                                </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Correo</label>
+                            </div>
+                            <div class="col-8">
+                                <span class="form-text">{{correo}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Contraseña</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{password}}</span>
-                                </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Contraseña</label>
+                            </div>
+                            <div class="col-8">
+                                <span class="form-text">{{password}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Celular:</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{celular}}</span>
-                                </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Celular:</label>
+                            </div>
+                            <div class="col-8">
+                                <span class="form-text">{{celular}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-4">
-                                    <label class="form-label">Dirección:</label>
-                                </div>
-                                <div class="col-8">
-                                    <span class="form-text">{{direccion}}</span>
-                                </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-4">
+                                <label class="form-label">Dirección:</label>
+                            </div>
+                            <div class="col-8">
+                                <span class="form-text">{{direccion}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="eliminar-cuenta" class="headers">
-                        <span class="bd-content-title">Eliminar Cuenta</span>
-                    </h4>
-                    <p>*Si elimina su cuenta, toda su información será borrada del sistema</p>
-                    <button type="button" class="btn btn-outline-danger">Eliminar Cuenta</button>
-                </div>
+            </div>
+            <div #eliminar_cuenta class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+                <h4 class="headers">
+                    <span class="bd-content-title">Eliminar Cuenta</span>
+                </h4>
+                <p>*Si elimina su cuenta, toda su información será borrada del sistema</p>
+                <button type="button" class="btn btn-outline-danger">Eliminar Cuenta</button>
             </div>
         </div>
         <!-- Main End -->

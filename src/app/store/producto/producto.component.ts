@@ -1,46 +1,82 @@
-import { Component } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
+import { StoreService } from '../services/store.service';
+
+import { Producto } from '../../models/producto.model'
+
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-producto',
   templateUrl: './producto.component.html',
   styleUrls: ['./producto.component.scss']
 })
-export class ProductoComponent {
-  cliente:boolean = true;
-  catArray: string[] = [];
-  btnSearchCollapsed: boolean = true;
+export class ProductoComponent implements OnInit {
+  // Propiedades
+  cliente: boolean = true;
+  
   inputSearchValue: string = "";
+  
+  categoriaSelecionada:string = '';
+  detailsProducto: Producto = new Producto(1,1,'','',0,'',0,'');
+  showDetalle: boolean = false;
+  
+  // Consultas a la Base de Datos 
+  categoriasName: string[] = []
+  productos: Producto[] = []
 
-  constructor(private router: Router, private route: ActivatedRoute){
-    this.catArray = ["Pasteles", "Postres", "Galletas", "Helados", "Panes", "Bebidas"];
-    console.log(this.catArray)
+  constructor(private storeService:StoreService, private router: Router, private route: ActivatedRoute) { }
+
+  // Metodos Ciclo de Vida de Angular 
+  ngOnInit():void {
+    this.categoriasName = this.storeService.categorias.map(e => e.nombre)
+    this.productos = this.storeService.productos
+    this.categoriaSelecionada = this.storeService.categoriaSelecionada
+    if (this.categoriaSelecionada !== ''){
+      this.searchByCategoria(this.categoriaSelecionada)
+    }
+    // this.route.params.subscribe(params => {
+    //   const name = params['id'];
+    //   this.verifyRoute();
+    // });
   }
 
-  ngOnInit(){
-    this.route.params.subscribe(params => {
-      const nameCateg = params['id'];
-      console.log(nameCateg)
-    })
+  ngAfterViewInit(){}
+
+  // Metodos Propios
+  detailsOfProduct(item: Producto) {
+    this.detailsProducto = item;
+    this.showDetalle = true
+    console.log(item)
   }
 
-  searchByCateg(tipo:string){
-    this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles
-  }
-
-  isLast(item:string):boolean {
-    let last:boolean = false;
-    const i:number = this.catArray.findIndex(el => el === item);
-    last = i === this.catArray.length - 1;
+  isLastCategoria(item: string): boolean {
+    let last: boolean = false;
+    const i: number = this.categoriasName.findIndex(el => el === item);
+    last = i === this.categoriasName.length - 1;
     return last
   }
 
-  setBtnSearchCollapsed(b:boolean){
-    this.btnSearchCollapsed = b;
+  searchByCategoria(tipo: string) {
+    // this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles
+    //metodo para mostrar productos segun categoria
+    console.log('Aqui iria el algoritmo para buscar por categoria: ' + tipo)
   }
 
-  searchByNameProd(){
-    console.log(this.inputSearchValue)
+  searchByNameProd() {
+    for (let item of this.productos){
+      if (item.nombre === this.inputSearchValue) {
+        this.detailsProducto = item;
+        this.showDetalle = true
+        console.log(this.inputSearchValue)
+      }
+    }
+  }
+
+  verifyRoute() {
+    const rutaActual = this.router.url;
+    this.showDetalle = rutaActual !== "/store/productos";
   }
 
 }

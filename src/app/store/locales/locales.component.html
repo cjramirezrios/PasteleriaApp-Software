@@ -12,23 +12,23 @@
             <div class="p-0 pt-3 mb-30 rounded-5">
                 <nav id="navbar-mi_cuenta" class="h-100 align-items-stretch flex-column">
                     <nav class="nav nav-pills flex-column">
-                        <a href="store/locales#ate"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
+                        <a (click)="scrollTo('ate')" [ngClass]="{'active':rastreador === 1}"
+                            class="bt-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Ate</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a href="store/locales#gamarra"
-                            class="bt-perfil nav-link d-flex align-items-center justify-content-between">
+                        <a (click)="scrollTo('gamarra')" [ngClass]="{'active':rastreador === 2}"
+                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Gamarra</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a href="store/locales#san-luis"
+                        <a (click)="scrollTo('san_luis')" [ngClass]="{'active':rastreador === 3}"
                             class="b-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>San Luis</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a href="store/locales#santa-anita"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
+                        <a (click)="scrollTo('santa_anita')" [ngClass]="{'active':rastreador === 4}"
+                            class="bb-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Santa Anita</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
@@ -38,169 +38,166 @@
         </div>
         <!-- Side NavBar End -->
         <!-- Main Start -->
-        <div class="col-lg-9 col-md-8 mb-30 pb-3">
-            <div id="div-spy" data-bs-spy="scroll" data-bs-target="#navbar-mi_cuenta" data-bs-smooth-scroll="true"
-                class="scrollspy-example-2" tabindex="0">
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="ate" class="headers">
-                        <span class="content-title_local">Ate</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{ate_address_1}}</span>
-                                </div>
+        <div id="div-spy" class="col-lg-9 col-md-8 mb-30 pb-3 scrollspy-example-2">
+            <div #ate class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+                <h4 class="headers">
+                    <span class="content-title_local">Ate</span>
+                </h4>
+                <div class="list-group mt-3 mb-2">
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{ate_ref_1}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{ate_address_1}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{ate_address_2}}</span>
-                                </div>
+                        <div class="row">
+                            <div class="col-1">
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{ate_ref_2}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{ate_ref_1}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{ate_address_3}}</span>
-                                </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{ate_ref_3}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{ate_address_2}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{ate_ref_2}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{ate_address_3}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{ate_ref_3}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="gamarra" class="headers">
-                        <span class="content-title_local">Gamarra</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{gamarra_address}}</span>
-                                </div>
+            </div>
+            <div #gamarra class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+                <h4 class="headers">
+                    <span class="content-title_local">Gamarra</span>
+                </h4>
+                <div class="list-group mt-3 mb-2">
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{gamarra_ref}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{gamarra_address}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{gamarra_ref}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="san-luis" class="headers">
-                        <span class="content-title_local">San Luis</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{sanLuis_address}}</span>
-                                </div>
+            </div>
+            <div #san_luis class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+                <h4 class="headers">
+                    <span class="content-title_local">San Luis</span>
+                </h4>
+                <div class="list-group mt-3 mb-2">
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{sanLuis_ref}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{sanLuis_address}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{sanLuis_ref}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="bg-light-nav_perfil p-3 mb-30 rounded-3">
-                    <h4 id="santa-anita" class="headers">
-                        <span class="content-title_local">San Anita</span>
-                    </h4>
-                    <div class="list-group mt-3 mb-2">
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{santaAnita_address_1}}</span>
-                                </div>
+            </div>
+            <div #santa_anita class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+                <h4 class="headers">
+                    <span class="content-title_local">San Anita</span>
+                </h4>
+                <div class="list-group mt-3 mb-2">
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{santaAnita_ref_1}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{santaAnita_address_1}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{santaAnita_address_2}}</span>
-                                </div>
+                        <div class="row">
+                            <div class="col-1">
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{santaAnita_ref_2}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{santaAnita_ref_1}}</span>
                             </div>
                         </div>
-                        <div class="list-group-item list-group-item-action">
-                            <div class="row">
-                                <div class="col-1 ps-5">
-                                    <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{santaAnita_address_3}}</span>
-                                </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
                             </div>
-                            <div class="row">
-                                <div class="col-1">
-                                </div>
-                                <div class="col-11">
-                                    <span class="form-text">{{santaAnita_ref_3}}</span>
-                                </div>
+                            <div class="col-11">
+                                <span class="form-text">{{santaAnita_address_2}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{santaAnita_ref_2}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action">
+                        <div class="row">
+                            <div class="col-1 ps-5">
+                                <i class="fa-solid fa-location-dot fa-bounce fa-lg" style="color: #72413e;"></i>
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{santaAnita_address_3}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                            </div>
+                            <div class="col-11">
+                                <span class="form-text">{{santaAnita_ref_3}}</span>
                             </div>
                         </div>
                     </div>
