@@ -23,7 +23,7 @@ export class ProductoComponent implements OnInit {
   detailsProducto: Producto = new Producto(1,1,'','',0,'',0,'');
   showDetalle: boolean = false;
   
-  // Consultas a la Base de Datos 
+  // Propiedades almacenan Respuestas de la Base de Datos 
   categoriasName: string[] = []
   productos: Producto[] = []
 
@@ -31,16 +31,22 @@ export class ProductoComponent implements OnInit {
 
   // Metodos Ciclo de Vida de Angular 
   ngOnInit():void {
-    this.categoriasName = this.storeService.categorias.map(e => e.nombre)
-    this.productos = this.storeService.productos
-    this.categoriaSelecionada = this.storeService.categoriaSelecionada
+    //--> METODO SERVICE GetAllCategoriasOnlyName <--
+    this.categoriasName = this.storeService.getAllCategoriasOnlyName()
+    //--> METODO SERVICE GetAllProductos <--
+    this.productos = this.storeService.getAllProducts()
+    //--> METODO SERVICE GetCategoria <--
+    this.categoriaSelecionada = this.storeService.getCategoria()
     if (this.categoriaSelecionada !== ''){
       this.searchByCategoria(this.categoriaSelecionada)
     }
-    // this.route.params.subscribe(params => {
-    //   const name = params['id'];
-    //   this.verifyRoute();
-    // });
+
+    /*
+    this.route.params.subscribe(params => {
+       const name = params['id'];
+       const rutaActual = this.router.url;
+    });
+    */
   }
 
   ngAfterViewInit(){}
@@ -49,7 +55,6 @@ export class ProductoComponent implements OnInit {
   detailsOfProduct(item: Producto) {
     this.detailsProducto = item;
     this.showDetalle = true
-    console.log(item)
   }
 
   isLastCategoria(item: string): boolean {
@@ -59,22 +64,20 @@ export class ProductoComponent implements OnInit {
     return last
   }
 
-  searchByCategoria(tipo: string) {
-    // this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles
-    this.categoriaSelecionada = tipo;
-    let idCategoria = this.storeService.categorias.find(e => e.nombre === tipo)?.id
-    let productosByCategoria:Producto[] = this.storeService.productos.filter(e => e.idCategoria === idCategoria)
+  searchByCategoria(name: string) {
+    /* this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles */
+    this.categoriaSelecionada = name;
+    //--> METODO SERVICE GetCategoriaByName <--
+    const idCategoria:number = this.storeService.getCategoriaByName(name)?.id ?? 0
+    //--> METODO SERVICE GetProductsByIdCategoria <--
+    const productosByCategoria:Producto[] = this.storeService.getProductsByIdCategoria(idCategoria)
     this.productos = productosByCategoria
   }
 
   searchByIdProd(id:number):Producto{
-    let prod: Producto = new Producto(1,1,'','',0,'',0,'')
-    for (let p of this.storeService.productos){
-      if(p.id === id){
-        prod = p
-      }
-    }
-    return prod
+    //--> METODO SERVICE GetProductById <--
+    const producto: Producto = this.storeService.getProductById(id)
+    return producto
   }
 
   searchByNameProd() {
@@ -86,16 +89,25 @@ export class ProductoComponent implements OnInit {
         this.nombreSplit = nombreSplit
       }
     }
+    class ProductoId_y_Name {
+      id:number;
+      nombre:string;
+      constructor(id:number, nombre:string){
+        this.id = id;
+        this.nombre = nombre
+      }
+    }
 
     this.productos = []
-    console.log(this.productos)
+    this.categoriaSelecionada = ''
 
-    let productoSimplificadoArray:ProductoSimplificado[] = []
+    //--> METODO SERVICE GetAllProductsOnlyId&Name <--
+    const productos: ProductoId_y_Name[] = this.storeService.getAllProductsOnlyId_y_Name()
 
-    for (let p of this.storeService.productos){
+    let productoSimplificadoArray:ProductoSimplificado[] = [];
+    for (let p of productos){
       productoSimplificadoArray.push(new ProductoSimplificado(p.id,p.nombre.split(' ')))
     }
-    console.log(productoSimplificadoArray)
     for(let p of productoSimplificadoArray){
       for(let nSplit of p.nombreSplit){
         let s:string = nSplit.toLowerCase()
@@ -105,12 +117,6 @@ export class ProductoComponent implements OnInit {
         }
       }
     }
-    console.log(this.productos)
-  }
-
-  verifyRoute() {
-    const rutaActual = this.router.url;
-    this.showDetalle = rutaActual !== "/store/productos";
   }
 
 }

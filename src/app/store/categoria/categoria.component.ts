@@ -12,14 +12,15 @@ export class CategoriaComponent {
   // Propiedades
   cliente:boolean=true;
 
-  // Consultas a la Base de Datos 
+  // Propiedades almacenan Respuestas de la Base de Datos
   categorias: Categoria[] = []
 
   constructor(private storeService:StoreService, private router: Router){}
 
   //Metodo Ciclo de vida de Angular
   ngOnInit(){
-    this.categorias = this.storeService.categorias
+    //--> METODO SERVICE GetAllCategorias <--
+    this.categorias = this.storeService.getAllCategorias()
   }
 
   //Metodos Propios
