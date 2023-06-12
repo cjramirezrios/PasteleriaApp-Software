@@ -12,9 +12,9 @@
             <div class="p-0 pt-3 mb-30 rounded-5">
                 <nav class="h-100 align-items-stretch flex-column">
                     <nav class="nav nav-pills flex-column">
-                        <a *ngFor="let item of categoriasName" (click)="searchByCategoria(item)"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between" [ngClass]="{'active':categoriaSelecionada === item}">
-                            <span>{{item}}</span>
+                        <a *ngFor="let item of categoriasIdyName" (click)="searchByCategoria(item.id)"
+                            class="b-perfil nav-link d-flex align-items-center justify-content-between" [ngClass]="{'active':categoriaSelecionada === item.id}">
+                            <span>{{item.nombre}}</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
                     </nav>

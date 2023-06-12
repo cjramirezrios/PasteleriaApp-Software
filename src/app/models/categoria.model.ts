@@ -1,3 +1,5 @@
+import { interfaceProduct } from './producto.model'
+
 export class Categoria {
     id: number;
     nombre: string;
@@ -13,10 +15,6 @@ export class Categoria {
         this.createdAt = createdAt;
         this.imagen = imagen;
     }
-
-    getName(): string {
-        return this.nombre;
-    }
 }
 
 export interface interfaceCategory {
@@ -25,5 +23,5 @@ export interface interfaceCategory {
     description:string,
     createdAt:string,
     image:string,
-    products:any[]
+    products:interfaceProduct[]
 }

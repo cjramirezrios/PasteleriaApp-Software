@@ -19,28 +19,29 @@ export class ProductoComponent implements OnInit {
   
   inputSearchProducto: string = "";
   
-  categoriaSelecionada:string = '';
-  detailsProducto: Producto = new Producto(1,1,'','',0,'',0,'');
+  categoriaSelecionada:number = 0;
+  productoSeleccionado:Producto = new Producto(0,0,'','',0,'',0,'');
+  detailsProducto: Producto = new Producto(0,0,'','',0,'',0,'');
   showDetalle: boolean = false;
   
   // Propiedades almacenan Respuestas de la Base de Datos 
-  categoriasName: string[] = []
+  categoriasIdyName: Categoria[] = []
   productos: Producto[] = []
 
-  constructor(private storeService:StoreService, private router: Router, private route: ActivatedRoute) { }
-
-  // Metodos Ciclo de Vida de Angular 
-  ngOnInit():void {
-    //--> METODO SERVICE GetAllCategoriasOnlyName <--
-    this.categoriasName = this.storeService.getAllCategoriasOnlyName()
-    //--> METODO SERVICE GetAllProductos <--
-    this.productos = this.storeService.getAllProducts()
-    //--> METODO SERVICE GetCategoria <--
-    this.categoriaSelecionada = this.storeService.getCategoria()
-    if (this.categoriaSelecionada !== ''){
+  constructor(private storeService:StoreService, private router: Router, private route: ActivatedRoute) {
+    this.fetchCategoryOnlyId_y_Name()
+    //--> METODO SERVICE catchCategoria <--
+    this.categoriaSelecionada = this.storeService.catchCategoria()
+    if (this.categoriaSelecionada !== 0){
       this.searchByCategoria(this.categoriaSelecionada)
+    }else{
+      this.fetchProduct()
     }
 
+  }
+
+  // Metodos Ciclo de Vida de Angular 
+  ngOnInit() {
     /*
     this.route.params.subscribe(params => {
        const name = params['id'];
@@ -52,36 +53,49 @@ export class ProductoComponent implements OnInit {
   ngAfterViewInit(){}
 
   // Metodos Propios
-  detailsOfProduct(item: Producto) {
-    this.detailsProducto = item;
+  async fetchCategoryOnlyId_y_Name() {
+    try {
+      //--> METODO SERVICE GetAllCategoriasOnlyName <--
+      this.categoriasIdyName = await this.storeService.getAllCategoriasOnlyId_y_Name();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async fetchProduct() {
+    try {
+      //--> METODO SERVICE GetAllProductos <--
+      this.productos = await this.storeService.getAllProducts();
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  detailsOfProduct(producto: Producto) {
+    this.detailsProducto = producto;
     this.showDetalle = true
   }
 
-  isLastCategoria(item: string): boolean {
+  isLastCategoria(nombre: string): boolean {
     let last: boolean = false;
-    const i: number = this.categoriasName.findIndex(el => el === item);
-    last = i === this.categoriasName.length - 1;
+    const index: number = this.categoriasIdyName.findIndex(e => e.nombre === nombre);
+    last = index === this.categoriasIdyName.length - 1;
     return last
   }
 
-  searchByCategoria(name: string) {
-    /* this.router.navigate(['/store/productos', tipo]) // /store/productos/Pasteles */
-    this.categoriaSelecionada = name;
-    //--> METODO SERVICE GetCategoriaByName <--
-    const idCategoria:number = this.storeService.getCategoriaByName(name)?.id ?? 0
+  async searchByCategoria(id: number) {
+    this.categoriaSelecionada = id;
     //--> METODO SERVICE GetProductsByIdCategoria <--
-    const productosByCategoria:Producto[] = this.storeService.getProductsByIdCategoria(idCategoria)
+    const productosByCategoria:Producto[] = await this.storeService.getProductsByIdCategoria(id)
     this.productos = productosByCategoria
   }
 
-  searchByIdProd(id:number):Producto{
+  async searchByIdProd(id:number){
     //--> METODO SERVICE GetProductById <--
-    const producto: Producto = this.storeService.getProductById(id)
-    return producto
+    this.productoSeleccionado = await this.storeService.getProductById(id)
   }
 
-  searchByNameProd() {
-    class ProductoSimplificado {
+  async searchByNameProd() {
+    class ProductoNameSplit {
       id:number;
       nombreSplit:string[];
       constructor(id:number, nombreSplit:string[]){
@@ -89,30 +103,25 @@ export class ProductoComponent implements OnInit {
         this.nombreSplit = nombreSplit
       }
     }
-    class ProductoId_y_Name {
-      id:number;
-      nombre:string;
-      constructor(id:number, nombre:string){
-        this.id = id;
-        this.nombre = nombre
-      }
-    }
 
     this.productos = []
-    this.categoriaSelecionada = ''
+    this.categoriaSelecionada = 0
 
     //--> METODO SERVICE GetAllProductsOnlyId&Name <--
-    const productos: ProductoId_y_Name[] = this.storeService.getAllProductsOnlyId_y_Name()
+    const productosOnlyIdyName: Producto[] = await this.storeService.getAllProductsOnlyId_y_Name()
 
-    let productoSimplificadoArray:ProductoSimplificado[] = [];
-    for (let p of productos){
-      productoSimplificadoArray.push(new ProductoSimplificado(p.id,p.nombre.split(' ')))
+    let productosSplitName:ProductoNameSplit[] = [];
+    for (let p of productosOnlyIdyName){
+      productosSplitName.push(new ProductoNameSplit(p.id,p.nombre.split(' ')))
     }
-    for(let p of productoSimplificadoArray){
+    for(let p of productosSplitName){
       for(let nSplit of p.nombreSplit){
         let s:string = nSplit.toLowerCase()
         if(s.includes(this.inputSearchProducto.toLowerCase())){
-          this.productos.push(this.searchByIdProd(p.id))
+          console.log('beforeSearchByIdProd: '+this.productoSeleccionado.id)
+          await this.searchByIdProd(p.id);
+          console.log('AfterSearchByIdProd: '+this.productoSeleccionado.id)
+          this.productos.push(this.productoSeleccionado)
           break
         }
       }

@@ -15,18 +15,25 @@ export class CategoriaComponent {
   // Propiedades almacenan Respuestas de la Base de Datos
   categorias: Categoria[] = []
 
-  constructor(private storeService:StoreService, private router: Router){}
-
-  //Metodo Ciclo de vida de Angular
-  ngOnInit(){
-    //--> METODO SERVICE GetAllCategorias <--
-    this.categorias = this.storeService.getAllCategorias()
+  constructor(private storeService:StoreService, private router: Router){
+    this.fetchCategory()
   }
 
+  //Metodo Ciclo de vida de Angular
+  ngOnInit(){}
+
   //Metodos Propios
-  enviarCategoria(categoria: string){
-    this.storeService.sendCategoria(categoria);
+  enviarCategoria(id: number){
+    this.storeService.sendCategoria(id);
     this.router.navigateByUrl('/store/productos')
+  }
+  async fetchCategory() {
+    try {
+      //--> METODO SERVICE GetAllCategorias <--
+      this.categorias = await this.storeService.getAllCategorias();
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 }

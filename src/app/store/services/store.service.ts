@@ -5,7 +5,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
 import { Categoria, interfaceCategory } from '../../models/categoria.model'
-import { Producto } from '../../models/producto.model'
+import { Producto, interfaceProduct } from '../../models/producto.model'
 import { Usuario } from '../../models/usuario.model'
 
 //Clase Temporal para Simular el JSON
@@ -25,40 +25,69 @@ export class StoreService {
   
   //Properties
   private apiRoute:string = environment.apiUrl;
-  private categoriaSelecionada:string;
+  private categoriaSelecionada:number = 0;
   /*
   // private categoria:Subject<string[]>;
   // categObs = this.categoria.asObservable();
   */
 
-  constructor(private http: HttpClient) {
-    this.categoriaSelecionada = '';
-  }
+  constructor(private http: HttpClient) {}
 
 
 // PETICIONES HTTP A LA API | Start -->
 
   //Metodo GetAllCategorias                    SELECT * FROM categorias
-  getAllCategorias(): Categoria[]{
-    const categorias: Categoria[] = [
-      new Categoria(1,"Pasteles",'','','https://images.food52.com/5zez-Jt87mU0Dhx_6U-8xwRK5zs=/fit-in/1200x1200/50a83e17-f69a-48f2-a8ba-8f7dafab24f1--2016-0910_cake-buffet_james-ransom-249.jpg'),
-      new Categoria(2,"Postres",'','','https://explore.bustickets.com/wp-content/uploads/2019/07/Best_Cities_Delicious_Desserts.jpg'),
-      new Categoria(3,"Galletas",'','','https://www.siliconrepublic.com/wp-content/uploads/2018/05/shutterstock_1089152144-1-718x523.jpg'),
-      new Categoria(4,"Helados",'','','https://www.listchallenges.com/f/lists/58a34e6b-0d89-4a95-8c6a-8ae4ba48a85f.jpg'),
-      new Categoria(5,"Panes",'','','https://thumbs.dreamstime.com/b/many-mixed-breads-rolls-shot-above-baskets-different-types-bread-display-case-mahan-yehuda-market-171754536.jpg'),
-      new Categoria(6,"Bebidas",'','','https://janbox.com/blog/wp-content/uploads/2022/07/Top-16-most-popular-Japanese-drinks.jpg')
-    ]
-    return categorias
+  async getAllCategorias(): Promise<Categoria[]>{
+    let categorias: Categoria[] = [];
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceCategory[]>(this.apiRoute + 'category/'))
+      for (let item of data) {
+        const categoria = new Categoria(item.id,item.name,item.description,item.createdAt,item.image)
+        categorias.push(categoria)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return categorias
+    }
+  }
+  //Metodo GetAllCategoriasOnlyId&Name           SELECT id,nombre FROM categorias 
+  async getAllCategoriasOnlyId_y_Name():Promise<Categoria[]> {
+    let categorias:Categoria[] = [];
+    let categoriasId_y_Name:Categoria[] = [];
+    try {
+      categorias = await this.getAllCategorias()
+      categoriasId_y_Name = categorias.map(e => new Categoria(e.id,e.nombre,'','',''))
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return categoriasId_y_Name
+    }
   }
   //Metodo GetAllCategoriasOnlyName            SELECT nombre FROM categorias
-  getAllCategoriasOnlyName():string[]{
-    const categoriasName:string[] = this.getAllCategorias().map(e => e.nombre)
-    return categoriasName
+  async getAllCategoriasOnlyName():Promise<string[]>{
+    let categorias:Categoria[] = [];
+    let categoriasName:string[] = [];
+    try {
+      categorias = await this.getAllCategorias()
+      categoriasName = categorias.map(e => e.nombre)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return categoriasName
+    }
   }
   //Metodo GetCategoriaByName                  SELECT * FROM categorias WHERE nombre=nombre
-  getCategoriaByName(name:string):Categoria{
-    const categoria:Categoria = this.getAllCategorias().find(e => e.nombre === name) ?? new Categoria(0,'','','','')
-    return categoria
+  async getCategoriaByName(name:string):Promise<Categoria>{
+    let categoria:Categoria = new Categoria(0,'','','','')
+    try {
+      const categorias = await this.getAllCategorias();
+      categoria = categorias.find(e => e.nombre === name) ?? new Categoria(0,'','','','')
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return categoria
+    }
   }
   //Metodo GetCategoriaById                    SELECT * FROM categorias WHERE id=id
   async getCategoriaById(id: number):Promise<Categoria>{
@@ -66,8 +95,6 @@ export class StoreService {
     try {
       const data = await firstValueFrom(this.http.get<interfaceCategory>(this.apiRoute + 'category/' + id))
       categoria = new Categoria(data.id,data.name,data.description,data.createdAt,data.image)
-      // this.http.get<interfaceCategory>(this.apiRoute + 'category/' + id ).subscribe(data => {
-      //   categoria = new Categoria(data.id,data.name,data.description,data.createdAt,data.image)})
     } catch (error) {
       console.log(error)
     } finally {
@@ -76,53 +103,61 @@ export class StoreService {
   }
 
   //Metodo GetAllProductos                     SELECT * FROM productos
-  getAllProducts(): Producto[]{
-    const productos: Producto[] = [
-      new Producto(1,1,'Soufflé de fresas','',123,'',0,'https://dc.com.pe/wp-content/uploads/2021/12/x2.jpg'),
-      new Producto(2,1,'Soufflé de chirimoyas','',120,'',0,'https://dc.com.pe/wp-content/uploads/2021/12/x3.jpg'),
-      new Producto(3,1,'Cheesecake de brownie','',115,'',0,'https://dc.com.pe/wp-content/uploads/2021/10/Brownie-caramel-NY-cheesecake-DC-nuevo-300x300.jpg'),
-      new Producto(4,2,'Producto Categoria 2','',120,'',0,'https://us.123rf.com/450wm/captainvector/captainvector2207/captainvector220741406/189237480-t%C3%ADtulo-del-men%C3%BA-de-postres.jpg?ver=6'),
-      new Producto(5,2,'Producto Categoria 2','',115,'',0,'https://us.123rf.com/450wm/captainvector/captainvector2207/captainvector220741406/189237480-t%C3%ADtulo-del-men%C3%BA-de-postres.jpg?ver=6'),
-      new Producto(6,2,'Producto Categoria 2','',120,'',0,'https://us.123rf.com/450wm/captainvector/captainvector2207/captainvector220741406/189237480-t%C3%ADtulo-del-men%C3%BA-de-postres.jpg?ver=6'),
-      new Producto(7,3,'Producto Categoria 3','',115,'',0,'https://thumbs.dreamstime.com/z/tarjeta-con-las-galletas-y-t%C3%ADtulo-105227829.jpg'),
-      new Producto(8,3,'Producto Categoria 3','',115,'',0,'https://thumbs.dreamstime.com/z/tarjeta-con-las-galletas-y-t%C3%ADtulo-105227829.jpg'),
-      new Producto(9,3,'Producto Categoria 3','',115,'',0,'https://thumbs.dreamstime.com/z/tarjeta-con-las-galletas-y-t%C3%ADtulo-105227829.jpg'),
-      new Producto(10,4,'Producto Categoria 4','',115,'',0,'https://pbs.twimg.com/media/DombWAzXoAAL2Ax.jpg'),
-      new Producto(11,4,'Producto Categoria 4','',115,'',0,'https://pbs.twimg.com/media/DombWAzXoAAL2Ax.jpg'),
-      new Producto(12,4,'Producto Categoria 4','',115,'',0,'https://pbs.twimg.com/media/DombWAzXoAAL2Ax.jpg'),
-      new Producto(13,5,'Producto Categoria 5','',115,'',0,'https://panaderia.pe/wp-content/uploads/Diseno-sin-titulo-12.png'),
-      new Producto(14,5,'Producto Categoria 5','',115,'',0,'https://panaderia.pe/wp-content/uploads/Diseno-sin-titulo-12.png'),
-      new Producto(15,5,'Producto Categoria 5','',115,'',0,'https://panaderia.pe/wp-content/uploads/Diseno-sin-titulo-12.png'),
-      new Producto(16,6,'Producto Categoria 6','',115,'',0,'https://as2.ftcdn.net/v2/jpg/01/93/39/01/1000_F_193390117_Yh4N3kBwtfzQMWrq5HFTkNkIhOQmrdmG.jpg'),
-      new Producto(17,6,'Producto Categoria 6','',115,'',0,'https://as2.ftcdn.net/v2/jpg/01/93/39/01/1000_F_193390117_Yh4N3kBwtfzQMWrq5HFTkNkIhOQmrdmG.jpg'),
-      new Producto(18,6,'Producto Categoria 6','',115,'',0,'https://as2.ftcdn.net/v2/jpg/01/93/39/01/1000_F_193390117_Yh4N3kBwtfzQMWrq5HFTkNkIhOQmrdmG.jpg'),
-    ]
-    return productos
+  async getAllProducts(): Promise<Producto[]>{
+    let productos: Producto[] = [];
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceProduct[]>(this.apiRoute + 'product/'))
+      for (let item of data) {
+        const producto = new Producto(item.id,item.categoryId,item.name,item.description,item.price,item.createdAt,item.stock,item.image)
+        productos.push(producto)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return productos
+    }
   }
   //Metodo GetAllProductsOnlyId&Name           SELECT id,nombre FROM productos 
-    getAllProductsOnlyId_y_Name():ProductoId_y_Name[]{
-    let productoSimplificadoArray:ProductoId_y_Name[] = []
-    for (let p of this.getAllProducts()){
-      productoSimplificadoArray.push(new ProductoId_y_Name(p.id,p.nombre))
+  async getAllProductsOnlyId_y_Name():Promise<Producto[]> {
+    let productos:Producto[] = [];
+    let productosId_y_Name:Producto[] = [];
+    try {
+      productos = await this.getAllProducts()
+      productosId_y_Name = productos.map(e => new Producto(e.id,0,e.nombre,'',0,'',0,''))
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return productosId_y_Name
     }
-    return productoSimplificadoArray
   }
   //Metodo GetProductById                      SELECT * FROM productos WHERE idProducto = idProducto
-  getProductById(id:number):Producto{
-    let producto: Producto = new Producto(0,0,'','',0,'',0,'')
-    for (let p of this.getAllProducts()){
-      if(p.id === id){
-        producto = p
-        break
-      }
+  async getProductById(id:number):Promise<Producto>{
+    let producto!:Producto;
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceProduct>(this.apiRoute + 'product/' + id))
+      producto = new Producto(data.id,data.categoryId,data.name,data.description,data.price,data.createdAt,data.stock,data.image)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return producto
     }
-    return producto
   }
   //Metodo GetProductsByIdCategoria            SELECT * FROM productos WHERE idCategoria = idCategoria
-  getProductsByIdCategoria(idCategoria:number):Producto[]{
-    const productosByCategoria:Producto[] = this.getAllProducts().filter(e => e.idCategoria === idCategoria)
-    return productosByCategoria
+  async getProductsByIdCategoria(idCategoria:number):Promise<Producto[]>{
+    let productos:Producto[]=[];
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceCategory>(this.apiRoute + 'category/' + idCategoria))
+      for (let item of data.products) {
+        const producto = new Producto(item.id,item.categoryId,item.name,item.description,item.price,item.createdAt,item.stock,item.image)
+        productos.push(producto)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return productos
+    }
   }
+
   //Metodo GetAllUsuario                       SELECT * FROM usuarios
   getAllUsuario():Usuario[]{
     const usuarios: Usuario[] = [
@@ -143,12 +178,12 @@ export class StoreService {
 
 
   //Metodos Enviar Datos - Comunicacion entre Componentes
-  sendCategoria(c:string){
-    this.categoriaSelecionada = c;
+  sendCategoria(id:number){
+    this.categoriaSelecionada = id;
   }
 
   //Metodos Obtener Datos - Comunicacion entre Componentes
-  getCategoria():string{
+  catchCategoria():number{
     return this.categoriaSelecionada
   }
 

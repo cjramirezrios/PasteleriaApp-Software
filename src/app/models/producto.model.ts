@@ -1,3 +1,5 @@
+import { interfaceCategory } from './categoria.model'
+
 export class Producto {
     id: number;
     idCategoria: number;
@@ -19,8 +21,16 @@ export class Producto {
         this.stock = stock;
         this.imagen = imagen;
     }
+}
 
-    getName(): string {
-        return this.nombre;
-    }
+export interface interfaceProduct {
+    id: number,
+    name: string,
+    image: string,
+    description: string,
+    price: number,
+    stock: number,
+    createdAt: string,
+    categoryId: number,
+    category: interfaceCategory
 }

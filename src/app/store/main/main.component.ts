@@ -13,7 +13,7 @@ export class MainComponent {
   categoria: Categoria = new Categoria(0, '', '', '', '');
 
   constructor(private storeService: StoreService) {
-    this.loadData();
+    // this.loadData();
   }
 
   ngAfterViewInit() {}
