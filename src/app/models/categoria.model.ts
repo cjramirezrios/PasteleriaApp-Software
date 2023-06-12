@@ -18,3 +18,12 @@ export class Categoria {
         return this.nombre;
     }
 }
+
+export interface interfaceCategory {
+    id:number,
+    name:string,
+    description:string,
+    createdAt:string,
+    image:string,
+    products:any[]
+}

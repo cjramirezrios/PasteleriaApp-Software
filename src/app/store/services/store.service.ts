@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
+import { Subject, Observable, lastValueFrom, firstValueFrom } from 'rxjs';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
-import { Categoria } from '../../models/categoria.model'
+import { environment } from '../../../environments/environment';
+
+import { Categoria, interfaceCategory } from '../../models/categoria.model'
 import { Producto } from '../../models/producto.model'
 import { Usuario } from '../../models/usuario.model'
 
@@ -19,8 +22,22 @@ class ProductoId_y_Name {
   providedIn: 'root'
 })
 export class StoreService {
+  
+  //Properties
+  private apiRoute:string = environment.apiUrl;
+  private categoriaSelecionada:string;
+  /*
+  // private categoria:Subject<string[]>;
+  // categObs = this.categoria.asObservable();
+  */
 
-  // LLamadas a la API | Start -->
+  constructor(private http: HttpClient) {
+    this.categoriaSelecionada = '';
+  }
+
+
+// PETICIONES HTTP A LA API | Start -->
+
   //Metodo GetAllCategorias                    SELECT * FROM categorias
   getAllCategorias(): Categoria[]{
     const categorias: Categoria[] = [
@@ -43,6 +60,21 @@ export class StoreService {
     const categoria:Categoria = this.getAllCategorias().find(e => e.nombre === name) ?? new Categoria(0,'','','','')
     return categoria
   }
+  //Metodo GetCategoriaById                    SELECT * FROM categorias WHERE id=id
+  async getCategoriaById(id: number):Promise<Categoria>{
+    let categoria!:Categoria;
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceCategory>(this.apiRoute + 'category/' + id))
+      categoria = new Categoria(data.id,data.name,data.description,data.createdAt,data.image)
+      // this.http.get<interfaceCategory>(this.apiRoute + 'category/' + id ).subscribe(data => {
+      //   categoria = new Categoria(data.id,data.name,data.description,data.createdAt,data.image)})
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return categoria
+    }
+  }
+
   //Metodo GetAllProductos                     SELECT * FROM productos
   getAllProducts(): Producto[]{
     const productos: Producto[] = [
@@ -106,21 +138,8 @@ export class StoreService {
     return usuarios
   }
   //Metodo GetAllCliente                       SELECT * FROM clientes
-  // <-- End | Llamadas a la API
 
-
-  //Properties
-  private categoriaSelecionada:string;
-  /*
-  // private categoria:Subject<string[]>;
-  // categObs = this.categoria.asObservable();
-  */
-
-
-  constructor() {
-    this.categoriaSelecionada = '';
-    // this.categoria = new Subject()
-  }
+// <-- End | PETICIONES HTTP A LA API
 
 
   //Metodos Enviar Datos - Comunicacion entre Componentes
