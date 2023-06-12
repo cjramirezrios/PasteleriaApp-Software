@@ -6,43 +6,36 @@ import { environment } from '../../../environments/environment';
 
 import { Categoria, interfaceCategory } from '../../models/categoria.model'
 import { Producto, interfaceProduct } from '../../models/producto.model'
-import { Usuario } from '../../models/usuario.model'
-
-//Clase Temporal para Simular el JSON
-class ProductoId_y_Name {
-  id:number;
-  nombre:string;
-  constructor(id:number, nombre:string){
-    this.id = id;
-    this.nombre = nombre
-  }
-}
+import { Usuario, interfaceUser, UserCustomer } from '../../models/usuario.model'
+import { Cliente, interfaceCustomer, CustomerOrder } from '../../models/cliente.model'
+import { Pedido, interfaceOrder, PedidoFULL } from '../../models/pedido.model'
+import { Detalle } from '../../models/detalle.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
-  
+
   //Properties
-  private apiRoute:string = environment.apiUrl;
-  private categoriaSelecionada:number = 0;
+  private apiRoute: string = environment.apiUrl;
+  private categoriaSelecionada: number = 0;
   /*
   // private categoria:Subject<string[]>;
   // categObs = this.categoria.asObservable();
   */
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
 
-// PETICIONES HTTP A LA API | Start -->
+  // PETICIONES HTTP A LA API | Start -->
 
   //Metodo GetAllCategorias                    SELECT * FROM categorias
-  async getAllCategorias(): Promise<Categoria[]>{
+  async getAllCategorias(): Promise<Categoria[]> {
     let categorias: Categoria[] = [];
     try {
       const data = await firstValueFrom(this.http.get<interfaceCategory[]>(this.apiRoute + 'category/'))
       for (let item of data) {
-        const categoria = new Categoria(item.id,item.name,item.description,item.createdAt,item.image)
+        const categoria = new Categoria(item.id, item.name, item.description, item.createdAt, item.image)
         categorias.push(categoria)
       }
     } catch (error) {
@@ -51,13 +44,13 @@ export class StoreService {
       return categorias
     }
   }
-  //Metodo GetAllCategoriasOnlyId&Name           SELECT id,nombre FROM categorias 
-  async getAllCategoriasOnlyId_y_Name():Promise<Categoria[]> {
-    let categorias:Categoria[] = [];
-    let categoriasId_y_Name:Categoria[] = [];
+  //Metodo GetAllCategoriasOnlyId&Name         SELECT id,nombre FROM categorias 
+  async getAllCategoriasOnlyId_y_Name(): Promise<Categoria[]> {
+    let categorias: Categoria[] = [];
+    let categoriasId_y_Name: Categoria[] = [];
     try {
       categorias = await this.getAllCategorias()
-      categoriasId_y_Name = categorias.map(e => new Categoria(e.id,e.nombre,'','',''))
+      categoriasId_y_Name = categorias.map(e => new Categoria(e.id, e.nombre, '', '', ''))
     } catch (error) {
       console.log(error)
     } finally {
@@ -65,9 +58,9 @@ export class StoreService {
     }
   }
   //Metodo GetAllCategoriasOnlyName            SELECT nombre FROM categorias
-  async getAllCategoriasOnlyName():Promise<string[]>{
-    let categorias:Categoria[] = [];
-    let categoriasName:string[] = [];
+  async getAllCategoriasOnlyName(): Promise<string[]> {
+    let categorias: Categoria[] = [];
+    let categoriasName: string[] = [];
     try {
       categorias = await this.getAllCategorias()
       categoriasName = categorias.map(e => e.nombre)
@@ -78,11 +71,11 @@ export class StoreService {
     }
   }
   //Metodo GetCategoriaByName                  SELECT * FROM categorias WHERE nombre=nombre
-  async getCategoriaByName(name:string):Promise<Categoria>{
-    let categoria:Categoria = new Categoria(0,'','','','')
+  async getCategoriaByName(name: string): Promise<Categoria> {
+    let categoria: Categoria = new Categoria(0, '', '', '', '')
     try {
       const categorias = await this.getAllCategorias();
-      categoria = categorias.find(e => e.nombre === name) ?? new Categoria(0,'','','','')
+      categoria = categorias.find(e => e.nombre === name) ?? new Categoria(0, '', '', '', '')
     } catch (error) {
       console.log(error)
     } finally {
@@ -90,11 +83,11 @@ export class StoreService {
     }
   }
   //Metodo GetCategoriaById                    SELECT * FROM categorias WHERE id=id
-  async getCategoriaById(id: number):Promise<Categoria>{
-    let categoria!:Categoria;
+  async getCategoriaById(id: number): Promise<Categoria> {
+    let categoria!: Categoria;
     try {
       const data = await firstValueFrom(this.http.get<interfaceCategory>(this.apiRoute + 'category/' + id))
-      categoria = new Categoria(data.id,data.name,data.description,data.createdAt,data.image)
+      categoria = new Categoria(data.id, data.name, data.description, data.createdAt, data.image)
     } catch (error) {
       console.log(error)
     } finally {
@@ -103,12 +96,12 @@ export class StoreService {
   }
 
   //Metodo GetAllProductos                     SELECT * FROM productos
-  async getAllProducts(): Promise<Producto[]>{
+  async getAllProducts(): Promise<Producto[]> {
     let productos: Producto[] = [];
     try {
       const data = await firstValueFrom(this.http.get<interfaceProduct[]>(this.apiRoute + 'product/'))
       for (let item of data) {
-        const producto = new Producto(item.id,item.categoryId,item.name,item.description,item.price,item.createdAt,item.stock,item.image)
+        const producto = new Producto(item.id, item.categoryId, item.name, item.description, item.price, item.createdAt, item.stock, item.image)
         productos.push(producto)
       }
     } catch (error) {
@@ -118,12 +111,12 @@ export class StoreService {
     }
   }
   //Metodo GetAllProductsOnlyId&Name           SELECT id,nombre FROM productos 
-  async getAllProductsOnlyId_y_Name():Promise<Producto[]> {
-    let productos:Producto[] = [];
-    let productosId_y_Name:Producto[] = [];
+  async getAllProductsOnlyId_y_Name(): Promise<Producto[]> {
+    let productos: Producto[] = [];
+    let productosId_y_Name: Producto[] = [];
     try {
       productos = await this.getAllProducts()
-      productosId_y_Name = productos.map(e => new Producto(e.id,0,e.nombre,'',0,'',0,''))
+      productosId_y_Name = productos.map(e => new Producto(e.id, 0, e.nombre, '', 0, '', 0, ''))
     } catch (error) {
       console.log(error)
     } finally {
@@ -131,11 +124,11 @@ export class StoreService {
     }
   }
   //Metodo GetProductById                      SELECT * FROM productos WHERE idProducto = idProducto
-  async getProductById(id:number):Promise<Producto>{
-    let producto!:Producto;
+  async getProductById(id: number): Promise<Producto> {
+    let producto!: Producto;
     try {
       const data = await firstValueFrom(this.http.get<interfaceProduct>(this.apiRoute + 'product/' + id))
-      producto = new Producto(data.id,data.categoryId,data.name,data.description,data.price,data.createdAt,data.stock,data.image)
+      producto = new Producto(data.id, data.categoryId, data.name, data.description, data.price, data.createdAt, data.stock, data.image)
     } catch (error) {
       console.log(error)
     } finally {
@@ -143,12 +136,12 @@ export class StoreService {
     }
   }
   //Metodo GetProductsByIdCategoria            SELECT * FROM productos WHERE idCategoria = idCategoria
-  async getProductsByIdCategoria(idCategoria:number):Promise<Producto[]>{
-    let productos:Producto[]=[];
+  async getProductsByIdCategoria(idCategoria: number): Promise<Producto[]> {
+    let productos: Producto[] = [];
     try {
       const data = await firstValueFrom(this.http.get<interfaceCategory>(this.apiRoute + 'category/' + idCategoria))
       for (let item of data.products) {
-        const producto = new Producto(item.id,item.categoryId,item.name,item.description,item.price,item.createdAt,item.stock,item.image)
+        const producto = new Producto(item.id, item.categoryId, item.name, item.description, item.price, item.createdAt, item.stock, item.image)
         productos.push(producto)
       }
     } catch (error) {
@@ -158,32 +151,126 @@ export class StoreService {
     }
   }
 
-  //Metodo GetAllUsuario                       SELECT * FROM usuarios
-  getAllUsuario():Usuario[]{
-    const usuarios: Usuario[] = [
-      new Usuario(1,'','','','admin'),
-      new Usuario(2,'','','','admin'),
-      new Usuario(3,'','','','cliente'),
-      new Usuario(4,'','','','cliente'),
-      new Usuario(5,'','','','cliente'),
-      new Usuario(6,'','','','cliente'),
-      new Usuario(7,'','','','cliente'),
-      new Usuario(8,'','','','cliente'),
-    ]
-    return usuarios
+  //Metodo GetAllUsers                         SELECT * FROM usuarios
+  async getAllUsers(): Promise<UserCustomer[]> {
+    let usuarios: UserCustomer[] = [];
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceUser[]>(this.apiRoute + 'user/'))
+      for (let item of data) {
+        const usuario = new Usuario(item.id, item.email, item.password, item.role, item.createAt)
+        let cliente = new Cliente(0, 0, '', '', '', '', '')
+        if (item.role === 'customer') {
+          cliente = new Cliente(item.customer.id, item.customer.userId, item.customer.name, item.customer.lastName, item.customer.address, item.customer.phone, item.customer.createdAt)
+        }
+        const user_client = new UserCustomer(usuario, cliente)
+        usuarios.push(user_client)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return usuarios
+    }
   }
-  //Metodo GetAllCliente                       SELECT * FROM clientes
+  //Metodo GetUserById                         SELECT * FROM usuarios WHERE id=id
+  async getUserById(id: number): Promise<UserCustomer> {
+    let persona!: UserCustomer
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceUser>(this.apiRoute + 'user/' + id))
+      const usuario = new Usuario(data.id, data.email, data.password, data.role, data.createAt)
+      let cliente = new Cliente(0, 0, '', '', '', '', '')
+      if (data.role === 'customer') {
+        cliente = new Cliente(data.customer.id, data.customer.userId, data.customer.name, data.customer.lastName, data.customer.address, data.customer.phone, data.customer.createdAt)
+      }
+      persona = new UserCustomer(usuario, cliente)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return persona
+    }
+  }
 
-// <-- End | PETICIONES HTTP A LA API
+  //Metodo GetAllCustomers                     SELECT * FROM clientes
+  async getAllCustomers(): Promise<UserCustomer[]> {
+    let clientes: UserCustomer[] = [];
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceCustomer[]>(this.apiRoute + 'customer/'))
+      for (let item of data) {
+        const cliente = new Cliente(item.id, item.userId, item.name, item.lastName, item.address, item.phone, item.createdAt)
+        const usuario = new Usuario(item.user.id, item.user.email, item.user.password, item.user.role, item.user.createAt)
+        const client_user = new UserCustomer(usuario, cliente)
+        clientes.push(client_user)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return clientes
+    }
+  }
+  //Metodo GetAllCustomerById                  SELECT * FROM clientes WHERE id=id
+  async getCustomerById(id: number): Promise<CustomerOrder> {
+    let clientePedidos!: CustomerOrder
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceCustomer>(this.apiRoute + 'customer/' + id))
+      const cliente = new Cliente(data.id, data.userId, data.name, data.lastName, data.address, data.phone, data.createdAt)
+      let pedidos: Pedido[] = []
+      for (let item of data.pedidos) {
+        const pedido = new Pedido(item.id, item.customerId, item.createdAt, item.total)
+        pedidos.push(pedido)
+      }
+      clientePedidos = new CustomerOrder(cliente, pedidos)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return clientePedidos
+    }
+  }
+
+  //Metodo GetAllOrders                        SELECT * FROM pedidos
+  async getAllOrders(): Promise<Pedido[]> {
+    let pedidos: Pedido[] = [];
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceOrder[]>(this.apiRoute + 'pedido/'))
+      for (let item of data) {
+        const pedido = new Pedido(item.id, item.customerId, item.createdAt, item.total)
+        pedidos.push(pedido)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return pedidos
+    }
+  }
+  //Metodo GetOrderById                        SELECT * FROM pedidos WHERE id=id
+  async getOrderById(id:string): Promise<PedidoFULL> {
+    let pedidoFull!: PedidoFULL;
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceOrder>(this.apiRoute + 'pedido/' + id))
+      const pedido = new Pedido(data.id, data.customerId, data.createdAt, data.total)
+      const cliente = new Cliente(data.customer.id,data.customer.userId,data.customer.name,data.customer.lastName,data.customer.address,data.customer.phone,data.customer.createdAt)
+      const usuario = new Usuario(data.customer.user.id,data.customer.user.email,data.customer.user.password,data.customer.user.role,data.customer.user.createAt)
+      let items:Detalle[] = []
+      for (let item of data.items) {
+        const i = new Detalle(item.id,item.pedidoId,item.productId,item.createAt,item.amount)
+        items.push(i)
+      }
+      pedidoFull = new PedidoFULL(pedido,cliente,usuario,items)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return pedidoFull
+    }
+  }
+
+  // <-- End | PETICIONES HTTP A LA API
 
 
   //Metodos Enviar Datos - Comunicacion entre Componentes
-  sendCategoria(id:number){
+  sendCategoria(id: number) {
     this.categoriaSelecionada = id;
   }
 
   //Metodos Obtener Datos - Comunicacion entre Componentes
-  catchCategoria():number{
+  catchCategoria(): number {
     return this.categoriaSelecionada
   }
 

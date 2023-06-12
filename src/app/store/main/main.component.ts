@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 
 import { StoreService } from '../services/store.service';
-import { Categoria } from '../../models/categoria.model'
+
+import { Cliente, CustomerOrder } from 'src/app/models/cliente.model';
+import { Usuario, UserCustomer } from 'src/app/models/usuario.model';
+import { Pedido, PedidoFULL  } from '../../models/pedido.model'
+import { Detalle } from '../../models/detalle.model';
 
 @Component({
   selector: 'app-main',
@@ -10,8 +14,15 @@ import { Categoria } from '../../models/categoria.model'
 })
 export class MainComponent {
 
-  categoria: Categoria = new Categoria(0, '', '', '', '');
-
+  // clientes: Cliente[] = [] 
+  // usuarios: Usuario[] = []
+  pedidos: Pedido[] = []
+  detalles: Detalle[] = []
+  cliente = new Cliente(0,0,'','','','','')
+  usuario = new Usuario(0,'','','','')
+  pedido = new Pedido('',0,'',0)
+  pedidoFull = new PedidoFULL(this.pedido,this.cliente,this.usuario,this.detalles)
+  
   constructor(private storeService: StoreService) {
     // this.loadData();
   }
@@ -20,12 +31,24 @@ export class MainComponent {
 
   async loadData() {
     console.log('Hola desde Main Component')
+    const id = "2B4F8D7C-1E6A-9B3C-5D6E-7F8A9B0C1D2E"
     try {
-      const data = await this.storeService.getCategoriaById(1);
+      const data = await this.storeService.getOrderById(id);
       console.log("Data: " + data)
-      console.log(data.id, data.nombre, data.descripcion, data.createdAt, data.imagen)
-      this.categoria = data
-      console.log("Categoria After: " + this.categoria)
+      console.log("Pedido: " + data.pedido)
+      console.log("Cliente: " + data.cliente)
+      console.log("Usuario: " + data.usuario)
+      console.log("Items: " + data.items)
+      this.pedidoFull = new PedidoFULL(data.pedido,data.cliente,data.usuario,data.items)
+      console.log("After OrderFull: " + this.pedidoFull)
+      console.log("After Pedido: " + this.pedidoFull.pedido)
+      console.log("After Cliente: " + this.pedidoFull.cliente)
+      console.log("After Usuario: " + this.pedidoFull.usuario)
+      console.log("After Items: " + this.pedidoFull.items)
+      for (let i of this.pedidoFull.items) {
+        console.log(i.id,i.idPedido,i.idProducto,i.cantidad,i.createdAt)
+      }
+
 
     } catch (error) {
       console.log(error)
