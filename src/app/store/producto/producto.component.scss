@@ -92,6 +92,10 @@
     background-color: #F5F5F5 !important;
 }
 
+.alturaPantalla {
+    min-height: calc(100vh - 150px);
+}
+
 // BOOTSTRAP 4.5.3 Element a | Start -->
 
 a {

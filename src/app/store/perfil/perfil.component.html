@@ -18,7 +18,7 @@
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
                         <a (click)="scrollTo('eliminar_cuenta')" [ngClass]="{'active':rastreador === 2}"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between">
+                            class="b-perfil nav-link d-flex align-items-center justify-content-between" *ngIf="usuario.rol==='customer'">
                             <span>Eliminar Cuenta</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
@@ -39,13 +39,13 @@
                     <span class="bd-content-title">Mis Datos Personales</span>
                 </h4>
                 <div class="list-group mt-3 mb-2">
-                    <div class="list-group-item list-group-item-action">
+                    <div class="list-group-item list-group-item-action" *ngIf="usuario.rol==='customer'">
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Nombre</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{nombre}} {{apellido}}</span>
+                                <span class="form-text">{{cliente.nombres}} {{cliente.apellidos}}</span>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                                 <label class="form-label">Correo</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{correo}}</span>
+                                <span class="form-text">{{usuario.email}}</span>
                             </div>
                         </div>
                     </div>
@@ -65,33 +65,33 @@
                                 <label class="form-label">Contraseña</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{password}}</span>
+                                <span class="form-text">****************</span>
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item list-group-item-action">
+                    <div class="list-group-item list-group-item-action" *ngIf="usuario.rol==='customer'">
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Celular:</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{celular}}</span>
+                                <span class="form-text">{{cliente.telefono}}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item list-group-item-action">
+                    <div class="list-group-item list-group-item-action" *ngIf="usuario.rol==='customer'">
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Dirección:</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{direccion}}</span>
+                                <span class="form-text">{{cliente.direccion}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div #eliminar_cuenta class="bg-light-nav_perfil p-3 mb-30 rounded-3">
+            <div #eliminar_cuenta class="bg-light-nav_perfil p-3 mb-30 rounded-3" *ngIf="usuario.rol==='customer'">
                 <h4 class="headers">
                     <span class="bd-content-title">Eliminar Cuenta</span>
                 </h4>

@@ -58,10 +58,10 @@
       <span (click)="navigateToPerfil()" class="navbar-text hop" *ngIf="logueado">
         Mi Cuenta
       </span>
-      <span (click)="setLogueado(false)" class="navbar-text hop" *ngIf="logueado">
+      <span (click)="logOut(false)" class="navbar-text hop" *ngIf="logueado">
         Log Out
       </span>
-      <div (click)="navigateToCarrito()" class="carrito" *ngIf="logueado">
+      <div (click)="navigateToCarrito()" class="carrito" *ngIf="logueado && usuario.rol === 'customer'">
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart-fill car"
           viewBox="0 0 16 16">
           <path

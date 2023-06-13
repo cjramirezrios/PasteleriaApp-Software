@@ -1,66 +1,76 @@
-<div class="contenedor">
-  <div class="seccion">
-    <h2>Detalle del Pedido</h2>
-  </div>
-  <div class="principal">
-    <div class="card mb-3 detalle">
-      <div class="row g-0">
-        <div class="col-md-4">
-          <img src="https://proingra.com/wp-content/uploads/2022/03/10-MAR-BRAHMAN-01-2.jpg"
-            class="img-fluid rounded-start prin" alt="...">
-        </div>
-        <div class="col-md-8">
-          <div class="card-body">
-            <div class="content">
-              <h5 class="card-title">Oscar Martinez Perez</h5>
-              <h4>{{'2023-02-14 14:30'}}</h4>
-              <div class="estado">
-                <p class="card-text">Estado</p>
-                <select class="form-select" aria-label="Default select example">
-                  <option value="1">En proceso</option>
-                  <option selected value="2">Finalizado</option>
-                </select>
-              </div>
-            </div>
-            <h5 class="card-title">N°78452</h5>
-            <h5 class="card-title">Direccion: Av. Los Virreyes Mz. BLt. 14. Cooperativa viña SanFrancisco</h5>
-            <div class="productos">
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="https://dc.com.pe/wp-content/uploads/2021/12/x2.jpg" class="img-fluid rounded-start"
-                      alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Producto: Chococafe</h5>
-                      <p class="card-text">Precio: {{80 | currency}}</p>
-                      <p class="card-text">Cantidad: 2 </p>
-                      <p class="card-text">Costo: {{80 | currency}} </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="card mb-3" style="max-width: 540px;">
-                <div class="row g-0">
-                  <div class="col-md-4">
-                    <img src="https://dc.com.pe/wp-content/uploads/2021/12/x3.jpg" class="img-fluid rounded-start"
-                      alt="...">
-                  </div>
-                  <div class="col-md-8">
-                    <div class="card-body">
-                      <h5 class="card-title">Producto: Pastel de vainilla</h5>
-                      <p class="card-text">Precio: {{80 | currency}}</p>
-                      <p class="card-text">Cantidad: 2 </p>
-                      <p class="card-text">Costo: {{80 | currency}} </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+<div class="container-fluid">
+  <div class="row px-xl-5">
+    <div class="col-12">
+      <div class="row pb-3 alturaPantalla">
+        <div class="col-12">
 
+          <div class="row">
+            <div class="col-12 pb-1 mb-3">
+              <div class="addP">
+                <span class="headers">Detalle del Pedido</span>
+              </div>
             </div>
-            <h5 class="card-title">Total {{160 | currency}}</h5>
           </div>
+
+          <div class="row align-content-start p-0 justify-content-md-center mx-2">
+            <div class="card p-2 col-12">
+              <div class="card-body row">
+
+                <div class="col-12 mb-4">
+                  <div class="content">
+                    <span class="card-title mb-2">{{cliente.nombres}} {{cliente.apellidos}}</span>
+                    <br>
+                    <span class="me-4"><strong>Feha: </strong>{{obtenerFecha(pedido.createdAt)[0]}}</span>
+                    <span><strong>Hora: </strong>{{obtenerFecha(pedido.createdAt)[1]}}</span>
+                    <div class="estado mb-2">
+                      <span class="card-text"><strong>Estado: </strong></span>
+                      <select class="form-select" aria-label="Default select example" *ngIf="usuario.rol!=='customer'">
+                        <option value="1">En proceso</option>
+                        <option selected value="2">Finalizado</option>
+                      </select>
+                      <span>Finalizado</span>
+                    </div>
+                    <span class="card-title mb-2"><strong>N° Pedido: </strong>{{pedido.id}}</span>
+                    <br>
+                    <span class="card-title mb-2"><strong>Direccion: </strong>{{cliente.direccion}}</span>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="productos row">
+                    <div class="card col-lg-8 col-md-10 col-sm-12 mb-3 mx-2" style="max-width: 540px;" *ngFor="let item of detailProduct">
+                      <div class="row g-0">
+
+                        <div class="d-flex col-md-4 col-sm-12">
+                          <div class="d-flex row align-items-center align-content-around">
+                            <div class="col-12">
+                              <img src="{{item.producto.imagen}}" class="img-fluid rounded-start" alt="...">
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="d-flex col-md-8 col-sm-12 pt-0 mt-0">
+                          <div class="card-body">
+                            <span class="card-title"><strong>Producto: </strong>{{item.producto.nombre}}</span><br>
+                            <span class="card-text"><strong>Precio: </strong>S/{{item.producto.precio}}.00</span><br>
+                            <span class="card-text"><strong>Cantidad: </strong>{{item.detalle.cantidad}} </span><br>
+                            <span class="card-text"><strong>Costo: </strong>S/{{item.producto.precio*item.detalle.cantidad}}.00 </span>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <span class="card-title"><strong>Total: </strong>S/{{pedido.total}}.00</span>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>

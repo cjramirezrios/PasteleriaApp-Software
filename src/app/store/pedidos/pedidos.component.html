@@ -1,83 +1,56 @@
-<div class="contenedor">
-  <div class="seccion">
-    <h2>Pedidos</h2>
-  </div>
-  <div class="principal">
-    <div class="row">
-      <div class="col-sm-6 mb-3 mb-sm-0 ped">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex cont">
-              <h5 class="card-title">N°78452</h5>
-              <h4>{{'2023-02-14 14:30'}}</h4>
+<div class="container-fluid">
+  <div class="row px-xl-5">
+    <div class="col-12">
+      <div class="row pb-3 alturaPantalla">
+        <div class="col-12">
+
+          <div class="row">
+            <div class="col-12 pb-1 mb-3">
+              <div class="addP">
+                <span class="headers">Pedidos</span>
+              </div>
             </div>
-            <div class="content">
-              <p class="card-text">Estado</p>
-              <span class="badge rounded-pill text-bg-warning">En proceso</span>
-            </div>
-            <div class="content">
-              <p class="card-text">Total</p>
-              <p>{{80 | currency}}</p>
-            </div>
-            <a href="store/pedido/detalle" class="btn btn-primary">Ver detalle</a>
           </div>
-        </div>
-      </div>
-      <div class="col-sm-6 mb-3 mb-sm-0 ped">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex cont">
-              <h5 class="card-title">N°78452</h5>
-              <h4>{{'2023-02-14 14:30'}}</h4>
+  
+          <div class="row align-content-start p-0 justify-content-md-center">
+            <div class="col-lg-6 col-md-10 col-sm-12 mb-3 m-0" *ngFor="let item of pedidos">
+              <div class="card p-2">
+                <div class="card-body row">
+                  <div class="col-12 mb-2">
+                    <span class="card-title"><strong>N° Pedido: </strong>{{item.id}}</span>
+                  </div>
+                  <div class="col-12 mb-2">
+                    <span class="me-4"><strong>Feha: </strong> {{obtenerFecha(item.createdAt)[0]}}</span>
+                    <span><strong>Hora: </strong> {{obtenerFecha(item.createdAt)[1]}}</span>
+                  </div>
+                  <div class="col-12 mb-2">
+                    <div class="content">
+                      <span class="card-text"><strong>Estado: </strong></span>
+                      <span class="badge rounded-pill text-bg-warning">Finalizado</span>
+                    </div>
+                  </div>
+                  <div class="col-12 mb-2">
+                    <div class="row">
+                      <div class="col-6 justify-content-end">
+                        <div class="content">
+                          <span class="card-text"><strong>Total: </strong></span>
+                          <span>S/{{item.total}}.00</span>
+                        </div>
+                      </div>
+                      <div class="col-6">
+                        <div class="row justify-content-end">
+                          <div class="col-6">
+                            <button id="btnSearchProd" class="btn" (click)="navegarDetalle(item.id)">Ver Detalle</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="content">
-              <p class="card-text">Estado</p>
-              <span class="badge rounded-pill text-bg-warning">En proceso</span>
-            </div>
-            <div class="content">
-              <p class="card-text">Total</p>
-              <p>{{80 | currency}}</p>
-            </div>
-            <a href="store/pedido/detalle" class="btn btn-primary">Ver detalle</a>
           </div>
-        </div>
-      </div>
-      <div class="col-sm-6 mb-3 mb-sm-0 ped">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex cont">
-              <h5 class="card-title">N°78452</h5>
-              <h4>{{'2023-02-14 14:30'}}</h4>
-            </div>
-            <div class="content">
-              <p class="card-text">Estado</p>
-              <span class="badge rounded-pill text-bg-warning">En proceso</span>
-            </div>
-            <div class="content">
-              <p class="card-text">Total</p>
-              <p>{{80 | currency}}</p>
-            </div>
-            <a href="store/pedido/detalle" class="btn btn-primary">Ver detalle</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 mb-3 mb-sm-0 ped">
-        <div class="card">
-          <div class="card-body">
-            <div class="d-flex cont">
-              <h5 class="card-title">N°78452</h5>
-              <h4>{{'2023-02-14 14:30'}}</h4>
-            </div>
-            <div class="content">
-              <p class="card-text">Estado</p>
-              <span class="badge rounded-pill text-bg-warning">En proceso</span>
-            </div>
-            <div class="content">
-              <p class="card-text">Total</p>
-              <p>{{80 | currency}}</p>
-            </div>
-            <a href="store/pedido/detalle" class="btn btn-primary">Ver detalle</a>
-          </div>
+
         </div>
       </div>
     </div>

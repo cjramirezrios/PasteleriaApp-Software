@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 
 import { StoreService } from '../services/store.service';
 
+import { Cliente } from '../../models/cliente.model';
+import { Usuario, UserCustomer } from '../../models/usuario.model';
+
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
@@ -18,6 +21,9 @@ export class PerfilComponent {
   direccion:string = `Av. Los Virreyes #135 Coop. Viña San Francisco
   Mz. B Lt. 14 Piso 1 Santa Anita`;
 
+  usuario: Usuario = new Usuario(0,'','','','')
+  cliente: Cliente = new Cliente(0,0,'','','','','')
+
   rastreador:number = 1;
 
   @ViewChild('datos_personales') idDatosPer!: ElementRef;
@@ -26,9 +32,12 @@ export class PerfilComponent {
   constructor(private router:Router,private storeService:StoreService){
     if (this.storeService.getUserLoggedId() === 0) {
       this.router.navigateByUrl('/store/inicio')
+    } else {
+      this.fetchCustomer(this.storeService.getUserLoggedId())
     }
   }
 
+  //Metodos
   scrollTo(elementId: string) {
     let element: any;
     switch (elementId) {
@@ -44,6 +53,16 @@ export class PerfilComponent {
         break;
       default:
         break;
+    }
+  }
+
+  async fetchCustomer(id:number){
+    try {
+      const data = await this.storeService.getUserById(id)
+      this.usuario = data.usuario
+      this.cliente = data.cliente
+    } catch (error) {
+      console.log(error)
     }
   }
 

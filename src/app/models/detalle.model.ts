@@ -1,3 +1,5 @@
+import { Producto } from './producto.model'
+
 export class Detalle {
     id: number
     idPedido: string
@@ -22,4 +24,13 @@ export interface interfaceDetail {
     amount: number,
     pedidoId: string,
     productId: number
+}
+
+export class DetailProduct {
+    detalle: Detalle
+    producto: Producto
+    constructor(detalle: Detalle, producto: Producto) {
+        this.detalle = detalle
+        this.producto = producto
+    }
 }

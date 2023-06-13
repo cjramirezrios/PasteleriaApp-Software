@@ -3,6 +3,12 @@ import { Router } from '@angular/router';
 
 import { StoreService } from '../../services/store.service';
 
+import { Cliente, CustomerOrder } from '../../../models/cliente.model';
+import { Usuario, UserCustomer } from '../../../models/usuario.model';
+import { Pedido, PedidoFULL  } from '../../../models/pedido.model';
+import { Detalle, DetailProduct  } from '../../../models/detalle.model';
+import { Producto  } from '../../../models/producto.model';
+
 @Component({
   selector: 'app-detalle-pedido',
   templateUrl: './detalle-pedido.component.html',
@@ -10,10 +16,44 @@ import { StoreService } from '../../services/store.service';
 })
 export class DetallePedidoComponent {
 
+  usuario: Usuario = new Usuario(0,'','','','')
+  cliente: Cliente = new Cliente(0,0,'','','','','')
+  pedido: Pedido = new Pedido('',0,'',0)
+  detailProduct: DetailProduct[] = []
+
   constructor(private router:Router,private storeService:StoreService){
     if (this.storeService.getUserLoggedId() === 0) {
       this.router.navigateByUrl('/store/inicio')
+    } else {
+      if (this.storeService.catchPedido() === '') {
+        this.router.navigateByUrl('/store/pedido')
+      } else {
+        this.fetchDetail()
+      }
     }
+  }
+
+  //Metodos
+  async fetchDetail() {
+    try {
+      const id = this.storeService.catchPedido()
+      const data = await this.storeService.getOrderById(id)
+      this.usuario = data.usuario
+      this.cliente = data.cliente
+      this.pedido = data.pedido
+      for (let item of data.items) {
+        const prod = await this.storeService.getProductById(item.idProducto)
+        const detProd = new DetailProduct(item,prod)
+        this.detailProduct.push(detProd)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  obtenerFecha(date: string):string[]{
+    const s1 = date.split('.')
+    const fecha_hora = s1[0].split('T')
+    return fecha_hora
   }
 
 }

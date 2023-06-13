@@ -19,6 +19,8 @@ export class StoreService {
   //Properties
   private apiRoute: string = environment.apiUrl;
   private categoriaSelecionada: number = 0;
+  private productoSelected: number = 0;
+  private pedidoSelected: string = '';
   private userLoginId: number = 0;
   /*
   // private categoria:Subject<string[]>;
@@ -269,6 +271,12 @@ export class StoreService {
   sendCategoria(id: number) {
     this.categoriaSelecionada = id;
   }
+  sendProducto(id: number) {
+    this.productoSelected = id;
+  }
+  sendPedido(id: string) {
+    this.pedidoSelected = id;
+  }
   sendUserLogged(id: number) {
     this.userLoginId = id
   }
@@ -277,21 +285,38 @@ export class StoreService {
   catchCategoria(): number {
     return this.categoriaSelecionada
   }
+  catchProducto(): number {
+    return this.productoSelected
+  }
+  catchPedido(): string {
+    return this.pedidoSelected
+  }
   catchUserLogged(): number {
     return this.userLoginId
   }
+
+  //Carrito LocalStorage
+  saveCarrito(items:any[][]){
+    localStorage.setItem('carrito',JSON.stringify(items))
+  }
+  getCarrito():any[][]{
+    const items:any[][] = JSON.parse(localStorage.getItem('carrito') ?? '[]') 
+    return items
+  }
+  removeCarrito(){
+    localStorage.removeItem('carrito')
+  }
+
 
   //Guardar Token en el LocalStorage
   saveUserLoggedId(id:number) {
     localStorage.setItem('IdUserLogged',id.toString())
   }
-
   //Obtener Token del LocalStorage
   getUserLoggedId():number {
     const id:string = localStorage.getItem('IdUserLogged') ?? '0'
     return Number.parseInt(id)
   }
-
   //Eliminar Token del LocalStorage
   removeUserLoggedId() {
     localStorage.removeItem('IdUserLogged')
