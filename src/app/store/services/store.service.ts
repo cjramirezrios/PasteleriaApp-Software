@@ -19,6 +19,7 @@ export class StoreService {
   //Properties
   private apiRoute: string = environment.apiUrl;
   private categoriaSelecionada: number = 0;
+  private userLoginId: number = 0;
   /*
   // private categoria:Subject<string[]>;
   // categObs = this.categoria.asObservable();
@@ -206,7 +207,7 @@ export class StoreService {
       return clientes
     }
   }
-  //Metodo GetAllCustomerById                  SELECT * FROM clientes WHERE id=id
+  //Metodo GetCustomerById                  SELECT * FROM clientes WHERE id=id
   async getCustomerById(id: number): Promise<CustomerOrder> {
     let clientePedidos!: CustomerOrder
     try {
@@ -268,10 +269,32 @@ export class StoreService {
   sendCategoria(id: number) {
     this.categoriaSelecionada = id;
   }
+  sendUserLogged(id: number) {
+    this.userLoginId = id
+  }
 
   //Metodos Obtener Datos - Comunicacion entre Componentes
   catchCategoria(): number {
     return this.categoriaSelecionada
+  }
+  catchUserLogged(): number {
+    return this.userLoginId
+  }
+
+  //Guardar Token en el LocalStorage
+  saveUserLoggedId(id:number) {
+    localStorage.setItem('IdUserLogged',id.toString())
+  }
+
+  //Obtener Token del LocalStorage
+  getUserLoggedId():number {
+    const id:string = localStorage.getItem('IdUserLogged') ?? '0'
+    return Number.parseInt(id)
+  }
+
+  //Eliminar Token del LocalStorage
+  removeUserLoggedId() {
+    localStorage.removeItem('IdUserLogged')
   }
 
 }

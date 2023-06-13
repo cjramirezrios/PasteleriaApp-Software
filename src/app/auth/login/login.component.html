@@ -8,17 +8,26 @@
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
-      <input type="email" formControlName="email" class="form-control" id="Email" aria-describedby="emailHelp">
+      <input [(ngModel)]="inputEmail" type="email" formControlName="email" class="form-control" id="Email" aria-describedby="emailHelp">
       
     </div>
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-      <input type="password" formControlName="password" class="form-control" id="Password">
+      <input [(ngModel)]="inputPassword" type="password" formControlName="password" class="form-control" id="Password">
     </div>
     
-    <div class="login-btn">
-      <button type="submit" class="btn btn-warning " (click)="redirectStore()" >Ingresar</button>
+    <!-- TEMPORAL START -->
+    <div *ngIf="campoIncorrecto" class="mb-3">
+      <span style="color: #ff0000;">*Correo y/o contraseña incorrecta</span>
     </div>
+    <div class="login-btn">
+      <button type="submit" class="btn btn-warning " (click)="validarUsuario()" >Ingresar</button>
+    </div>
+    <!-- TEMPORAL END -->
+
+    <!-- <div class="login-btn">
+      <button type="submit" class="btn btn-warning " (click)="redirectStore()" >Ingresar</button>
+    </div> -->
     <div class="botones link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">
       <a (click)="redirectRegistro()"> Registrate aquí</a>
     </div>

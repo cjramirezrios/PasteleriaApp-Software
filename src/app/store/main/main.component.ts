@@ -34,22 +34,10 @@ export class MainComponent {
     const id = "2B4F8D7C-1E6A-9B3C-5D6E-7F8A9B0C1D2E"
     try {
       const data = await this.storeService.getOrderById(id);
-      console.log("Data: " + data)
-      console.log("Pedido: " + data.pedido)
-      console.log("Cliente: " + data.cliente)
-      console.log("Usuario: " + data.usuario)
-      console.log("Items: " + data.items)
       this.pedidoFull = new PedidoFULL(data.pedido,data.cliente,data.usuario,data.items)
-      console.log("After OrderFull: " + this.pedidoFull)
-      console.log("After Pedido: " + this.pedidoFull.pedido)
-      console.log("After Cliente: " + this.pedidoFull.cliente)
-      console.log("After Usuario: " + this.pedidoFull.usuario)
-      console.log("After Items: " + this.pedidoFull.items)
       for (let i of this.pedidoFull.items) {
         console.log(i.id,i.idPedido,i.idProducto,i.cantidad,i.createdAt)
       }
-
-
     } catch (error) {
       console.log(error)
     }

@@ -118,9 +118,7 @@ export class ProductoComponent implements OnInit {
       for(let nSplit of p.nombreSplit){
         let s:string = nSplit.toLowerCase()
         if(s.includes(this.inputSearchProducto.toLowerCase())){
-          console.log('beforeSearchByIdProd: '+this.productoSeleccionado.id)
           await this.searchByIdProd(p.id);
-          console.log('AfterSearchByIdProd: '+this.productoSeleccionado.id)
           this.productos.push(this.productoSeleccionado)
           break
         }

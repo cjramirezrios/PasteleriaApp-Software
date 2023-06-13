@@ -1,4 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Router } from '@angular/router';
+
+import { StoreService } from '../services/store.service';
 
 @Component({
   selector: 'app-perfil',
@@ -20,7 +23,11 @@ export class PerfilComponent {
   @ViewChild('datos_personales') idDatosPer!: ElementRef;
   @ViewChild('eliminar_cuenta') idElimCta!: ElementRef;
 
-  constructor(){}
+  constructor(private router:Router,private storeService:StoreService){
+    if (this.storeService.getUserLoggedId() === 0) {
+      this.router.navigateByUrl('/store/inicio')
+    }
+  }
 
   scrollTo(elementId: string) {
     let element: any;

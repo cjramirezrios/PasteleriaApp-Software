@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule} from '@angular/common/http'
 
 import { StoreService } from './store/services/store.service'
+import { AuthService } from './auth/services/auth.service'
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,7 +17,7 @@ import { AppComponent } from './app.component';
     AppRoutingModule,
     HttpClientModule
   ],
-  providers: [StoreService],
+  providers: [StoreService,AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
