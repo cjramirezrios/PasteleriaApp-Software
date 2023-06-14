@@ -24,7 +24,9 @@ export interface interfaceUser {
     password: string,
     role: string,
     createAt: string,
-    customer: interfaceCustomer
+    customer: interfaceCustomer,
+    ok: boolean,
+    msg: string
 }
 
 export class UserCustomer {
@@ -34,4 +36,17 @@ export class UserCustomer {
         this.usuario = usuario
         this.cliente = cliente
     }
+}
+
+export interface interfaceAuthUser {
+    ok: boolean,
+    id: number,
+    name: string,
+    role: string,
+    lastName: string,
+    address: string,
+    phone: string,
+    email: string,
+    token: string,
+    msg: string
 }

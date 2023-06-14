@@ -79,14 +79,20 @@ export class ProductoComponent implements OnInit {
 
   async searchByCategoria(id: number) {
     this.categoriaSelecionada = id;
-    //--> METODO SERVICE GetProductsByIdCategoria <--
-    const productosByCategoria: Producto[] = await this.storeService.getProductsByIdCategoria(id)
-    this.productos = productosByCategoria
+    try {
+      const productosByCategoria: Producto[] = await this.storeService.getProductsByIdCategoria(id)
+      this.productos = productosByCategoria
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async searchByIdProd(id: number) {
-    //--> METODO SERVICE GetProductById <--
-    this.productoSeleccionado = await this.storeService.getProductById(id)
+    try {
+      this.productoSeleccionado = await this.storeService.getProductById(id)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   async searchByNameProd() {
@@ -102,22 +108,25 @@ export class ProductoComponent implements OnInit {
     this.productos = []
     this.categoriaSelecionada = 0
 
-    //--> METODO SERVICE GetAllProductsOnlyId&Name <--
-    const productosOnlyIdyName: Producto[] = await this.storeService.getAllProductsOnlyId_y_Name()
+    try {
+      const productosOnlyIdyName: Producto[] = await this.storeService.getAllProductsOnlyId_y_Name()
 
-    let productosSplitName: ProductoNameSplit[] = [];
-    for (let p of productosOnlyIdyName) {
-      productosSplitName.push(new ProductoNameSplit(p.id, p.nombre.split(' ')))
-    }
-    for (let p of productosSplitName) {
-      for (let nSplit of p.nombreSplit) {
-        let s: string = nSplit.toLowerCase()
-        if (s.includes(this.inputSearchProducto.toLowerCase())) {
-          await this.searchByIdProd(p.id);
-          this.productos.push(this.productoSeleccionado)
-          break
+      let productosSplitName: ProductoNameSplit[] = [];
+      for (let p of productosOnlyIdyName) {
+        productosSplitName.push(new ProductoNameSplit(p.id, p.nombre.split(' ')))
+      }
+      for (let p of productosSplitName) {
+        for (let nSplit of p.nombreSplit) {
+          let s: string = nSplit.toLowerCase()
+          if (s.includes(this.inputSearchProducto.toLowerCase())) {
+            await this.searchByIdProd(p.id);
+            this.productos.push(this.productoSeleccionado)
+            break
+          }
         }
       }
+    } catch (error) {
+      console.log(error)
     }
   }
 

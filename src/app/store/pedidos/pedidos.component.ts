@@ -17,20 +17,39 @@ export class PedidosComponent {
   pedidos: Pedido[] = []
 
   constructor(private router:Router,private storeService:StoreService){
-    if (this.storeService.getUserLoggedId() === 0) {
-      this.router.navigateByUrl('/store/inicio')
-    }else {
-      this.storeService.sendPedido('')
-      this.fetchOrders(this.storeService.getUserLoggedId())
-    }
+    this.tokenValidation()
   }
 
   //Metodos
-  async fetchOrders(id:number) {
+  async tokenValidation() {
     try {
-      const {cliente} = await this.storeService.getUserById(id)
-      const data = await this.storeService.getCustomerById(cliente.id)
+      const data = await this.storeService.getUserByToken()
+      if (data.usuario.id > 0) {
+        this.storeService.sendPedido('')
+        if (data.usuario.rol === 'customer'){
+          this.fetchOrdersByCustomer(data.cliente.id)
+        } else {
+          this.fetchAllOrders()
+        }
+      } else {
+        this.router.navigateByUrl('/store/inicio')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async fetchOrdersByCustomer(id:number) {
+    try {
+      const data = await this.storeService.getCustomerById(id)
       this.pedidos = data.pedidos
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  async fetchAllOrders() {
+    try {
+      const data = await this.storeService.getAllOrders()
+      this.pedidos = data
     } catch (error) {
       console.log(error)
     }

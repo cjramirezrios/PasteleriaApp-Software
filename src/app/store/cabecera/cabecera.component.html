@@ -58,7 +58,7 @@
       <span (click)="navigateToPerfil()" class="navbar-text hop" *ngIf="logueado">
         Mi Cuenta
       </span>
-      <span (click)="logOut(false)" class="navbar-text hop" *ngIf="logueado">
+      <span (click)="logOut()" class="navbar-text hop" *ngIf="logueado">
         Log Out
       </span>
       <div (click)="navigateToCarrito()" class="carrito" *ngIf="logueado && usuario.rol === 'customer'">

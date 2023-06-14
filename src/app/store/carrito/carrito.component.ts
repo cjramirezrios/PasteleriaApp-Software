@@ -17,19 +17,18 @@ export class CarritoComponent {
   // usuario: Usuario = new Usuario(0,'','','','')
 
   constructor(private router:Router,private storeService:StoreService){
-    if (this.storeService.getUserLoggedId() === 0) {
-      this.router.navigateByUrl('/store/inicio')
-    } else {
-      this.fecthUsuario(this.storeService.getUserLoggedId())
-    }
+    this.tokenValidation()
   }
 
   //Metodos
-  async fecthUsuario(id:number) {
+  async tokenValidation() {
     try {
-      const {usuario} = await this.storeService.getUserById(id)
-      // this.usuario = usuario
-      if (usuario.rol !== 'customer') {
+      const data = await this.storeService.getUserByToken()
+      if (data.usuario.id > 0) {
+        if (data.usuario.rol !== 'customer'){
+          this.router.navigateByUrl('/store/inicio')
+        }
+      } else {
         this.router.navigateByUrl('/store/inicio')
       }
     } catch (error) {

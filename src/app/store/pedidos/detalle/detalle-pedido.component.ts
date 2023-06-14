@@ -22,18 +22,26 @@ export class DetallePedidoComponent {
   detailProduct: DetailProduct[] = []
 
   constructor(private router:Router,private storeService:StoreService){
-    if (this.storeService.getUserLoggedId() === 0) {
-      this.router.navigateByUrl('/store/inicio')
-    } else {
-      if (this.storeService.catchPedido() === '') {
-        this.router.navigateByUrl('/store/pedido')
-      } else {
-        this.fetchDetail()
-      }
-    }
+    this.tokenValidation()
   }
 
   //Metodos
+  async tokenValidation() {
+    try {
+      const data = await this.storeService.getUserByToken()
+      if (data.usuario.id > 0) {
+        if (this.storeService.catchPedido() === '') {
+          this.router.navigateByUrl('/store/pedido')
+        } else {
+          this.fetchDetail()
+        }
+      } else {
+        this.router.navigateByUrl('/store/inicio')
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
   async fetchDetail() {
     try {
       const id = this.storeService.catchPedido()
@@ -55,5 +63,13 @@ export class DetallePedidoComponent {
     const fecha_hora = s1[0].split('T')
     return fecha_hora
   }
+  /*
+  obtenerFecha(date: string):string[]{
+    const s1:string[] = date.split('.')
+    const s2:string[] = s1[0].split('T')
+    const s3:string[] = s2[1].split(':',2)
+    const fecha_hora = [s2[0],`${s3[0]}:${s3[1]}`]
+    return fecha_hora
+  }*/
 
 }

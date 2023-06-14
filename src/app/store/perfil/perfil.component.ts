@@ -12,14 +12,6 @@ import { Usuario, UserCustomer } from '../../models/usuario.model';
   styleUrls: ['./perfil.component.scss']
 })
 export class PerfilComponent {
-  
-  nombre:string = "Enrique";
-  apellido:string = "Aguilar Torres";
-  correo:string = "enrique.torres@gmail.com";
-  password:string = "****************";//"cliente_Pa55w0rd";
-  celular:number = 998472663;
-  direccion:string = `Av. Los Virreyes #135 Coop. Viña San Francisco
-  Mz. B Lt. 14 Piso 1 Santa Anita`;
 
   usuario: Usuario = new Usuario(0,'','','','')
   cliente: Cliente = new Cliente(0,0,'','','','','')
@@ -30,11 +22,7 @@ export class PerfilComponent {
   @ViewChild('eliminar_cuenta') idElimCta!: ElementRef;
 
   constructor(private router:Router,private storeService:StoreService){
-    if (this.storeService.getUserLoggedId() === 0) {
-      this.router.navigateByUrl('/store/inicio')
-    } else {
-      this.fetchCustomer(this.storeService.getUserLoggedId())
-    }
+    this.tokenValidation()
   }
 
   //Metodos
@@ -56,11 +44,15 @@ export class PerfilComponent {
     }
   }
 
-  async fetchCustomer(id:number){
+  async tokenValidation() {
     try {
-      const data = await this.storeService.getUserById(id)
-      this.usuario = data.usuario
-      this.cliente = data.cliente
+      const data = await this.storeService.getUserByToken()
+      if (data.usuario.id > 0) {
+        this.usuario = data.usuario
+        this.cliente = data.cliente
+      } else {
+        this.router.navigateByUrl('/store/inicio')
+      }
     } catch (error) {
       console.log(error)
     }

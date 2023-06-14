@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { lastValueFrom, firstValueFrom } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 
-import { Usuario, interfaceUser, UserCustomer } from '../../models/usuario.model'
+import { Usuario, interfaceUser, UserCustomer, interfaceAuthUser } from '../../models/usuario.model'
 import { Cliente, interfaceCustomer, CustomerOrder } from '../../models/cliente.model'
 
 @Injectable({
@@ -18,8 +18,11 @@ export class AuthService {
 
   //Properties
   private apiRoute: string = environment.apiUrl;
+  private token:string = ''
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    this.token = this.getToken()
+  }
 
   // PETICIONES HTTP A LA API | Start -->
 
@@ -61,6 +64,40 @@ export class AuthService {
     }
   }
 
+  //Metodo GetTokenValidation --> 'x-token'
+  async getTokenValidation(): Promise<boolean> {
+    let valido:boolean = false
+    const headers:HttpHeaders = new HttpHeaders({
+      'x-token': `${this.token}`
+    })
+    try {
+      const data = await firstValueFrom(this.http.get<interfaceUser>(this.apiRoute + 'usertoken/',{headers}))
+      if (data.id > 0) {
+        valido = true
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return valido
+    }
+  }
+
+  //Metodo GetAuthLogin
+  async getAuthLogin(email:string,password:string):Promise<interfaceAuthUser>{
+    let login:interfaceAuthUser = {ok:false,id:0,name:'',role:'',lastName:'',address:'',phone:'',email:'',token:'',msg:''}
+    try {
+      const data = await firstValueFrom(this.http.post<interfaceAuthUser>(this.apiRoute + 'login/', {email: email, password: password}))
+      login = data
+      if (data.ok === true) {
+        this.saveToken(data.token)
+      }
+    } catch (error) {
+      console.log(error)
+    } finally {
+      return login
+    }
+  }  
+
   // <-- End | PETICIONES HTTP A LA API
 
   //Guardar Token en el LocalStorage
@@ -72,8 +109,8 @@ export class AuthService {
   }
 
   //Obtener Token del LocalStorage
-  getToken():string | null {
-    return localStorage.getItem('Token') ?? 'No existe el Token'
+  getToken():string {
+    return localStorage.getItem('Token') ?? ''
   }
   getUserLoggedId():number {
     const id:string = localStorage.getItem('IdUserLogged') ?? '0'

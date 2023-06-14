@@ -12,47 +12,47 @@ import { Usuario, UserCustomer } from '../../models/usuario.model';
   styleUrls: ['./cabecera.component.scss']
 })
 export class CabeceraComponent {
-  logueado:boolean = false;
-  usuario: Usuario = new Usuario(0,'','','','')
+  logueado: boolean = false;
+  usuario: Usuario = new Usuario(0, '', '', '', '')
 
-  constructor(private router:Router,private storeService:StoreService){
-    if (this.storeService.getUserLoggedId() !== 0) {
-      this.logueado = true
-      this.fecthUsuario(this.storeService.getUserLoggedId())
-    }
+  constructor(private router: Router, private storeService: StoreService) {
+    this.tokenValidation()
   }
 
 
   //Metodos
-  async fecthUsuario(id:number) {
+  async tokenValidation() {
     try {
-      const {usuario} = await this.storeService.getUserById(id)
-      this.usuario = usuario
+      const data = await this.storeService.getUserByToken()
+      if (data.usuario.id > 0) {
+        this.logueado = true
+        this.usuario = data.usuario
+      }
     } catch (error) {
       console.log(error)
     }
   }
-  logOut(b:boolean){
-    this.logueado = b;
-    this.storeService.removeUserLoggedId()
+  logOut() {
+    this.logueado = false;
+    this.storeService.removeToken()
     this.storeService.removeCarrito()
     this.router.navigateByUrl('/store/inicio')
   }
 
-  redirectLogin(){
+  redirectLogin() {
     this.router.navigateByUrl('/auth/login');
   }
 
-  redirectRegister(){
+  redirectRegister() {
     this.router.navigateByUrl('/auth/registro');
   }
 
-  navigateToPerfil(){
-    this.router.navigate(['store','perfil']);
+  navigateToPerfil() {
+    this.router.navigate(['store', 'perfil']);
   }
 
-  navigateToCarrito(){
-    this.router.navigate(['store','carrito']);
+  navigateToCarrito() {
+    this.router.navigate(['store', 'carrito']);
   }
 
 }
