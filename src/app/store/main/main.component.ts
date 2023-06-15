@@ -13,35 +13,11 @@ import { Detalle } from '../../models/detalle.model';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent {
-
-  // clientes: Cliente[] = [] 
-  // usuarios: Usuario[] = []
-  pedidos: Pedido[] = []
-  detalles: Detalle[] = []
-  cliente = new Cliente(0,0,'','','','','')
-  usuario = new Usuario(0,'','','','')
-  pedido = new Pedido('',0,'',0)
-  pedidoFull = new PedidoFULL(this.pedido,this.cliente,this.usuario,this.detalles)
   
-  constructor(private storeService: StoreService) {
-    // this.loadData();
-  }
+  constructor(private storeService: StoreService) {}
 
   ngAfterViewInit() {}
 
-  async loadData() {
-    console.log('Hola desde Main Component')
-    const id = "2B4F8D7C-1E6A-9B3C-5D6E-7F8A9B0C1D2E"
-    try {
-      const data = await this.storeService.getOrderById(id);
-      this.pedidoFull = new PedidoFULL(data.pedido,data.cliente,data.usuario,data.items)
-      for (let i of this.pedidoFull.items) {
-        console.log(i.id,i.idPedido,i.idProducto,i.cantidad,i.createdAt)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
 }
 
 // export class MainComponent {

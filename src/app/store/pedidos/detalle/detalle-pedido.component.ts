@@ -49,11 +49,12 @@ export class DetallePedidoComponent {
       this.usuario = data.usuario
       this.cliente = data.cliente
       this.pedido = data.pedido
-      for (let item of data.items) {
-        const prod = await this.storeService.getProductById(item.idProducto)
-        const detProd = new DetailProduct(item,prod)
-        this.detailProduct.push(detProd)
-      }
+      this.detailProduct = data.items
+      // for (let item of data.items) {
+      //   const prod = await this.storeService.getProductById(item.idProducto)
+      //   const detProd = new DetailProduct(item,prod)
+      //   this.detailProduct.push(detProd)
+      // }
     } catch (error) {
       console.log(error)
     }

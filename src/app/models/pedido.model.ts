@@ -1,6 +1,7 @@
 import { Usuario } from './usuario.model'
 import { Cliente, interfaceCustomer } from './cliente.model'
-import { Detalle, interfaceDetail } from './detalle.model'
+import { Detalle, DetailProduct, interfaceDetail } from './detalle.model'
+import { Producto, interfaceProduct } from './producto.model'
 
 export class Pedido {
     id: string
@@ -24,17 +25,17 @@ export interface interfaceOrder {
     createdAt: string,
     total: number,
     customer: interfaceCustomer,
-    items: interfaceDetail[]
+    items: interfaceProduct[]
 }
 
 export class PedidoFULL {
     pedido: Pedido
     cliente: Cliente
     usuario: Usuario
-    items: Detalle[]
+    items: DetailProduct[]
 
     constructor(pedido: Pedido, cliente: Cliente, 
-        usuario: Usuario, items: Detalle[]) {
+        usuario: Usuario, items: DetailProduct[]) {
         this.pedido = pedido
         this.cliente = cliente
         this.usuario = usuario

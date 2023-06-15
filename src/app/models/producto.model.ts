@@ -1,4 +1,5 @@
 import { interfaceCategory } from './categoria.model'
+import { interfaceDetail } from './detalle.model'
 
 export class Producto {
     id: number;
@@ -32,5 +33,6 @@ export interface interfaceProduct {
     stock: number,
     createdAt: string,
     categoryId: number,
-    category: interfaceCategory
+    category: interfaceCategory,
+    PedidoProductos: interfaceDetail
 }

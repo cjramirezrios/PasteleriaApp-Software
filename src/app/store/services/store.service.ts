@@ -9,7 +9,7 @@ import { Producto, interfaceProduct } from '../../models/producto.model'
 import { Usuario, interfaceUser, UserCustomer } from '../../models/usuario.model'
 import { Cliente, interfaceCustomer, CustomerOrder } from '../../models/cliente.model'
 import { Pedido, interfaceOrder, PedidoFULL } from '../../models/pedido.model'
-import { Detalle } from '../../models/detalle.model';
+import { Detalle, DetailProduct } from '../../models/detalle.model';
 
 @Injectable({
   providedIn: 'root'
@@ -316,10 +316,12 @@ export class StoreService {
       const pedido = new Pedido(data.id, data.customerId, data.createdAt, data.total)
       const cliente = new Cliente(data.customer.id,data.customer.userId,data.customer.name,data.customer.lastName,data.customer.address,data.customer.phone,data.customer.createdAt)
       const usuario = new Usuario(data.customer.user.id,data.customer.user.email,data.customer.user.password,data.customer.user.role,data.customer.user.createAt)
-      let items:Detalle[] = []
+      let items:DetailProduct[] = []
       for (let item of data.items) {
-        const i = new Detalle(item.id,item.pedidoId,item.productId,item.createAt,item.amount)
-        items.push(i)
+        const p = new Producto(item.id,item.categoryId,item.name,item.description,item.price,item.createdAt,item.stock,item.image)
+        const d = new Detalle(item.PedidoProductos.id,item.PedidoProductos.pedidoId,item.PedidoProductos.productId,item.PedidoProductos.createAt,item.PedidoProductos.amount)
+        const detProd = new DetailProduct(d,p)
+        items.push(detProd)
       }
       pedidoFull = new PedidoFULL(pedido,cliente,usuario,items)
     } catch (error) {
