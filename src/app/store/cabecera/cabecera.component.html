@@ -33,7 +33,7 @@
             d="M21.526,8.284L13.937,.879C13.278,.219,12.33-.104,11.409,.028L4.521,.97c-.547,.075-.93,.579-.855,1.126,.075,.547,.578,.929,1.127,.855l6.889-.942c.306-.042,.622,.063,.851,.292l7.59,7.405c1.045,1.045,1.147,2.68,.323,3.847-.234-.467-.523-.912-.911-1.3l-7.475-7.412c-.658-.658-1.597-.975-2.528-.851l-6.889,.942c-.454,.062-.808,.425-.858,.881l-.765,6.916c-.1,.911,.214,1.804,.864,2.453l7.416,7.353c.944,.945,2.199,1.464,3.534,1.464h.017c1.342-.004,2.6-.532,3.543-1.487l3.167-3.208c.927-.939,1.393-2.159,1.423-3.388l.577-.576c1.925-1.95,1.914-5.112-.032-7.057Zm-15.526,1.716c-.552,0-1-.448-1-1,.006-1.308,1.994-1.307,2,0,0,.552-.448,1-1,1Z" />
         </svg>
         Categorias</a>
-      <a href="store/pedido" class="hop" *ngIf="logueado">
+      <a href="store/pedido" class="hop">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bag-fill"
           viewBox="0 0 16 16">
           <path
@@ -49,19 +49,23 @@
         Locales</a>
     </div>
     <div class="options options-right" id="navbarText">
-      <span (click)="redirectLogin()" class="navbar-text hop-right" *ngIf="!logueado">
-        Iniciar Sesion
-      </span>
-      <span (click)="redirectRegister()" class="navbar-text hop-right" *ngIf="!logueado">
-        Registrate
-      </span>
-      <span (click)="navigateToPerfil()" class="navbar-text hop" *ngIf="logueado">
-        Mi Cuenta
-      </span>
-      <span (click)="logOut()" class="navbar-text hop" *ngIf="logueado">
-        Log Out
-      </span>
-      <div (click)="navigateToCarrito()" class="carrito" *ngIf="logueado && usuario.rol === 'customer'">
+      <div *ngIf="user==null;else logeado">
+        <span (click)="redirectLogin()" class="navbar-text hop-right" >
+          Iniciar Sesion
+        </span>
+        <span (click)="redirectRegister()" class="navbar-text hop-right" >
+          Registrate
+        </span>
+      </div>
+      <ng-template #logeado>
+        <span (click)="navigateToPerfil()" class="navbar-text hop">
+          {{user?.email}}
+        </span>
+        <span (click)="logOut()"  class="navbar-text hop">
+          Log Out
+        </span>
+      </ng-template>
+      <div (click)="navigateToCarrito()" class="carrito" >
         <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-cart-fill car"
           viewBox="0 0 16 16">
           <path
@@ -77,7 +81,7 @@
         <span class="navbar-text hop">
           Icon person
         </span>
-        <span class="navbar-text hop">
+        <span  class="navbar-text hop">
           LogOut
         </span>
       </div>

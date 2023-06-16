@@ -2,24 +2,21 @@
   <div>
     <h1>Login</h1>
   </div>
-  <form [formGroup]="miFormulario">
+  <form [formGroup]="miFormulario" (ngSubmit)="login()">
     <div class="mb-3 img-content">
       <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" alt="user">
     </div>
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">Correo electronico</label>
-      <input [(ngModel)]="inputEmail" type="email" formControlName="email" class="form-control" id="Email" aria-describedby="emailHelp">
+      <input  type="email" formControlName="email" class="form-control" id="Email" aria-describedby="emailHelp">
     </div>
     <div class="mb-3">
       <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-      <input [(ngModel)]="inputPassword" type="password" formControlName="password" class="form-control" id="Password">
+      <input  type="password" formControlName="password" class="form-control" id="Password">
     </div>
     
-    <div *ngIf="campoIncorrecto" class="mb-3">
-      <span style="color: #ff0000;">*Correo y/o contraseña incorrecta</span>
-    </div>
     <div class="login-btn">
-      <button type="submit" class="btn btn-warning " (click)="login()" >Ingresar</button>
+      <button type="submit" class="btn btn-warning "  >Ingresar</button>
     </div>
 
     <div class="botones link-warning link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">

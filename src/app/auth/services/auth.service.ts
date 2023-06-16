@@ -1,128 +1,68 @@
 import { Injectable } from '@angular/core';
-import { lastValueFrom, firstValueFrom } from 'rxjs';
+import { lastValueFrom, firstValueFrom, Observable, BehaviorSubject, tap, map, catchError, of, switchMap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 
 import { Usuario, interfaceUser, UserCustomer, interfaceAuthUser } from '../../models/usuario.model'
 import { Cliente, interfaceCustomer, CustomerOrder } from '../../models/cliente.model'
+import { AuthUser, User } from '../models/user.model';
+import { Customer } from '../models/customer.model';
 
 @Injectable({
   providedIn: 'root'
 })
-  //ORIGINAL
-// export class AuthService {}
 
-//TEMPORAL
 export class AuthService {
 
   //Properties
   private apiRoute: string = environment.apiUrl;
-  private token:string = ''
+  private _user!:User;
+  private userReactive=new BehaviorSubject<User | null>(null);
+  user$=this.userReactive.asObservable();
+  get user(){
+    return {...this._user};
+  }
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) {
-    this.token = this.getToken()
+  createUser(data:User):Observable<User>{
+    const {email,password,...dat}=data;
+    return this.http.post<User>(`${this.apiRoute}/user`,{email,password});
+    
   }
 
-  // PETICIONES HTTP A LA API | Start -->
+  createCustomer(id:number,data:Customer):Observable<Customer>{
+    const{name,lastName,address,phone}=data;
+    return this.http.post<Customer>(`${this.apiRoute}/customer`,{userId:id,name,lastName,address,phone});
+  }
 
-  //Metodo GetAllUsers                         SELECT * FROM usuarios
-  async getAllUsers(): Promise<UserCustomer[]> {
-    let usuarios: UserCustomer[] = [];
-    try {
-      const data = await firstValueFrom(this.http.get<interfaceUser[]>(this.apiRoute + 'user/'))
-      for (let item of data) {
-        const usuario = new Usuario(item.id, item.email, item.password, item.role, item.createAt)
-        let cliente = new Cliente(0, 0, '', '', '', '', '')
-        if (item.role === 'customer') {
-          cliente = new Cliente(item.customer.id, item.customer.userId, item.customer.name, item.customer.lastName, item.customer.address, item.customer.phone, item.customer.createdAt)
+
+  LoginUser(email:string,password:string){
+    const body={email,password}
+    return this.http.post<AuthUser>(`${this.apiRoute}/login`,body).pipe(
+      tap(resp=>{
+        localStorage.setItem('token',resp.token!);
+        this._user={
+          id:resp.id!,
+          email:resp.email!,
+          password:resp.password!,
+          customer:resp.customer!
         }
-        const user_client = new UserCustomer(usuario, cliente)
-        usuarios.push(user_client)
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      return usuarios
-    }
+        this.userReactive.next(this._user);
+      }),map(resp=>resp.ok),
+      catchError(err=>of(err.error.msg))
+    );
   }
-  //Metodo GetUserByEmail                      SELECT * FROM usuarios WHERE email=email
-  async getUserByEmail(email:string): Promise<Usuario> {
-    let usuario: Usuario = new Usuario(0,'','','','')
-    try {
-      const data = await this.getAllUsers()
-      for (let item of data) {
-        if (item.usuario.email === email) {
-          usuario = new Usuario(item.usuario.id, item.usuario.email, item.usuario.password, item.usuario.rol, item.usuario.createdAt)
-          break
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      return usuario
-    }
+  
+  getProfile(){
+    const headers=new HttpHeaders()
+    .set('x-token',localStorage.getItem('token') || '');
+    return this.http.get<User>(`${this.apiRoute}/renew`,{headers}).pipe(
+      tap(user=>this.userReactive.next(user))
+    )
   }
-
-  //Metodo GetTokenValidation --> 'x-token'
-  async getTokenValidation(): Promise<boolean> {
-    let valido:boolean = false
-    const headers:HttpHeaders = new HttpHeaders({
-      'x-token': `${this.token}`
-    })
-    try {
-      const data = await firstValueFrom(this.http.get<interfaceUser>(this.apiRoute + 'usertoken/',{headers}))
-      if (data.id > 0) {
-        valido = true
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      return valido
-    }
-  }
-
-  //Metodo GetAuthLogin
-  async getAuthLogin(email:string,password:string):Promise<interfaceAuthUser>{
-    let login:interfaceAuthUser = {ok:false,id:0,name:'',role:'',lastName:'',address:'',phone:'',email:'',token:'',msg:''}
-    try {
-      const data = await firstValueFrom(this.http.post<interfaceAuthUser>(this.apiRoute + 'login/', {email: email, password: password}))
-      login = data
-      if (data.ok === true) {
-        this.saveToken(data.token)
-      }
-    } catch (error) {
-      console.log(error)
-    } finally {
-      return login
-    }
-  }  
-
-  // <-- End | PETICIONES HTTP A LA API
-
-  //Guardar Token en el LocalStorage
-  saveToken(token:string) {
-    localStorage.setItem('Token', token)
-  }
-  saveUserLoggedId(id:number) {
-    localStorage.setItem('IdUserLogged',id.toString())
-  }
-
-  //Obtener Token del LocalStorage
-  getToken():string {
-    return localStorage.getItem('Token') ?? ''
-  }
-  getUserLoggedId():number {
-    const id:string = localStorage.getItem('IdUserLogged') ?? '0'
-    return Number.parseInt(id)
-  }
-
-  //Eliminar Token del LocalStorage
-  removeToken() {
-    localStorage.removeItem('Token')
-  }
-  removeUserLoggedId() {
-    localStorage.removeItem('IdUserLogged')
+  LogOut(){
+    localStorage.removeItem("token");
   }
 
 
