@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { StoreService } from './services/store.service'
 
@@ -13,6 +13,7 @@ import { InicioComponent } from './inicio/inicio.component';
 import { PerfilComponent } from './perfil/perfil.component';
 import { LocalesComponent } from './locales/locales.component';
 import { CategoriaComponent } from './categoria/categoria.component';
+import { DetalleCategoriaComponent } from './categoria/detalle/detalle-categoria.component';
 import { ProductoComponent } from './producto/producto.component';
 import { DetalleProductoComponent } from './producto/detalle/detalle-producto.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
@@ -30,6 +31,7 @@ import { CarritoComponent } from './carrito/carrito.component';
     PerfilComponent,
     LocalesComponent,
     CategoriaComponent,
+    DetalleCategoriaComponent,
     ProductoComponent,
     DetalleProductoComponent,
     PedidosComponent,
@@ -40,7 +42,8 @@ import { CarritoComponent } from './carrito/carrito.component';
   imports: [
     CommonModule,
     StoreRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [StoreService]
 })

@@ -34,3 +34,8 @@ export class DetailProduct {
         this.producto = producto
     }
 }
+export interface intItemCarrito {
+    producto: Producto,
+    cantidad: number,
+    subtotal: number
+}

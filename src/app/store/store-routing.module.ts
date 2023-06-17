@@ -8,7 +8,7 @@ import { PerfilComponent } from './perfil/perfil.component';
 import { LocalesComponent } from './locales/locales.component';
 import { CategoriaComponent } from './categoria/categoria.component';
 import { ProductoComponent } from './producto/producto.component';
-import { DetalleProductoComponent } from './producto/detalle/detalle-producto.component';
+// import { DetalleProductoComponent } from './producto/detalle/detalle-producto.component';
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { DetallePedidoComponent } from './pedidos/detalle/detalle-pedido.component';
 import { CarritoComponent } from './carrito/carrito.component';

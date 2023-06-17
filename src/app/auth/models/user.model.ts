@@ -6,6 +6,8 @@ export interface User{
   role?:string,
   password:string,
   email:string,
+  name?:string,
+  lastName?:string,
   customer:Customer
 }
 
@@ -13,6 +15,8 @@ export interface AuthUser{
   email?:string,
   password?:string,
   role?:string,
+  name?:string,
+  lastName?:string,
   token?:string,
   id?:number,
   ok:boolean,

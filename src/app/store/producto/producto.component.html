@@ -29,7 +29,7 @@
             <div class="row pb-3">
                 <div class="addP col-12 pb-1">
                     <span class="headers">Productos</span>
-                    <button type="button" *ngIf="!cliente" class="btn btn-warning">Agregar Producto</button>
+                    <button type="button" *ngIf="user?.role == 'admin'" class="btn btn-warning">Agregar Producto</button>
                 </div>
 
                 <div class="col-lg-6 col-md-8">
@@ -47,13 +47,18 @@
                                 <div class="product-img position-relative overflow-hidden">
                                     <img class="img-fluid w-100" src="{{item.imagen}}" alt="">
                                     <div class="product-action">
-                                        <a class="btn btn-outline-dark btn-square" 
+                                        <a class="btn btn-outline-dark btn-square" *ngIf="user?.role != 'admin'"
                                             (click)="addToCarrito(item.id)">
                                             <i class="fa fa-shopping-cart"></i>
                                         </a>
-                                        <a class="btn btn-outline-dark btn-square"
+                                        <a class="btn btn-outline-dark btn-square" 
                                             (click)="detailsOfProduct(item.id)">
-                                            <i class="fa fa-search"></i>
+                                            <i class="fa fa-search" *ngIf="user?.role != 'admin'"></i>
+                                            <i class="fa fa-edit" *ngIf="user?.role == 'admin'"></i>
+                                        </a>
+                                        <a class="btn btn-outline-dark btn-square" *ngIf="user?.role == 'admin'"
+                                            (click)="detailsOfProduct(item.id)">
+                                            <i class="fa fa-trash"></i>
                                         </a>
                                     </div>
                                 </div>
@@ -62,9 +67,13 @@
                                     <div class="d-flex align-items-center justify-content-center mt-2">
                                         <h5>S/{{item.precio}}.00</h5>
                                     </div>
-                                    <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
-                                        <button type="button" class="btn btn-primary">Editar</button>
-                                        <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <div *ngIf="user?.role == 'admin'" class="d-flex justify-content-evenly admin">
+                                        <button type="button" class="btn btn-primary" (click)="detailsOfProduct(item.id)">
+                                            Editar
+                                        </button>
+                                        <button type="button" class="btn btn-danger" (click)="detailsOfProduct(item.id)">
+                                            Eliminar
+                                        </button>
                                     </div>
                                 </div>
                             </div>

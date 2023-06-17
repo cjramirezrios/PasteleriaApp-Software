@@ -2,32 +2,37 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StoreService } from '../services/store.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { Cliente, CustomerOrder } from '../../models/cliente.model';
 import { Usuario, UserCustomer } from '../../models/usuario.model';
-import { Pedido  } from '../../models/pedido.model';
+import { Pedido } from '../../models/pedido.model';
+import { User } from 'src/app/auth/models/user.model';
 
 @Component({
   selector: 'app-pedidos',
   templateUrl: './pedidos.component.html',
   styleUrls: ['./pedidos.component.scss']
 })
-export class PedidosComponent {
+export class PedidosComponent{
 
   pedidos: Pedido[] = []
-
-  constructor(private router:Router,private storeService:StoreService){
+  user!: User | null;
+  constructor(private router: Router, private storeService: StoreService, private authService: AuthService) {
     this.tokenValidation()
   }
 
   //Metodos
   async tokenValidation() {
     try {
-      const data = await this.storeService.getUserByToken()
-      if (data.usuario.id > 0) {
+      this.authService.user$.subscribe(data => {
+        this.user = data;
+      })
+      if (this.user?.id) {
         this.storeService.sendPedido('')
-        if (data.usuario.rol === 'customer'){
-          this.fetchOrdersByCustomer(data.cliente.id)
+        if (this.user.role == 'customer') {
+          const usuario:UserCustomer = await this.storeService.getUserById(this.user.id)
+          this.fetchOrdersByCustomer(usuario.cliente.id)
         } else {
           this.fetchAllOrders()
         }
@@ -38,7 +43,7 @@ export class PedidosComponent {
       console.log(error)
     }
   }
-  async fetchOrdersByCustomer(id:number) {
+  async fetchOrdersByCustomer(id: number) {
     try {
       const data = await this.storeService.getCustomerById(id)
       this.pedidos = data.pedidos
@@ -55,12 +60,12 @@ export class PedidosComponent {
     }
   }
 
-  obtenerFecha(date: string):string[]{
+  obtenerFecha(date: string): string[] {
     const s1 = date.split('.')
     const fecha_hora = s1[0].split('T')
     return fecha_hora
   }
-  navegarDetalle(id:string){
+  navegarDetalle(id: string) {
     this.storeService.sendPedido(id)
     this.router.navigateByUrl('/store/pedido/detalle')
   }

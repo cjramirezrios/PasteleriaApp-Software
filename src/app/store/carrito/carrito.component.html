@@ -1,9 +1,103 @@
 <div class="container-fluid">
     <div class="row px-xl-5">
         <div class="col-12">
-            <a class="section-title position-relative text-uppercase mb-3 headers-side">
-                <span class="pe-3">Carrito</span>
-            </a>
+            <div class="row pb-3 alturaPantalla">
+                <div class="col-12">
+
+                    <div class="row">
+                        <div class="col-12 pb-1 mb-3">
+                            <div class="addP">
+                                <span class="headers">Carrito</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container">
+                        <table class="cart-table table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><div class="row justify-content-center mx-1">Nro</div></th>
+                                    <th scope="col">Producto</th>
+                                    <th scope="col"><div class="row justify-content-center">Precio</div></th>
+                                    <th scope="col"><div class="row justify-content-center">Cantidad</div></th>
+                                    <th scope="col"><div class="row justify-content-center">Subtotal</div></th>
+                                    <th scope="col"><div class="row justify-content-center">Imagen</div></th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let i of carrito.items">
+                                    <th scope="row"><div class="row justify-content-center">{{getIndex(i.producto.id)}}</div></th>
+                                    <td><div class="row justify-content-start ps-2">{{i.producto.nombre}}</div></td>
+                                    <td><div class="row justify-content-center">S/ {{i.producto.precio}}</div></td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="row quantity">
+                                                <div class="col-4">
+                                                    <button class="quantity-button decrement" (click)="minusCantidad(i.producto.id)">-</button>
+                                                </div>
+                                                <div class="col-4 justify-content-center d-flex">
+                                                    <span class="text-align-center"> {{i.cantidad}} </span>
+                                                </div>
+                                                <div class="col-4">
+                                                    <button class="quantity-button increment" (click)="plusCantidad(i.producto.id)">+</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><div class="row justify-content-center">S/ {{i.subtotal}}</div></td>
+                                    <td><div class="row justify-content-center"><img src="{{i.producto.imagen}}" alt="img"></div></td>
+                                    <td><div class="row justify-content-center"><button class="remove" (click)="deleteItem(i.producto.id)">Eliminar</button></div></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="total">
+                            <h3>Total: S/ {{carrito.total}}</h3>
+                        </div>
+                    </div>
+
+                    <div class="footer">
+                        <div class="footer-content">
+                            <button class="continue-buying" (click)="navigateProductos()">Seguir Comprando</button>
+                            <button class="continue" (click)="navigateMercadoPago()">Continuar</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<!-- 
+<body>                  
+
+    <section class="recommended-products">
+        <h2>Productos Recomendados</h2>
+        <div class="carousel">
+            <button class="carousel-control prev">&#8249;</button>
+            <div class="carousel-inner">
+                <div class="product">
+                    <img src="img/rollo-de-lucuma.jpg" alt="Producto Recomendado 1">
+                    <h4>Rollo de lúcuma</h4>
+                    <p>S/40</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+                <div class="product">
+                    <img src="img/cheesecake-de-oreo.jpg" alt="Producto Recomendado 2">
+                    <h4>Cheesecake de oreo</h4>
+                    <p>S/45</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+                <div class="product">
+                    <img src="img/caprichitos-de-manzana.jpg" alt="Producto Recomendado 3">
+                    <h4>Caprichitos de manzana</h4>
+                    <p>S/15</p>
+                    <button class="add-to-cart">Agregar al Carrito</button>
+                </div>
+            </div>
+            <button class="carousel-control next">&#8250;</button>
+        </div>
+    </section>
+
+</body> -->

@@ -16,8 +16,8 @@ import { User } from 'src/app/auth/models/user.model';
 export class CabeceraComponent implements OnInit{
 
   user!:User | null;
-  constructor(private router: Router,private authService:AuthService, private storeService: StoreService) {
-  }
+  constructor(private router: Router,private authService:AuthService,
+              private storeService: StoreService) {}
   ngOnInit(): void {
     this.authService.user$.subscribe(data=>{
       console.log(data);
@@ -60,10 +60,18 @@ export class CabeceraComponent implements OnInit{
   navigateToCarrito() {
     this.router.navigate(['store', 'carrito']);
   }
+
+  navigateToInicio(){
+    this.router.navigateByUrl('/store/inicio')
+  }
   
   logOut(){
-    this.redirectLogin();
+    // this.redirectLogin();
+    this.user=null;
+    this.storeService.removeCarrito();
     this.authService.LogOut();  
+    window.location.reload();
+    // setTimeout(this.navigateToInicio, 500);
   }
 
 }

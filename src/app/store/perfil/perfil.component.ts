@@ -2,9 +2,11 @@ import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StoreService } from '../services/store.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { Cliente } from '../../models/cliente.model';
 import { Usuario, UserCustomer } from '../../models/usuario.model';
+import { User } from 'src/app/auth/models/user.model';
 
 @Component({
   selector: 'app-perfil',
@@ -15,13 +17,14 @@ export class PerfilComponent {
 
   usuario: Usuario = new Usuario(0,'','','','')
   cliente: Cliente = new Cliente(0,0,'','','','','')
+  user!: User | null;
 
   rastreador:number = 1;
 
   @ViewChild('datos_personales') idDatosPer!: ElementRef;
   @ViewChild('eliminar_cuenta') idElimCta!: ElementRef;
 
-  constructor(private router:Router,private storeService:StoreService){
+  constructor(private router:Router,private storeService:StoreService, private authService: AuthService){
     this.tokenValidation()
   }
 
@@ -46,10 +49,13 @@ export class PerfilComponent {
 
   async tokenValidation() {
     try {
-      const data = await this.storeService.getUserByToken()
-      if (data.usuario.id > 0) {
-        this.usuario = data.usuario
-        this.cliente = data.cliente
+      this.authService.user$.subscribe(data => {
+        this.user = data;
+      })
+      if (this.user?.id) {
+        const usuario:UserCustomer = await this.storeService.getUserById(this.user.id)
+        this.usuario = usuario.usuario
+        this.cliente = usuario.cliente
       } else {
         this.router.navigateByUrl('/store/inicio')
       }

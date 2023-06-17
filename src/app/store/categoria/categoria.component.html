@@ -1,12 +1,14 @@
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="showThis.general">
     <div class="row px-xl-5">
         <!-- Tipos -->
         <div class="col-12">
             <div class="row pb-3">
                 <div class="col-12 pb-1 mb-3">
-                    <div class="addC">
-                        <a class="headers">Categorías</a>
-                        <button type="button" *ngIf="!cliente" class="btn btn-warning">Agregar Categoria</button>
+                    <div class="addP">
+                        <span class="headers">Categorías</span>
+                        <button type="button" *ngIf="user?.role == 'admin'" class="btn btn-warning">
+                            Agregar Categoria
+                        </button>
                     </div>
                 </div>
 
@@ -15,20 +17,25 @@
                         <div class="product-img position-relative overflow-hidden">
                             <img class="img-fluid w-100" src="{{item.imagen}}" alt="">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square"
+                                <a class="btn btn-outline-dark btn-square" *ngIf="user?.role != 'admin'"
                                     (click)="enviarCategoria(item.id)">
                                     <i class="fa fa-search"></i>
+                                </a>
+                                <a class="btn btn-outline-dark btn-square" *ngIf="user?.role == 'admin'"
+                                    (click)="editCategoria(item.id)">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn btn-outline-dark btn-square" *ngIf="user?.role == 'admin'"
+                                    (click)="deleteCategoria(item.id)">
+                                    <i class="fa fa-trash"></i>
                                 </a>
                             </div>
                         </div>
                         <div class="text-center py-4">
                             <a class="h6 text-decoration-none text-truncate">{{item.nombre}}</a>
-                            <!-- <div class="d-flex align-items-center justify-content-center mt-2">
-                                <h6 class="text-muted ml-2">{{39}} productos</h6>
-                            </div> -->
-                            <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
-                                <button type="button" class="btn btn-primary">Editar</button>
-                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            <div *ngIf="user?.role == 'admin'" class="d-flex justify-content-evenly admin">
+                                <button type="button" class="btn btn-primary" (click)="editCategoria(item.id)">Editar</button>
+                                <button type="button" class="btn btn-danger" (click)="deleteCategoria(item.id)">Eliminar</button>
                             </div>
                         </div>
                     </div>
@@ -38,8 +45,7 @@
                 <div class="col-12">
                     <nav>
                         <ul class="pagination justify-content-center">
-                            <li class="page-item disabled"><a class="page-link" href="/store/categorias">Anterior</a>
-                            </li>
+                            <li class="page-item disabled"><a class="page-link" href="/store/categorias">Anterior</a></li>
                             <li class="page-item active"><a class="page-link" href="/store/categorias">1</a></li>
                             <li class="page-item"><a class="page-link" href="/store/categorias">2</a></li>
                             <li class="page-item"><a class="page-link" href="/store/categorias">3</a></li>
@@ -54,36 +60,4 @@
     </div>
 </div>
 
-<!-- BarraLat IrA -->
-<!-- <div class="col-lg-3 col-md-4">
-    <a class="section-title position-relative text-uppercase mb-3 headers-side"><span class="pr-3">MENÚ</span></a>
-    <div class="bg-light p-4 mb-30 rounded">
-        <form>
-            <a href="store/categorias" class="a d-flex align-items-center justify-content-between mb-3">
-                <span for="cat-1">Categorías</span>
-                <span class="fa-solid fa-arrow-right fa-xl"></span>
-            </a>
-            <a href="store/productos" class="a d-flex align-items-center justify-content-between mb-3">
-                <span for="cat-2">Productos</span>
-                <span class="fa-solid fa-arrow-right fa-xl"></span>
-            </a>
-            <a href="store/pedido" class="a d-flex align-items-center justify-content-between mb-3">
-                <span for="cat-3">Pedidos</span>
-                <span class="fa-solid fa-arrow-right fa-xl"></span>
-            </a>
-            <a href="store/perfil" class="a d-flex align-items-center justify-content-between mb-3">
-                <span for="cat-4">Cuentas</span>
-                <span class="fa-solid fa-arrow-right fa-xl"></span>
-            </a>
-            <a href="store/locales" class="a d-flex align-items-center justify-content-between mb-3">
-                <span for="cat-5">Locales</span>
-                <span class="fa-solid fa-arrow-right fa-xl"></span>
-            </a>
-            <a href="store/inicio" class="a d-flex align-items-center justify-content-between">
-                <span for="cat-6">Publicación</span>
-                <span class="fa-solid fa-arrow-right fa-xl"></span>
-            </a>
-        </form>
-    </div>
-</div> -->
-<!-- BarraLat IrA-->
+<app-detalle-categoria *ngIf="showThis.edit"></app-detalle-categoria>

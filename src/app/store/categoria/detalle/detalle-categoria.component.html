@@ -1,0 +1,37 @@
+<div class="container-fluid pb-5">
+    <div class="row px-xl-5 alturaPantalla">
+        <div class="col-12">
+
+            <form [formGroup]="formEditCategoria" (ngSubmit)="updateCategoria()">
+                <div class="row justify-content-center">
+                    <div class="col-7 h-auto mb-30">
+                        <div class="h-100 bg-light p-30">
+                            <div class="mb-3">
+                                <label for="formNombre" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="formControlInputName"
+                                    formControlName="nombre" [(ngModel)]="categoria.nombre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formDescripcion" class="form-label">Descripción:</label>
+                                <textarea class="form-control h-auto" formControlName="descripcion" [(ngModel)]="categoria.descripcion">
+                                </textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Imagen: </label>
+                                <input class="form-control" type="url" id="formFile" [(ngModel)]="categoria.imagen"
+                                    formControlName="imagen">
+                            </div>
+                            <div class="col-lg-5 mb-30">
+                                <img class="w-100 h-100" src="{{categoria.imagen}}" alt="img">
+                            </div>
+                            <div class="login-btn">
+                                <button type="submit" class="btn btn-warning">Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+        </div>
+    </div>
+</div>

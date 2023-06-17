@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { StoreService } from '../services/store.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { Producto } from '../../models/producto.model'
 import { Categoria } from '../../models/categoria.model'
+import { User } from 'src/app/auth/models/user.model';
 
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
@@ -15,22 +17,21 @@ import { Subscription } from 'rxjs';
 })
 export class ProductoComponent implements OnInit {
   // Propiedades
-  cliente: boolean = true;
-
   inputSearchProducto: string = "";
 
   categoriaSelecionada: number = 0;
   productoSeleccionado: Producto = new Producto(0, 0, '', '', 0, '', 0, '');
   detailsProducto: Producto = new Producto(0, 0, '', '', 0, '', 0, '');
   showDetalle: boolean = false;
+  
+  user!: User | null;
 
   // Propiedades almacenan Respuestas de la Base de Datos 
   categoriasIdyName: Categoria[] = []
   productos: Producto[] = []
 
-  constructor(private storeService: StoreService, private router: Router, private route: ActivatedRoute) {
+  constructor(private storeService: StoreService, private router: Router, private route: ActivatedRoute, private authService: AuthService) {
     this.fetchCategoryOnlyId_y_Name()
-    //--> METODO SERVICE catchCategoria <--
     this.categoriaSelecionada = this.storeService.catchCategoria()
     if (this.categoriaSelecionada !== 0) {
       this.searchByCategoria(this.categoriaSelecionada)
@@ -42,12 +43,9 @@ export class ProductoComponent implements OnInit {
 
   // Metodos Ciclo de Vida de Angular 
   ngOnInit() {
-    /*
-    this.route.params.subscribe(params => {
-       const name = params['id'];
-       const rutaActual = this.router.url;
-    });
-    */
+    this.authService.user$.subscribe(data => {
+      this.user = data;
+    })
   }
 
   ngAfterViewInit() { }
@@ -55,7 +53,6 @@ export class ProductoComponent implements OnInit {
   // Metodos Propios
   async fetchCategoryOnlyId_y_Name() {
     try {
-      //--> METODO SERVICE GetAllCategoriasOnlyName <--
       this.categoriasIdyName = await this.storeService.getAllCategoriasOnlyId_y_Name();
     } catch (error) {
       console.log(error)
@@ -63,7 +60,6 @@ export class ProductoComponent implements OnInit {
   }
   async fetchProduct() {
     try {
-      //--> METODO SERVICE GetAllProductos <--
       this.productos = await this.storeService.getAllProducts();
     } catch (error) {
       console.log(error)
@@ -137,39 +133,46 @@ export class ProductoComponent implements OnInit {
 
   async addToCarrito(id: number) {
     try {
-      const data = await this.storeService.getProductById(id)
-      let carrito: any[][] = this.storeService.getCarrito()
-      let cantCarrito = 0
-      if (carrito.length !== 0) {
-        for (let i of carrito) {
-          if (i[0] === id) {
-            cantCarrito = i[1]
-            break
-          }
-        }
-      }
-      let existe: boolean = false
-      if (data.stock - cantCarrito > 0) {
-        if (carrito.length === 0) {
-          carrito.push([id, 1])
-        } else {
-          for (let i = 0; i < carrito.length; i++) {
-            if (carrito[i][0] === id) {
-              carrito[i][1] += 1
-              existe = true
-              break
+      if (this.user?.id) {
+        if (this.user.role == 'customer') {
+          const data = await this.storeService.getProductById(id)
+          let carrito: number[][] = this.storeService.getCarrito()
+          let cantCarrito = 0
+          if (carrito.length !== 0) {
+            for (let i of carrito) {
+              if (i[0] === id) {
+                cantCarrito = i[1]
+                break
+              }
             }
           }
-          if (existe === false) {
-            carrito.push([id, 1])
+          let existe: boolean = false
+          if (data.stock - cantCarrito > 0) {
+            if (carrito.length === 0) {
+              carrito.push([id, 1])
+            } else {
+              for (let i = 0; i < carrito.length; i++) {
+                if (carrito[i][0] === id) {
+                  carrito[i][1] += 1
+                  existe = true
+                  break
+                }
+              }
+              if (existe === false) {
+                carrito.push([id, 1])
+              }
+            }
+            this.storeService.saveCarrito(carrito)
           }
+          this.router.navigateByUrl('/store/carrito')
         }
-        this.storeService.saveCarrito(carrito)
+      } else {
+        this.router.navigateByUrl('/auth/login')
       }
+
     } catch (error) {
       console.log(error)
     }
-    this.router.navigateByUrl('/store/carrito')
   }
 
 }

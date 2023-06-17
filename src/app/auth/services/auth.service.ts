@@ -46,6 +46,9 @@ export class AuthService {
           id:resp.id!,
           email:resp.email!,
           password:resp.password!,
+          role:resp.role!,
+          name:resp.name!,
+          lastName:resp.lastName!,
           customer:resp.customer!
         }
         this.userReactive.next(this._user);

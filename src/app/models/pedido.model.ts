@@ -1,6 +1,6 @@
 import { Usuario } from './usuario.model'
 import { Cliente, interfaceCustomer } from './cliente.model'
-import { Detalle, DetailProduct, interfaceDetail } from './detalle.model'
+import { Detalle, DetailProduct, intItemCarrito } from './detalle.model'
 import { Producto, interfaceProduct } from './producto.model'
 
 export class Pedido {
@@ -42,4 +42,10 @@ export class PedidoFULL {
         this.items = items
     }
 
+}
+
+export interface intCarrito {
+    idCliente?: number,
+    items: intItemCarrito[],
+    total: number
 }

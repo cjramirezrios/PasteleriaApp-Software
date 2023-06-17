@@ -1,15 +1,16 @@
 <div class="container-fluid pb-5">
     <div class="row px-xl-5 alturaPantalla">
         <div class="col-12">
-            <div class="row">
+
+            <div class="row" *ngIf="user?.role != 'admin'">
                 <div class="col-lg-5 mb-30">
-                    <img class="w-100 h-100" src="{{detalle.imagen}}" alt="">
+                    <img class="w-100 h-100" src="{{producto.imagen}}" alt="">
                 </div>
                 <div class="col-lg-7 h-auto mb-30">
                     <div class="h-100 bg-light p-30">
-                        <h3>{{detalle.nombre}}</h3>
-                        <span class="mb-4">S/{{detalle.precio}}.00</span>
-                        <p class="mb-4"> {{detalle.descripcion}}</p>
+                        <h3>{{producto.nombre}}</h3>
+                        <span class="mb-4">S/{{producto.precio}}.00</span>
+                        <p class="mb-4"> {{producto.descripcion}}</p>
                         <div class="d-flex align-items-center mb-4 pt-2">
                             <div class="input-group mr-3" style="width: 130px;">
                                 <div class="input-group-btn" (click)="minusCantidad()">
@@ -27,7 +28,7 @@
                                     </button>
                                 </div>
                             </div>
-                            <button id="btnSearchProd" class="btn" (click)="addCarrito(detalle.id,inputCantidad)">
+                            <button id="btnSearchProd" class="btn" (click)="addCarrito(producto.id,inputCantidad)">
                                 <i class="fa fa-shopping-cart mr-1"></i>
                                 Add To Cart
                             </button>
@@ -52,6 +53,55 @@
                     </div>
                 </div>
             </div>
+
+            <form [formGroup]="formEditProducto" (ngSubmit)="updateProducto()" *ngIf="user?.role == 'admin'">
+                <div class="row justify-content-center">
+                    <div class="col-7 h-auto mb-30">
+                        <div class="h-100 bg-light p-30">
+                            <div class="mb-3">
+                                <label for="formIdCategoria" class="form-label">Categoria:</label>
+                                <select formControlName="idCategoria" class="form-select form-select-md mb-3"
+                                    aria-label=".form-select-sm example" [(ngModel)]="producto.idCategoria">
+                                    <option value="{{i.id}}" *ngFor="let i of categorias">{{i.nombre}}</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formNombre" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" formControlName="nombre"
+                                    [(ngModel)]="producto.nombre">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formDescripcion" class="form-label">Descripción:</label>
+                                <textarea class="form-control form-control-md" formControlName="descripcion"
+                                    [(ngModel)]="producto.descripcion">
+                                </textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="formIdCategoria" class="form-label">Precio:</label>
+                                <input type="number" class="form-control" formControlName="precio"
+                                    [(ngModel)]="producto.precio">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formIdCategoria" class="form-label">Stock:</label>
+                                <input type="number" class="form-control" formControlName="stock"
+                                    [(ngModel)]="producto.stock">
+                            </div>
+                            <div class="mb-3">
+                                <label for="formFile" class="form-label">Imagen: </label>
+                                <input class="form-control" type="url" [(ngModel)]="producto.imagen"
+                                    formControlName="imagen">
+                            </div>
+                            <div class="col-lg-5 mb-30">
+                                <img class="w-100 h-100" src="{{producto.imagen}}" alt="img">
+                            </div>
+                            <div class="login-btn">
+                                <button type="submit" class="btn btn-warning">Actualizar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>

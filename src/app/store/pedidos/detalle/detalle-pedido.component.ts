@@ -2,12 +2,14 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StoreService } from '../../services/store.service';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 import { Cliente, CustomerOrder } from '../../../models/cliente.model';
 import { Usuario, UserCustomer } from '../../../models/usuario.model';
 import { Pedido, PedidoFULL  } from '../../../models/pedido.model';
 import { Detalle, DetailProduct  } from '../../../models/detalle.model';
 import { Producto  } from '../../../models/producto.model';
+import { User } from 'src/app/auth/models/user.model';
 
 @Component({
   selector: 'app-detalle-pedido',
@@ -20,16 +22,19 @@ export class DetallePedidoComponent {
   cliente: Cliente = new Cliente(0,0,'','','','','')
   pedido: Pedido = new Pedido('',0,'',0)
   detailProduct: DetailProduct[] = []
+  user!: User | null;
 
-  constructor(private router:Router,private storeService:StoreService){
+  constructor(private router:Router,private storeService:StoreService,private authService: AuthService){
     this.tokenValidation()
   }
 
   //Metodos
   async tokenValidation() {
     try {
-      const data = await this.storeService.getUserByToken()
-      if (data.usuario.id > 0) {
+      this.authService.user$.subscribe(data => {
+        this.user = data;
+      })
+      if (this.user?.id) {
         if (this.storeService.catchPedido() === '') {
           this.router.navigateByUrl('/store/pedido')
         } else {
@@ -50,11 +55,6 @@ export class DetallePedidoComponent {
       this.cliente = data.cliente
       this.pedido = data.pedido
       this.detailProduct = data.items
-      // for (let item of data.items) {
-      //   const prod = await this.storeService.getProductById(item.idProducto)
-      //   const detProd = new DetailProduct(item,prod)
-      //   this.detailProduct.push(detProd)
-      // }
     } catch (error) {
       console.log(error)
     }
