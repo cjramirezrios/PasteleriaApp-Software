@@ -13,15 +13,15 @@
           </div>
   
           <div class="row align-content-start p-0 justify-content-md-center">
-            <div class="col-lg-6 col-md-10 col-sm-12 mb-3 m-0" *ngFor="let item of pedidos">
+            <div class="col-lg-6 col-md-10 col-sm-12 mb-3 m-0" >
               <div class="card p-2">
                 <div class="card-body row">
                   <div class="col-12 mb-2">
-                    <span class="card-title"><strong>N° Pedido: </strong>{{item.id}}</span>
+                    <span class="card-title"><strong>N° Pedido: </strong></span>
                   </div>
                   <div class="col-12 mb-2">
-                    <span class="me-4"><strong>Feha: </strong> {{obtenerFecha(item.createdAt)[0]}}</span>
-                    <span><strong>Hora: </strong> {{obtenerFecha(item.createdAt)[1]}}</span>
+                    <span class="me-4"><strong>Feha: </strong> </span>
+                    <span><strong>Hora: </strong> </span>
                   </div>
                   <div class="col-12 mb-2">
                     <div class="content">
@@ -34,13 +34,13 @@
                       <div class="col-6 justify-content-end">
                         <div class="content">
                           <span class="card-text"><strong>Total: </strong></span>
-                          <span>S/{{item.total}}.00</span>
+                          <span>S/</span>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="row justify-content-end">
                           <div class="col-6">
-                            <button id="btnSearchProd" class="btn" (click)="navegarDetalle(item.id)">Ver Detalle</button>
+                            <button id="btnSearchProd" class="btn" >Ver Detalle</button>
                           </div>
                         </div>
                       </div>

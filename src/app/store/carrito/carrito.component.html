@@ -2,7 +2,50 @@
     <div class="row px-xl-5">
         <div class="col-12">
             <a class="section-title position-relative text-uppercase mb-3 headers-side">
-                <span class="pe-3">Carrito</span>
+                <div class="container">
+                    <table class="cart-table">
+                      <thead>
+                        <tr>
+                          <th>Nro</th>
+                          <th>Producto</th>
+                          <th>Precio</th>
+                          <th>Cantidad</th>
+                          <th>Subtotal</th>
+                          <th>Imagen</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of shoppingCart">
+                          <td>{{product.id}}</td>
+                          <td>{{product.name}}</td>
+                          <td>S/{{product.price}}</td>
+                          <td>
+                            <div class="quantity">
+                              <button (click)="lessItem(product)" class="decrease modifyAmount">-</button>
+                              <input type="text" value="{{product.select}}">
+                              <button (click)="addItem(product)" class="increase modifyAmount">+</button>
+                            </div>
+                          </td>
+                          <td>S/{{product.price*product.select!}}</td>
+                          <td><img src="{{product.image}}" alt="{{product.name}}"></td>
+                          <td><button (click)="removeItem(product)" class="remove">Eliminar</button></td>
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+                    <div class="total">
+                      <h3 >Total: S/{{[total]}}</h3>
+                    </div>
+                  </div>
+                
+                  <div class="footer">
+                    <div class="footer-content">
+                      <button class="continue-buying" (click)="redirectProducts()">Seguir Comprando</button>
+                      <button class="continue" (click)="generateOrder()">Pagar</button>
+                    </div>
+                  </div>
+                
             </a>
         </div>
     </div>

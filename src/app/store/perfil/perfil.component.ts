@@ -5,6 +5,9 @@ import { StoreService } from '../services/store.service';
 
 import { Cliente } from '../../models/cliente.model';
 import { Usuario, UserCustomer } from '../../models/usuario.model';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { User } from 'src/app/auth/models/user.model';
+import { AuthToken } from 'src/app/auth/models/token.models';
 
 @Component({
   selector: 'app-perfil',
@@ -13,49 +16,14 @@ import { Usuario, UserCustomer } from '../../models/usuario.model';
 })
 export class PerfilComponent {
 
-  usuario: Usuario = new Usuario(0,'','','','')
-  cliente: Cliente = new Cliente(0,0,'','','','','')
+  user!:AuthToken | null;
 
-  rastreador:number = 1;
-
-  @ViewChild('datos_personales') idDatosPer!: ElementRef;
-  @ViewChild('eliminar_cuenta') idElimCta!: ElementRef;
-
-  constructor(private router:Router,private storeService:StoreService){
-    this.tokenValidation()
+  constructor(private router:Router,private storeService:StoreService,private authService:AuthService){
+    this.authService.user$.subscribe(data=>{
+      console.log(data);
+      this.user=data;
+     })
   }
 
-  //Metodos
-  scrollTo(elementId: string) {
-    let element: any;
-    switch (elementId) {
-      case 'datos_personales':
-        element = this.idDatosPer.nativeElement;
-        element.scrollIntoView({ behavior: 'smooth' });
-        this.rastreador = 1;
-        break;
-      case 'eliminar_cuenta':
-        element = this.idElimCta.nativeElement;
-        element.scrollIntoView({ behavior: 'smooth' });
-        this.rastreador = 2;
-        break;
-      default:
-        break;
-    }
-  }
-
-  async tokenValidation() {
-    try {
-      const data = await this.storeService.getUserByToken()
-      if (data.usuario.id > 0) {
-        this.usuario = data.usuario
-        this.cliente = data.cliente
-      } else {
-        this.router.navigateByUrl('/store/inicio')
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
 }

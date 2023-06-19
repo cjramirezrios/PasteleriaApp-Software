@@ -12,13 +12,13 @@
             <div class="p-0 pt-3 mb-30 rounded-5">
                 <nav id="navbar-mi_cuenta" class="h-100 align-items-stretch flex-column">
                     <nav class="nav nav-pills flex-column">
-                        <a (click)="scrollTo('datos_personales')" [ngClass]="{'active':rastreador === 1}"
+                        <a 
                             class="bt-perfil nav-link d-flex align-items-center justify-content-between">
                             <span>Mis Datos Personales</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
-                        <a (click)="scrollTo('eliminar_cuenta')" [ngClass]="{'active':rastreador === 2}"
-                            class="b-perfil nav-link d-flex align-items-center justify-content-between" *ngIf="usuario.rol==='customer'">
+                        <a 
+                            class="b-perfil nav-link d-flex align-items-center justify-content-between" >
                             <span>Eliminar Cuenta</span>
                             <span class="fa-solid fa-arrow-right fa-xl"></span>
                         </a>
@@ -39,13 +39,13 @@
                     <span class="bd-content-title">Mis Datos Personales</span>
                 </h4>
                 <div class="list-group mt-3 mb-2">
-                    <div class="list-group-item list-group-item-action" *ngIf="usuario.rol==='customer'">
+                    <div class="list-group-item list-group-item-action" >
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Nombre</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{cliente.nombres}} {{cliente.apellidos}}</span>
+                                <span class="form-text">{{user?.name}} {{user?.lastName}}</span>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                                 <label class="form-label">Correo</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{usuario.email}}</span>
+                                <span class="form-text">{{user?.email}}</span>
                             </div>
                         </div>
                     </div>
@@ -69,29 +69,29 @@
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item list-group-item-action" *ngIf="usuario.rol==='customer'">
+                    <div class="list-group-item list-group-item-action" >
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Celular:</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{cliente.telefono}}</span>
+                                <span class="form-text">{{user?.phone}}</span>
                             </div>
                         </div>
                     </div>
-                    <div class="list-group-item list-group-item-action" *ngIf="usuario.rol==='customer'">
+                    <div class="list-group-item list-group-item-action">
                         <div class="row">
                             <div class="col-4">
                                 <label class="form-label">Dirección:</label>
                             </div>
                             <div class="col-8">
-                                <span class="form-text">{{cliente.direccion}}</span>
+                                <span class="form-text">{{user?.address}}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div #eliminar_cuenta class="bg-light-nav_perfil p-3 mb-30 rounded-3" *ngIf="usuario.rol==='customer'">
+            <div #eliminar_cuenta class="bg-light-nav_perfil p-3 mb-30 rounded-3" >
                 <h4 class="headers">
                     <span class="bd-content-title">Eliminar Cuenta</span>
                 </h4>

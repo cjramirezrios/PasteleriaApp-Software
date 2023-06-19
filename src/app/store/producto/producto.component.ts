@@ -7,6 +7,11 @@ import { Categoria } from '../../models/categoria.model'
 
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { Product } from 'src/app/auth/models/product.models';
+import { Category } from 'src/app/auth/models/category.models';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { AuthToken } from 'src/app/auth/models/token.models';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-producto',
@@ -14,162 +19,88 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./producto.component.scss']
 })
 export class ProductoComponent implements OnInit {
-  // Propiedades
-  cliente: boolean = true;
-
-  inputSearchProducto: string = "";
-
-  categoriaSelecionada: number = 0;
-  productoSeleccionado: Producto = new Producto(0, 0, '', '', 0, '', 0, '');
-  detailsProducto: Producto = new Producto(0, 0, '', '', 0, '', 0, '');
-  showDetalle: boolean = false;
-
-  // Propiedades almacenan Respuestas de la Base de Datos 
-  categoriasIdyName: Categoria[] = []
-  productos: Producto[] = []
-
-  constructor(private storeService: StoreService, private router: Router, private route: ActivatedRoute) {
-    this.fetchCategoryOnlyId_y_Name()
-    //--> METODO SERVICE catchCategoria <--
-    this.categoriaSelecionada = this.storeService.catchCategoria()
-    if (this.categoriaSelecionada !== 0) {
-      this.searchByCategoria(this.categoriaSelecionada)
-    } else {
-      this.fetchProduct()
+  public products!:Product[];
+  public categorias!:Category[];
+  user!:AuthToken | null;
+  bandera:boolean=false;
+  constructor(private storeService: StoreService,private fb:FormBuilder,private authService:AuthService, private router: Router, private route: ActivatedRoute) {
+    this.authService.user$.subscribe(data=>{
+      console.log(data);
+      this.user=data;
+     })
     }
-
-  }
-
-  // Metodos Ciclo de Vida de Angular 
+    
   ngOnInit() {
-    /*
-    this.route.params.subscribe(params => {
-       const name = params['id'];
-       const rutaActual = this.router.url;
+    this.authService.getProfile().subscribe();
+   this.getAllProducts();
+   this.getAllCategories();
+  }
+
+  addShoppingCart(product:Product){
+    this.storeService.addShoppingCart(product);
+  }
+
+
+  getAllProducts(){
+    this.storeService.getAllProducts().subscribe(products=>{
+      this.products=products;
+    })
+  }
+  getAllCategories(){
+    this.storeService.getAllCategories().subscribe(categories=>{
+      this.categorias=categories;
+    })
+  }
+
+  getProductByCategory(id:number){
+    this.storeService.getCategoryById(id).subscribe(category=>{
+      this.products=category.products;
     });
-    */
   }
 
-  ngAfterViewInit() { }
-
-  // Metodos Propios
-  async fetchCategoryOnlyId_y_Name() {
-    try {
-      //--> METODO SERVICE GetAllCategoriasOnlyName <--
-      this.categoriasIdyName = await this.storeService.getAllCategoriasOnlyId_y_Name();
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  async fetchProduct() {
-    try {
-      //--> METODO SERVICE GetAllProductos <--
-      this.productos = await this.storeService.getAllProducts();
-    } catch (error) {
-      console.log(error)
-    }
+  redirectDetailProduct(id:number){
+    this.router.navigateByUrl(`/store/producto/${id}`);
   }
 
-  isLastCategoria(nombre: string): boolean {
-    let last: boolean = false;
-    const index: number = this.categoriasIdyName.findIndex(e => e.nombre === nombre);
-    last = index === this.categoriasIdyName.length - 1;
-    return last
+  redirectEditProduct(id:number){
+    this.router.navigateByUrl(`/store/editar-producto/${id}`);
+  }
+  redirectCreateProduct(){
+    this.bandera=!this.bandera;
+  }
+  deleteProduct(id:number){
+    this.storeService.deleteProduct(id).subscribe(resp=>{
+      console.log(resp);
+    });
+    this.ngOnInit();
   }
 
-  async searchByCategoria(id: number) {
-    this.categoriaSelecionada = id;
-    try {
-      const productosByCategoria: Producto[] = await this.storeService.getProductsByIdCategoria(id)
-      this.productos = productosByCategoria
-    } catch (error) {
-      console.log(error)
-    }
+
+  imageURL!: string;
+  miFormulario:FormGroup=this.fb.group({
+    name:['',[Validators.required]],
+    description:['',[Validators.required]],
+    stock:['',[Validators.required]],
+    price:['',[Validators.required]],
+    image:['',[Validators.required]],
+    categoryId:['',[Validators.required]]
+  });
+
+  validarCampo(campo:string){
+    const control = this.miFormulario.controls[campo];
+
+    return control && control.errors && control.touched;
   }
 
-  async searchByIdProd(id: number) {
-    try {
-      this.productoSeleccionado = await this.storeService.getProductById(id)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async searchByNameProd() {
-    class ProductoNameSplit {
-      id: number;
-      nombreSplit: string[];
-      constructor(id: number, nombreSplit: string[]) {
-        this.id = id;
-        this.nombreSplit = nombreSplit
+  createproduct(){
+    const {name,description,stock,image,price,categoryId}=this.miFormulario.value;
+    this.storeService.createProduct({name,description,stock,image,price,categoryId}).subscribe(
+      resp=>{
+        console.log(resp);
       }
-    }
-
-    this.productos = []
-    this.categoriaSelecionada = 0
-
-    try {
-      const productosOnlyIdyName: Producto[] = await this.storeService.getAllProductsOnlyId_y_Name()
-
-      let productosSplitName: ProductoNameSplit[] = [];
-      for (let p of productosOnlyIdyName) {
-        productosSplitName.push(new ProductoNameSplit(p.id, p.nombre.split(' ')))
-      }
-      for (let p of productosSplitName) {
-        for (let nSplit of p.nombreSplit) {
-          let s: string = nSplit.toLowerCase()
-          if (s.includes(this.inputSearchProducto.toLowerCase())) {
-            await this.searchByIdProd(p.id);
-            this.productos.push(this.productoSeleccionado)
-            break
-          }
-        }
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  detailsOfProduct(id: number) {
-    this.storeService.sendProducto(id);
-    this.showDetalle = true
-  }
-
-  async addToCarrito(id: number) {
-    try {
-      const data = await this.storeService.getProductById(id)
-      let carrito: any[][] = this.storeService.getCarrito()
-      let cantCarrito = 0
-      if (carrito.length !== 0) {
-        for (let i of carrito) {
-          if (i[0] === id) {
-            cantCarrito = i[1]
-            break
-          }
-        }
-      }
-      let existe: boolean = false
-      if (data.stock - cantCarrito > 0) {
-        if (carrito.length === 0) {
-          carrito.push([id, 1])
-        } else {
-          for (let i = 0; i < carrito.length; i++) {
-            if (carrito[i][0] === id) {
-              carrito[i][1] += 1
-              existe = true
-              break
-            }
-          }
-          if (existe === false) {
-            carrito.push([id, 1])
-          }
-        }
-        this.storeService.saveCarrito(carrito)
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    this.router.navigateByUrl('/store/carrito')
+    );
+    this.redirectCreateProduct();
+    this.miFormulario.reset();
   }
 
 }

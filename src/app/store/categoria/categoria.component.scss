@@ -427,6 +427,12 @@ h3, .h3 {
   }
 }
 
+.categoria-detalle{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 @media (max-width: 1200px) {
   h3, .h3 {
     font-size: calc(1.3rem + 0.6vw) ;

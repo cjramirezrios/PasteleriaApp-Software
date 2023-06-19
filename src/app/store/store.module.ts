@@ -18,6 +18,8 @@ import { DetalleProductoComponent } from './producto/detalle/detalle-producto.co
 import { PedidosComponent } from './pedidos/pedidos.component';
 import { DetallePedidoComponent } from './pedidos/detalle/detalle-pedido.component';
 import { CarritoComponent } from './carrito/carrito.component';
+import { EditarProductoComponent } from './editar-producto/editar-producto.component';
+import { ReactiveFormsModule } from '@angular/forms';
 // import { PagoComponent } from './pago/pago.component';
 
 
@@ -34,13 +36,15 @@ import { CarritoComponent } from './carrito/carrito.component';
     DetalleProductoComponent,
     PedidosComponent,
     DetallePedidoComponent,
-    CarritoComponent
+    CarritoComponent,
+    EditarProductoComponent
     // PagoComponent
   ],
   imports: [
     CommonModule,
     StoreRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [StoreService]
 })

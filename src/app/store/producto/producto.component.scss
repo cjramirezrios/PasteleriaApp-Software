@@ -108,6 +108,20 @@ a>code {
     color: inherit;
 }
 
+.content{
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 3rem;
+    justify-content: space-evenly;
+}
+.producto-detalle{
+    display: flex;
+    flex-direction: column;
+    .price{
+        justify-self: end;
+    }
+}
 .navbar-light .navbar-text a {
     color: rgba(0, 0, 0, 0.9);
 }
@@ -341,6 +355,25 @@ button.bg-light:focus {
 
 .product-item {
     transition: .5s;
+    width: 20rem;
+    height: auto;
+    align-self: center;
+    .producto-detalle{
+        margin-bottom: 0;
+    }
+    .ver-mas{
+        justify-self: center;
+        align-self: center;
+        width: 50%;
+        padding: .3rem .1rem;
+        font-size: .9rem;
+        background-color:#f68c35 ;
+        transition: all 300ms ease-in-out;
+        text-decoration: none;
+    }
+    .ver-mas:hover{
+        color: white ;
+    }
 }
 
 .product-item:hover {
@@ -402,9 +435,7 @@ button.bg-light:focus {
     transform: scale(1.2);
 }
 
-.product-item .btn:hover {
-    color: #FFD333 !important;
-}
+
 
 // <-- End | BOOTSTRAP 4.5.3 Class product-item
 
@@ -519,3 +550,68 @@ button.bg-light:focus {
     pointer-events: none;
     cursor: default;
 }
+
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin-bottom: 2rem;
+    h1{
+        padding:2rem 0;
+      color: #fd7e14;
+      }
+   
+    form{
+      padding: 1rem 2.5rem;
+      border: 1px solid #6c757d;
+      border-radius: 1rem;
+      width: 70%;
+      .img-content{
+        display: flex;
+        justify-content: center; 
+      }
+      .imagen-content{
+        display: flex;
+        justify-self: center;
+        align-items: center;
+        width: 100%;
+        .imagen-prev{
+          width: 100%;
+          border-radius: 3rem;
+          margin: 0;
+          height: auto;
+        }
+      }
+    }
+    .block1{
+      display: flex;
+      gap: 3rem;
+    }
+    .mb-3{
+      width: 100%;
+    }
+    .register-btn{
+      display: flex;
+      justify-content: center;
+    }
+    .alert{
+      padding: 0.2rem;
+      margin-top: 0.5rem;
+    }
+    button{
+      padding: 0.5rem 2rem;
+    }
+    .botones{
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      text-align: center;
+      a{
+        color: #fd7e14;
+      }
+    }
+  }
+  
+  

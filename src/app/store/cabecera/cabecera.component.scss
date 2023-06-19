@@ -69,3 +69,15 @@ font-family: 'Rubik', sans-serif;
 .carrito svg:hover{
   transform: scale(1.1,1.1);
 }
+.contador{
+  position: relative;
+  font-size: .8rem;
+  z-index: 2;
+  left: 1rem;
+  bottom: .5rem;
+  background-color: red;
+  color: white;
+  text-align: center;
+  border-radius: 100%;
+  width: 50%;
+}

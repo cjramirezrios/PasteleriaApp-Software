@@ -3,31 +3,33 @@
         <div class="col-12">
             <div class="row">
                 <div class="col-lg-5 mb-30">
-                    <img class="w-100 h-100" src="{{detalle.imagen}}" alt="">
+                    <img class="w-100 h-100" src="{{product.image}}" alt="">
                 </div>
                 <div class="col-lg-7 h-auto mb-30">
                     <div class="h-100 bg-light p-30">
-                        <h3>{{detalle.nombre}}</h3>
-                        <span class="mb-4">S/{{detalle.precio}}.00</span>
-                        <p class="mb-4"> {{detalle.descripcion}}</p>
+                        <h3>{{product.name}}</h3>
+                        <span class="mb-4">S/.{{product.description}}</span>
+                        <br>
+                        <span class="mb-4">S/.{{product.price*cant}}</span>
+                        <p class="mb-4"> </p>
                         <div class="d-flex align-items-center mb-4 pt-2">
                             <div class="input-group mr-3" style="width: 130px;">
-                                <div class="input-group-btn" (click)="minusCantidad()">
-                                    <button class="btn btn-primary">
+                                <div class="input-group-btn" >
+                                    <button class="btn btn-primary" (click)="lessCant()">
                                         <i class="fa fa-minus"></i>
                                     </button>
                                 </div>
                                 <!-- <input [(ngModel)]="inputCantidad" type="number" class="form-control bg-secondary border-0 text-center"> -->
                                 <div class="form-control bg-secondary border-0 text-center">
-                                    <span>{{inputCantidad}}</span>
+                                    <span>{{cant}}</span>
                                 </div>
-                                <div class="input-group-btn" (click)="plusCantidad()">
+                                <div class="input-group-btn" (click)="addCant()">
                                     <button class="btn btn-primary">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </div>
                             </div>
-                            <button id="btnSearchProd" class="btn" (click)="addCarrito(detalle.id,inputCantidad)">
+                            <button id="btnSearchProd" class="btn" >
                                 <i class="fa fa-shopping-cart mr-1"></i>
                                 Add To Cart
                             </button>

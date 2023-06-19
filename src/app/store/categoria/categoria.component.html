@@ -6,30 +6,33 @@
                 <div class="col-12 pb-1 mb-3">
                     <div class="addC">
                         <a class="headers">Categorías</a>
-                        <button type="button" *ngIf="!cliente" class="btn btn-warning">Agregar Categoria</button>
-                    </div>
+                        <!--<button type="button"  class="btn btn-warning">Agregar Categoria</button>
+                            <!-->
+                        </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let item of categorias">
+                <div class="col-lg-4 col-md-6 col-sm-6 pb-1" *ngFor="let categoria of categorias">
                     <div class="product-item bg-light mb-4">
                         <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="{{item.imagen}}" alt="">
+                            <img class="img-fluid w-100" src="{{categoria.image}}" alt="">
                             <div class="product-action">
-                                <a class="btn btn-outline-dark btn-square"
-                                    (click)="enviarCategoria(item.id)">
-                                    <i class="fa fa-search"></i>
+                                <a class="btn "
+                                    >
+                                    {{categoria.description}}
                                 </a>
                             </div>
                         </div>
-                        <div class="text-center py-4">
-                            <a class="h6 text-decoration-none text-truncate">{{item.nombre}}</a>
+                        <div class="text-center py-4 categoria-detalle">
+                            <a class="h6 text-decoration-none text-truncate">{{categoria.name}}</a>
+                            <a class="h6 text-decoration-none text-truncate">{{categoria.products.length}} productos</a>
                             <!-- <div class="d-flex align-items-center justify-content-center mt-2">
                                 <h6 class="text-muted ml-2">{{39}} productos</h6>
                             </div> -->
-                            <div *ngIf="!cliente" class="d-flex justify-content-evenly admin">
+                            <!--<div  class="d-flex justify-content-evenly admin">
                                 <button type="button" class="btn btn-primary">Editar</button>
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </div>
+                            <!-->
                         </div>
                     </div>
                 </div>

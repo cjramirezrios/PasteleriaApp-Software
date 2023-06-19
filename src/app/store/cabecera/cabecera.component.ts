@@ -7,6 +7,7 @@ import { Cliente } from '../../models/cliente.model';
 import { Usuario, UserCustomer } from '../../models/usuario.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/models/user.model';
+import { AuthToken } from 'src/app/auth/models/token.models';
 
 @Component({
   selector: 'app-cabecera',
@@ -14,37 +15,27 @@ import { User } from 'src/app/auth/models/user.model';
   styleUrls: ['./cabecera.component.scss']
 })
 export class CabeceraComponent implements OnInit{
-
-  user!:User | null;
+  cont!:number;
+  user!:AuthToken | null;
   constructor(private router: Router,private authService:AuthService, private storeService: StoreService) {
   }
   ngOnInit(): void {
     this.authService.user$.subscribe(data=>{
       console.log(data);
       this.user=data;
-     })
+     });
+     this.storeService.Cart$.subscribe(products=>{
+      let suma:number=0;
+      products.forEach(e=>{
+        suma+=e.select!;
+      })
+      this.cont=suma;
+     });
   }
 
 
   //Metodos
-  /*async tokenValidation() {
-    try {
-      const data = await this.storeService.getUserByToken()
-      if (data.usuario.id > 0) {
-        this.logueado = true
-        this.usuario = data.usuario
-      }
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  logOut() {
-    this.logueado = false;
-    this.storeService.removeToken()
-    this.storeService.removeCarrito()
-    this.router.navigateByUrl('/store/inicio')
-  }*/
-
+ 
   redirectLogin() {
     this.router.navigateByUrl('/auth/login');
   }
@@ -54,7 +45,11 @@ export class CabeceraComponent implements OnInit{
   }
 
   navigateToPerfil() {
-    this.router.navigate(['store', 'perfil']);
+    if(this.user?.role=='customer'){
+      this.router.navigate(['store', 'perfil']);
+    }else{
+      this.router.navigate(['store']);
+    }
   }
 
   navigateToCarrito() {

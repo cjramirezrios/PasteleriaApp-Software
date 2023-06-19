@@ -1,0 +1,60 @@
+<div class="container">
+  <div>
+    <h1>Editar Producto</h1>
+  </div>
+  <form [formGroup]="miFormulario" (ngSubmit)="modifyProduct()">
+    <div class="mb-3">
+      <label for="exampleInputNameProduct1" class="form-label">Nombre del Producto</label>
+      <input type="text" class="form-control" id="Name" aria-describedby="nameHelp" [value]="product.name" formControlName="name">
+      <div class="alert alert-danger" *ngIf="validarCampo('name')" role="alert">
+        Este campo es requirido
+      </div>
+    </div>
+    <div class="block1">
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Precio</label>
+        <input type="number" min="1" class="form-control" id="Price" [value]="product.price"  formControlName="price">
+        <div class="alert alert-danger" *ngIf="validarCampo('price')" role="alert">
+          Este campo es requirido
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputStock1" class="form-label">Stock</label>
+        <input type="number" min="1" class="form-control" [value]="product.stock" id="Stock" formControlName="stock">
+        <div class="alert alert-danger" *ngIf="validarCampo('stock')" role="alert">
+          Este campo es requirido
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputDescription1" class="form-label">Descripcion</label>
+      <input type="text" class="form-control" id="Description" [value]="product.description" aria-describedby="descriptionHelp" formControlName="description">
+      <div class="alert alert-danger" *ngIf="validarCampo('description')" role="alert">
+        Este campo es requirido
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputImage1" class="form-label">Imagen</label><br>
+      <input class="form-control" type="text"  [(ngModel)]="imageURL" [value]="product.image"  formControlName="image" placeholder="Ingrese la URL de la imagen"><br>
+      <div class="imagen-content">
+        <img class="imagen-prev" src="{{product.image}}" alt="Imagen" >
+      </div>
+      <div class="alert alert-danger" *ngIf="validarCampo('image')" role="alert">
+        Este campo es obligatorio
+      </div>
+    </div>
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">Categoria</label>
+      <select class="form-select" formControlName="categoryId" [value]="product.categoryId" aria-label="Default select example">
+        <option selected>Selecciona alguna categoria</option>
+        <option *ngFor="let categoria of categorias" value="{{categoria.id}}">{{categoria.name}}</option>
+      </select>
+      <div class="alert alert-danger" *ngIf="validarCampo('categoryId')" role="alert">
+        Debe elegir alguna de las categorias
+      </div>
+    </div>
+    <div class="register-btn">
+      <button type="submit"  class="btn btn-warning " >Guardar</button>
+    </div>
+  </form>
+</div>
