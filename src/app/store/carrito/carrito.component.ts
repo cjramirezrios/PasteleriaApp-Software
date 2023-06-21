@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { StoreService } from '../services/store.service';
 
 
-import { Cliente } from '../../models/cliente.model';
-import { Usuario, UserCustomer } from '../../models/usuario.model';
+
 import { Product } from 'src/app/auth/models/product.models';
 import { AuthUser, User } from 'src/app/auth/models/user.model';
 import { AuthService } from 'src/app/auth/services/auth.service';
@@ -26,6 +25,13 @@ export class CarritoComponent implements OnInit{
     this.authService.user$.subscribe(data=>{
       console.log(data);
       this.user=data;
+      this.authService.getUserById(data?.id!).subscribe(user=>{
+        if(user){
+          this.user?.customerId!=user.customer?.id;
+          console.log(user.customer?.id)
+          console.log(this.user);
+        }
+      })
      })
   }
   ngOnInit(): void {
@@ -58,7 +64,7 @@ export class CarritoComponent implements OnInit{
   generateOrder(){
     if(this.user){
       console.log(this.user);
-    const{address,phone,name,lastName,customerId}=this.user!;
+    const{address,phone,name,lastName,customerId}=this.user;
     const total=this.total;
     let items:InputMerc[]=[];
     console.log(this.shoppingCart);
@@ -77,23 +83,25 @@ export class CarritoComponent implements OnInit{
         items.push(item);
       }
     })
-    const data={
-      customerId,
-      name,
-      lastName,
-      phone,
-      address,
-      total,
-      items
-    }
-    this.storeService.createPedido(data).subscribe(resp=>{
-      if (resp && resp.body && resp.body.init_point){
-        this.url_MERP=resp.body.init_point;
-        window.location.href=String(this.url_MERP);
+      const data={
+        customerId,
+        name,
+        lastName,
+        phone,
+        address,
+        total,
+        items
       }
-      localStorage.removeItem('cart');
-      this.shoppingCart.splice(0, this.shoppingCart.length);
-    })
-  }
+      this.storeService.createPedido(data).subscribe(resp=>{
+        console.log(data);
+        if (resp && resp.body && resp.body.init_point){
+          console.log(resp.body.init_point);
+          this.url_MERP=resp.body.init_point;
+          window.location.href=String(this.url_MERP);
+        }
+        localStorage.removeItem('cart');
+        this.shoppingCart.splice(0, this.shoppingCart.length);
+      })
+    }
   }
 }

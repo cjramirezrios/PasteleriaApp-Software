@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { StoreService } from '../services/store.service';
 
-import { Producto } from '../../models/producto.model'
-import { Categoria } from '../../models/categoria.model'
-
 import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Product } from 'src/app/auth/models/product.models';
@@ -31,7 +28,6 @@ export class ProductoComponent implements OnInit {
     }
     
   ngOnInit() {
-    this.authService.getProfile().subscribe();
    this.getAllProducts();
    this.getAllCategories();
   }
@@ -71,8 +67,8 @@ export class ProductoComponent implements OnInit {
   deleteProduct(id:number){
     this.storeService.deleteProduct(id).subscribe(resp=>{
       console.log(resp);
+      this.ngOnInit();
     });
-    this.ngOnInit();
   }
 
 
@@ -82,7 +78,7 @@ export class ProductoComponent implements OnInit {
     description:['',[Validators.required]],
     stock:['',[Validators.required]],
     price:['',[Validators.required]],
-    image:['',[Validators.required]],
+    image:['',[Validators.required,Validators.maxLength(255)]],
     categoryId:['',[Validators.required]]
   });
 
@@ -97,10 +93,12 @@ export class ProductoComponent implements OnInit {
     this.storeService.createProduct({name,description,stock,image,price,categoryId}).subscribe(
       resp=>{
         console.log(resp);
+        this.ngOnInit();
+        this.redirectCreateProduct();
+        this.router.navigateByUrl('/store/productos');
+        this.miFormulario.reset();
       }
     );
-    this.redirectCreateProduct();
-    this.miFormulario.reset();
   }
 
 }

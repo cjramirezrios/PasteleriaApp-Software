@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div *ngIf="user?.role=='admin';else customerTemplate" class="container-fluid">
   <div class="row px-xl-5">
     <div class="col-12">
       <div class="row pb-3 alturaPantalla">
@@ -12,16 +12,15 @@
             </div>
           </div>
   
-          <div class="row align-content-start p-0 justify-content-md-center">
+          <div  *ngFor="let pedido of pedidos" class="row align-content-start p-0 justify-content-md-center">
             <div class="col-lg-6 col-md-10 col-sm-12 mb-3 m-0" >
               <div class="card p-2">
                 <div class="card-body row">
                   <div class="col-12 mb-2">
-                    <span class="card-title"><strong>N° Pedido: </strong></span>
+                    <span class="card-title"><strong>N° Pedido:{{pedido.id}} </strong></span>
                   </div>
                   <div class="col-12 mb-2">
-                    <span class="me-4"><strong>Feha: </strong> </span>
-                    <span><strong>Hora: </strong> </span>
+                    <span class="me-4"><strong>Fecha y Hora:{{pedido.createdAt}} </strong> </span>
                   </div>
                   <div class="col-12 mb-2">
                     <div class="content">
@@ -33,14 +32,14 @@
                     <div class="row">
                       <div class="col-6 justify-content-end">
                         <div class="content">
-                          <span class="card-text"><strong>Total: </strong></span>
-                          <span>S/</span>
+                          <span class="card-text"><strong>Total:</strong></span>
+                          <span>S/{{pedido.total}}</span>
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="row justify-content-end">
                           <div class="col-6">
-                            <button id="btnSearchProd" class="btn" >Ver Detalle</button>
+                            <button id="btnSearchProd" class="btn" (click)="redirectDetailPedido(pedido.id)">Ver Detalle</button>
                           </div>
                         </div>
                       </div>
@@ -56,3 +55,64 @@
     </div>
   </div>
 </div>
+
+<ng-template #customerTemplate>
+  <div   class="container-fluid">
+    <div class="row px-xl-5">
+      <div class="col-12">
+        <div class="row pb-3 alturaPantalla">
+          <div class="col-12">
+  
+            <div class="row">
+              <div class="col-12 pb-1 mb-3">
+                <div class="addP">
+                  <span class="headers">Pedidos</span>
+                </div>
+              </div>
+            </div>
+    
+            <div *ngFor="let pedido of customer.pedidos" class="row align-content-start p-0 justify-content-md-center">
+              <div class="col-lg-6 col-md-10 col-sm-12 mb-3 m-0" >
+                <div class="card p-2">
+                  <div class="card-body row">
+                    <div class="col-12 mb-2">
+                      <span class="card-title"><strong>N° Pedido:{{pedido.id}} </strong></span>
+                    </div>
+                    <div class="col-12 mb-2">
+                      <span class="me-4"><strong>Fecha y Hora : </strong> </span>
+                      <span><strong>{{pedido.createdAt}} </strong> </span>
+                    </div>
+                    <div class="col-12 mb-2">
+                      <div class="content">
+                        <span class="card-text"><strong>Estado: </strong></span>
+                        <span class="badge rounded-pill text-bg-warning">Finalizado</span>
+                      </div>
+                    </div>
+                    <div class="col-12 mb-2">
+                      <div class="row">
+                        <div class="col-6 justify-content-end">
+                          <div class="content">
+                            <span class="card-text"><strong>Total: </strong></span>
+                            <span>S/{{pedido.total}}</span>
+                          </div>
+                        </div>
+                        <div class="col-6">
+                          <div class="row justify-content-end">
+                            <div class="col-6">
+                              <button id="btnSearchProd" class="btn" (click)="redirectDetailPedido(pedido.id)" >Ver Detalle</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

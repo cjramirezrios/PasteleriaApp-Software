@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 
 import { AuthService } from '../services/auth.service';
 
-import { Usuario, interfaceAuthUser } from '../../models/usuario.model'
+
 
 
 @Component({

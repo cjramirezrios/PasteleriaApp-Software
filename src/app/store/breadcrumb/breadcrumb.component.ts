@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
     styleUrls: ['./breadcrumb.component.scss']
 })
 export class BreadcrumbComponent {
-
+/*
     rutaActual: string = "";
     showComponent: boolean = false;
     rutaActualSplit: string[] = [];
@@ -142,5 +142,5 @@ export class BreadcrumbComponent {
         }
         console.log(this.rutaActual, !this.showComponent, this.rutaActualSplit)
 
-    }
+    }*/
 }

@@ -13,6 +13,7 @@ import { PedidosComponent } from './pedidos/pedidos.component';
 import { DetallePedidoComponent } from './pedidos/detalle/detalle-pedido.component';
 import { CarritoComponent } from './carrito/carrito.component';
 import { EditarProductoComponent } from './editar-producto/editar-producto.component';
+import { EditarCategoriaComponent } from './editar-categoria/editar-categoria.component';
 // import { PagoComponent } from './pago/pago.component';
 
 const routes: Routes = [
@@ -45,6 +46,10 @@ const routes: Routes = [
         component:EditarProductoComponent
       },
       {
+        path:'editar-categoria/:id',
+        component:EditarCategoriaComponent
+      },
+      {
         path:'producto/:id',
         component:DetalleProductoComponent
       },
@@ -57,7 +62,7 @@ const routes: Routes = [
         component:PedidosComponent
       },
       {
-        path:'pedido/detalle',
+        path:'pedido/detalle/:id',
         component:DetallePedidoComponent
       },
       {

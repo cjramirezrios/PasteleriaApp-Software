@@ -4,10 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment';
 
-import { Usuario, interfaceUser, UserCustomer, interfaceAuthUser } from '../../models/usuario.model'
-import { Cliente, interfaceCustomer, CustomerOrder } from '../../models/cliente.model'
+
 import { AuthUser, User } from '../models/user.model';
 import { Customer } from '../models/customer.model';
+import { AuthToken } from '../models/token.models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class AuthService {
 
   //Properties
   private apiRoute: string = environment.apiUrl;
-  private _user!:User;
-  private userReactive=new BehaviorSubject<User | null>(null);
+  private _user!:AuthToken;
+  private userReactive=new BehaviorSubject<AuthToken | null>(null);
   user$=this.userReactive.asObservable();
   get user(){
     return {...this._user};
@@ -39,15 +39,22 @@ export class AuthService {
 
   LoginUser(email:string,password:string){
     const body={email,password}
-    return this.http.post<AuthUser>(`${this.apiRoute}/login`,body).pipe(
+    return this.http.post<AuthToken>(`${this.apiRoute}/login`,body).pipe(
       tap(resp=>{
         localStorage.setItem('token',resp.token!);
         this._user={
-          id:resp.id!,
-          email:resp.email!,
-          password:resp.password!,
-          customer:resp.customer!
+          id:resp.id,
+          email:resp.email,
+          token:resp.token,
+          name:resp.name,
+          lastName:resp.lastName,
+          address:resp.address,
+          customerId:resp.customerId,
+          phone:resp.phone,
+          role:resp.role,
+          ok:resp.ok
         }
+        console.log(this._user)
         this.userReactive.next(this._user);
       }),map(resp=>resp.ok),
       catchError(err=>of(err.error.msg))
@@ -55,15 +62,32 @@ export class AuthService {
   }
   
   getProfile(){
+    const token = localStorage.getItem('token');
+    console.log(token);
+    if (!token) {
+      console.log('No hay token');
+    }
     const headers=new HttpHeaders()
-    .set('x-token',localStorage.getItem('token') || '');
-    return this.http.get<User>(`${this.apiRoute}/renew`,{headers}).pipe(
-      tap(user=>this.userReactive.next(user))
+    .set('x-token',token || '').set('Content-Type', 'application/json');;
+    return this.http.get<AuthToken>(`${this.apiRoute}/renew`,{headers}).pipe(
+      map(resp=>{
+          console.log(resp.customerId);
+          this.userReactive.next(resp)
+          localStorage.setItem('token',resp.token!);
+        
+      })
     )
+  }
+
+  getUserById(id:number):Observable<AuthUser>{
+    return this.http.get<AuthUser>(`${this.apiRoute}/user/${id}`);
   }
   LogOut(){
     localStorage.removeItem("token");
   }
 
 
+  getCustomerById(id:number):Observable<Customer>{
+    return this.http.get<Customer>(`${this.apiRoute}/customer/${id}`);
+  }
 }

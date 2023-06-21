@@ -20,39 +20,38 @@
                   <div class="content">
                     <span class="card-title mb-2"></span>
                     <br>
-                    <span class="me-4"><strong>Feha: </strong></span>
-                    <span><strong>Hora: </strong></span>
+                    <span class="me-4"><strong>Fecha y Hora: </strong></span>
+                    <span><strong> {{pedido.createdAt}}</strong></span>
                     <div class="estado mb-2">
                       <span class="card-text"><strong>Estado: </strong></span>
                       <select class="form-select" aria-label="Default select example" >
                         <option value="1">En proceso</option>
                         <option selected value="2">Finalizado</option>
                       </select>
-                      <span>Finalizado</span>
                     </div>
-                    <span class="card-title mb-2"><strong>N° Pedido: </strong></span>
+                    <span class="card-title mb-2"><strong>N° Pedido:{{pedido.id}} </strong></span>
                     <br>
-                    <span class="card-title mb-2"><strong>Direccion: </strong></span>
+                    <span class="card-title mb-2"><strong>Direccion:{{customer.address}} </strong></span>
                   </div>
                 </div>
 
                 <div class="col-12">
-                  <div class="productos row">
+                  <div class="productos row" *ngFor="let product of pedido.items">
                     <div class="card col-lg-8 col-md-10 col-sm-12 mb-3 mx-2" style="max-width: 540px;" >
                       <div class="row g-0">
 
                         <div class="d-flex col-md-4 col-sm-12">
                           <div class="d-flex row align-items-center align-content-around">
                             <div class="col-12">
-                              <img src="" class="img-fluid rounded-start" alt="...">
+                              <img [src]="product.image" class="img-fluid rounded-start" alt="...">
                             </div>
                           </div>
                         </div>
 
                         <div class="d-flex col-md-8 col-sm-12 pt-0 mt-0">
                           <div class="card-body">
-                            <span class="card-title"><strong>Producto: </strong></span><br>
-                            <span class="card-text"><strong>Precio: </strong>S/.00</span><br>
+                            <span class="card-title"><strong>Producto:</strong>{{product.name}}</span><br>
+                            <span class="card-text"><strong>Precio: </strong>S/.{{product.price}}</span><br>
                             <span class="card-text"><strong>Cantidad: </strong> </span><br>
                             <span class="card-text"><strong>Costo: </strong>S/.00 </span>
                           </div>

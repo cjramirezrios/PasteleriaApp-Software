@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { StoreService } from '../../services/store.service';
 
-import { Producto } from '../../../models/producto.model'
+
 import { HttpParams } from '@angular/common/http';
 import { Product } from 'src/app/auth/models/product.models';
 import { switchMap } from 'rxjs';

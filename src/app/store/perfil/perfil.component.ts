@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 
 import { StoreService } from '../services/store.service';
 
-import { Cliente } from '../../models/cliente.model';
-import { Usuario, UserCustomer } from '../../models/usuario.model';
+
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { User } from 'src/app/auth/models/user.model';
 import { AuthToken } from 'src/app/auth/models/token.models';

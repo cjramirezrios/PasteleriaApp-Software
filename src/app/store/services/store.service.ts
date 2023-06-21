@@ -4,15 +4,12 @@ import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http'
 
 import { environment } from '../../../environments/environment';
 
-import { Categoria, interfaceCategory } from '../../models/categoria.model'
-import { Producto, interfaceProduct } from '../../models/producto.model'
-import { Usuario, interfaceUser, UserCustomer } from '../../models/usuario.model'
-import { Cliente, interfaceCustomer, CustomerOrder } from '../../models/cliente.model'
-import { Pedido, interfaceOrder, PedidoFULL } from '../../models/pedido.model'
-import { Detalle, DetailProduct } from '../../models/detalle.model';
+
 import { Category } from 'src/app/auth/models/category.models';
 import { Product } from 'src/app/auth/models/product.models';
 import { AuthPedido } from 'src/app/auth/models/respPedido.models';
+import { ReturnStatement } from '@angular/compiler';
+import { Pedido } from 'src/app/auth/models/pedido.model';
 
 @Injectable({
   providedIn: 'root'
@@ -73,19 +70,28 @@ export class StoreService {
   }
 
   createCategory(category:Category):Observable<Category>{
-    return this.http.post<Category>(`${this.apiRoute}/category`,category);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.post<Category>(`${this.apiRoute}/category`,category,{headers});
   }
 
   getCategoryById(id:number):Observable<Category>{
-    return this.http.get<Category>(`${this.apiRoute}/category/${id}/`);
+    return this.http.get<Category>(`${this.apiRoute}/category/${id}`);
   }
 
   updateCategory(id:number,category:Category):Observable<Category>{
-    return this.http.put<Category>(`${this.apiRoute}/category/${id}/`,category);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.put<Category>(`${this.apiRoute}/category/${id}`,category,{headers});
   }
 
   deleteCategory(id:number):Observable<Category>{
-    return this.http.delete<Category>(`${this.apiRoute}/category/${id}/`);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.delete<Category>(`${this.apiRoute}/category/${id}/`,{headers});
   }
 
   //PRODUCTS
@@ -94,25 +100,57 @@ export class StoreService {
   }
 
   createProduct(product:Product):Observable<Product>{
-    return this.http.post<Product>(`${this.apiRoute}/product`,product);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.post<Product>(`${this.apiRoute}/product`,product,{headers});
   }
 
   getProductById(id:number):Observable<Product>{
-    return this.http.get<Product>(`${this.apiRoute}/product/${id}/`);
+    return this.http.get<Product>(`${this.apiRoute}/product/${id}`);
   }
 
   updateProduct(id:number,product:Product):Observable<Product>{
-    return this.http.put<Product>(`${this.apiRoute}/product/${id}/`,product);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.put<Product>(`${this.apiRoute}/product/${id}`,product,{headers});
   }
 
   deleteProduct(id:number){
-    return this.http.delete(`${this.apiRoute}/product/${id}/`);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.delete(`${this.apiRoute}/product/${id}`,{headers});
   }
 
   //PEDIDO
   createPedido(data:any):Observable<AuthPedido>{
-    return this.http.post<AuthPedido>(`${this.apiRoute}/pedido`,data);
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.post<AuthPedido>(`${this.apiRoute}/pedido`,data,{headers});
   }
 
+  getAllPedidos():Observable<Pedido[]>{
+    return this.http.get<Pedido[]>(`${this.apiRoute}/pedido`);
+  }
 
+  getPedidoById(id:string):Observable<Pedido>{
+    return this.http.get<Pedido>(`${this.apiRoute}/pedido/${id}`)
+  }
+
+  updatePedido(id:string,data:Pedido):Observable<Pedido>{
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.put<Pedido>(`${this.apiRoute}/pedido/${id}`,data,{headers});
+  }
+
+  deletePedido(id:string){
+    const headers = new HttpHeaders()
+    .set('x-token', localStorage.getItem('token') || '')
+    .set('Content-Type', 'application/json');
+    return this.http.delete(`${this.apiRoute}/pedido/${id}`,{headers});
+  }
 }

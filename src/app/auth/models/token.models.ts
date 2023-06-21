@@ -5,7 +5,8 @@ export interface AuthToken{
   lastName?:string,
   phone?:string,
   address?:string,
-  customerId?:number,
+  customerId:number,
   token?:string,
   email?:string,
+  ok?:boolean
 }

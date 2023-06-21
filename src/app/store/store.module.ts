@@ -20,6 +20,7 @@ import { DetallePedidoComponent } from './pedidos/detalle/detalle-pedido.compone
 import { CarritoComponent } from './carrito/carrito.component';
 import { EditarProductoComponent } from './editar-producto/editar-producto.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { EditarCategoriaComponent } from './editar-categoria/editar-categoria.component';
 // import { PagoComponent } from './pago/pago.component';
 
 
@@ -37,7 +38,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     PedidosComponent,
     DetallePedidoComponent,
     CarritoComponent,
-    EditarProductoComponent
+    EditarProductoComponent,
+    EditarCategoriaComponent
     // PagoComponent
   ],
   imports: [

@@ -32,7 +32,7 @@ export class EditarProductoComponent implements OnInit{
     description:[``,[Validators.required]],
     stock:["",[Validators.required]],
     price:["",[Validators.required]],
-    image:["",[Validators.required]],
+    image:["",[Validators.required,Validators.maxLength(255)]],
     categoryId:["",[Validators.required]]
   });
 
@@ -43,7 +43,7 @@ export class EditarProductoComponent implements OnInit{
   constructor(private fb:FormBuilder,private activateRouter:ActivatedRoute,private router:Router,private storeService:StoreService,private tokenService:TokenService,private authService:AuthService,private http:HttpClient){}
   ngOnInit(): void {
     this.getAllCategories();
-    this.tokenService.reloadToken().subscribe();
+    this.authService.getProfile().subscribe();
     if(this.router.url.includes('editar-producto')){
       this.activateRouter.params.pipe(switchMap(({id})=>this.storeService.getProductById(id))).subscribe(product=>{ 
         console.log(product,'Este es el producto que viene del otro componente');
@@ -67,7 +67,7 @@ export class EditarProductoComponent implements OnInit{
     const id=this.id;
     this.storeService.updateProduct(this.product.id!,this.miFormulario.value).subscribe(data=>{
       console.log(data);
+      this.router.navigateByUrl('/store/productos');
     });
-    this.router.navigateByUrl('/store/productos');
   }
 }

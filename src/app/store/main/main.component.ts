@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StoreService } from '../services/store.service';
 
-import { Cliente, CustomerOrder } from 'src/app/models/cliente.model';
-import { Usuario, UserCustomer } from 'src/app/models/usuario.model';
-import { Pedido, PedidoFULL  } from '../../models/pedido.model'
-import { Detalle } from '../../models/detalle.model';
+
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { TokenService } from 'src/app/auth/services/token.service';
 
